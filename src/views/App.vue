@@ -69,7 +69,7 @@ table{border-collapse:collapse;border-spacing:0}
   @media(max-width: 768px) {
     font-size: 14px;
     width: 170px;
-    padding: 15px 20px;
+    padding: 13px 20px;
   }
 }
 

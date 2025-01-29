@@ -1,15 +1,11 @@
 <template>
     <div class="wrapper">
-        <heading class="heading">
-            <pageHeading/>
-        </heading>
+        <pageHeading/>
         <main class="content">
             <topSection/>
             <productBenefits/>
         </main>
-        <footer class="footer">
-            <pageFooter/>
-        </footer>
+        <pageFooter/>
     </div>
 </template>
 
@@ -29,13 +25,8 @@ export default {
         pageFooter,
     }
 }
-
 </script>
 
 <style>
 
 </style>
-
-<!-- background: linear-gradient(0deg, #FFFFFF, #FFFFFF),
-conic-gradient(from 180deg at 16.78% 12.69%, #DAE2E5 -51.35deg, #DAE2E5 79.14deg, #DAE2E5 129.49deg, #4B1466 149.28deg, #E60000 217deg, #DAE2E5 237.09deg, #DAE2E5 273.78deg, #DAE2E5 308.65deg, #DAE2E5 439.14deg),
- -->

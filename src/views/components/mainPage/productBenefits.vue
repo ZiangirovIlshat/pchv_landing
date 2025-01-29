@@ -1,5 +1,5 @@
 <template>
-    <div class="product-benefits">
+    <section class="product-benefits">
         <div class="container">
             <div class="product-benefits__row">
                 <div class="product-benefits__line"></div>
@@ -20,7 +20,7 @@
                 <div class="product-benefits__line"></div>
             </div>
         </div>
-    </div>
+    </section>
 </template>
 
 <script>
@@ -34,7 +34,7 @@
         padding: 120px 0;
 
         @media (max-width: 768px) {
-            padding: 60px;
+            padding: 60px 0;
         }
 
         &__row {

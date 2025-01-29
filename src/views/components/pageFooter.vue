@@ -1,8 +1,8 @@
 <template>
-    <div class="page-footer">
+    <footer class="footer">
         <div class="container">
-            <div class="page-footer__columns-row">
-                <div class="page-footer__column first">
+            <div class="footer__columns-row">
+                <div class="footer__column first">
                     <p>
                         ОВЕН – российский разработчик и производитель оборудования для промышленной автоматизации. На сайте owen.ru представлены датчики, контрольно-измерительные приборы, программируемые реле, ПЛК, силовые и коммутационные устройства.
                     </p>
@@ -18,15 +18,15 @@
                     </template>
                 </div>
 
-                <div class="page-footer__column second">
+                <div class="footer__column second">
                     <p v-if="width > 768">Тел.: +7 (495) 727-30-16</p>
-                    <p v-else>Тел.: <a class="page-footer__link" href="tel:+74957273016" >+7 (495) 727-30-16</a></p>
+                    <p v-else>Тел.: <a class="footer__link" href="tel:+74957273016" >+7 (495) 727-30-16</a></p>
 
-                    <p>E-mail: <a class="page-footer__link email" href="mailto:sales@owen.ru">sales@owen.ru</a></p>
+                    <p>E-mail: <a class="footer__link email" href="mailto:sales@owen.ru">sales@owen.ru</a></p>
 
-                    <p><a class="page-footer__link" href="/">Политика конфиденциальности</a></p>
+                    <p><a class="footer__link" href="/">Политика конфиденциальности</a></p>
 
-                    <p class="page-footer__social-links">
+                    <p class="footer__social-links">
                         <span>
                             <a href="https://www.youtube.com/@owentube" title="https://www.youtube.com/@owentube" target="_blank">
                                 <svg width="100" height="100">
@@ -58,7 +58,7 @@
                     </p>
                 </div>
 
-                <div class="page-footer__column third">
+                <div class="footer__column third">
                     <template v-if="width < 768">
                         <p>
                             Предложения и замечания по работе сайта пишите:
@@ -80,7 +80,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </footer>
 </template>
 
 <script>
@@ -107,7 +107,7 @@
 </script>
 
 <style lang="scss" scoped>
-    .page-footer {
+    .footer {
         padding:  50px 0;
         background: #000;
         font-size: 16px;
