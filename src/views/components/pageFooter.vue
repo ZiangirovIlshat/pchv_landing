@@ -19,7 +19,8 @@
                 </div>
 
                 <div class="page-footer__column second">
-                    <p>Тел.: <a class="page-footer__link" href="tel:+74957273016" >+7 (495) 727-30-16</a></p>
+                    <p v-if="width > 768">Тел.: +7 (495) 727-30-16</p>
+                    <p v-else>Тел.: <a class="page-footer__link" href="tel:+74957273016" >+7 (495) 727-30-16</a></p>
 
                     <p>E-mail: <a class="page-footer__link email" href="mailto:sales@owen.ru">sales@owen.ru</a></p>
 
@@ -29,28 +30,28 @@
                         <span>
                             <a href="https://www.youtube.com/@owentube" title="https://www.youtube.com/@owentube" target="_blank">
                                 <svg width="100" height="100">
-                                    <use xlink:href="../../assets/images/footerIcons/sprite.svg#youTube" />
+                                    <use xlink:href="../../assets/images/sprite.svg#youTube" />
                                 </svg>
                             </a>
                         </span>
                         <span>
                             <a href="mailto:sales@owen.ru" title="sales@owen.ru" target="_blank">
                                 <svg width="100" height="100">
-                                    <use xlink:href="../../assets/images/footerIcons/sprite.svg#mail" />
+                                    <use xlink:href="../../assets/images/sprite.svg#mail" />
                                 </svg>
                             </a>
                         </span>
                         <span>
                             <a href="https://vk.com/po_owen" title="https://vk.com/po_owen" target="_blank">
                                 <svg width="100" height="100">
-                                    <use xlink:href="../../assets/images/footerIcons/sprite.svg#vk" />
+                                    <use xlink:href="../../assets/images/sprite.svg#vk" />
                                 </svg>
                             </a>
                         </span>
                         <span>
                             <a href="https://t.me/owen_prom" title="https://t.me/owen_prom" target="_blank">
                                 <svg width="100" height="100">
-                                    <use xlink:href="../../assets/images/footerIcons/sprite.svg#tg" />
+                                    <use xlink:href="../../assets/images/sprite.svg#tg" />
                                 </svg>
                             </a>
                         </span>
@@ -110,6 +111,7 @@
         padding:  50px 0;
         background: #000;
         font-size: 16px;
+        color: $footer-text;
 
         @media (max-width: 768px) {
             font-size: 12px;
@@ -208,7 +210,7 @@
                 svg {
                     width: 24px;
                     height: 24px;
-                    fill: #fff;
+                    fill: $footer-text
                 }
 
                 a:hover {

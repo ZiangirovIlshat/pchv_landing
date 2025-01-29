@@ -3,6 +3,7 @@
 </template>
 
 <style lang="scss">
+* {box-sizing: border-box;}
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}
 article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
 html{height:100%}
@@ -47,6 +48,36 @@ table{border-collapse:collapse;border-spacing:0}
   max-width: 1440px;
   margin: 0 auto;
   padding: 0 20px;
+
+  @media(max-width: 768px) {
+    padding: 0 15px;
+  }
+}
+
+.btn {
+  display: inline-block;
+  width: 287px;
+  padding: 19px 40px;
+  text-decoration: none;
+  border: none;
+  text-align: center;
+  font-size: 22px;
+  background-color: $primary-color;
+  cursor: pointer;
+  color: #fff;
+
+  @media(max-width: 768px) {
+    font-size: 14px;
+    width: 170px;
+    padding: 15px 20px;
+  }
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #FF02A9 -5.48%, #91017D 14.37%, #B0017C 25.72%, #640183 47.83%, #9C0191 78.46%, #FF0EBA 107.95%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #000;
 }
 
 </style>

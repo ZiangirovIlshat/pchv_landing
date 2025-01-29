@@ -1,16 +1,11 @@
 <template>
     <div class="wrapper">
         <heading class="heading">
-            <page-heading></page-heading>
+            <pageHeading/>
         </heading>
         <main class="content">
-            <section>
-                <div class="container">
-                    <p style="color: #000;">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti excepturi, neque accusantium cumque alias, voluptatibus quos fuga quia repudiandae consectetur quasi dolorum. Maxime, unde delectus! Dolorum debitis facilis eveniet rem.
-                    </p>
-                </div>
-            </section>
+            <topSection/>
+            <productBenefits/>
         </main>
         <footer class="footer">
             <pageFooter/>
@@ -19,13 +14,18 @@
 </template>
 
 <script>
-
-import pageFooter from '../components/pageFooter.vue'
+import pageHeading from '../components/pageHeading.vue';
+import topSection from '../components/mainPage/topSection.vue';
+import  productBenefits from '../components/mainPage/productBenefits.vue';
+import pageFooter from '../components/pageFooter.vue';
 
 export default {
     name: "mainPage",
 
     components: {
+        pageHeading,
+        topSection,
+        productBenefits,
         pageFooter,
     }
 }
@@ -35,3 +35,7 @@ export default {
 <style>
 
 </style>
+
+<!-- background: linear-gradient(0deg, #FFFFFF, #FFFFFF),
+conic-gradient(from 180deg at 16.78% 12.69%, #DAE2E5 -51.35deg, #DAE2E5 79.14deg, #DAE2E5 129.49deg, #4B1466 149.28deg, #E60000 217deg, #DAE2E5 237.09deg, #DAE2E5 273.78deg, #DAE2E5 308.65deg, #DAE2E5 439.14deg),
+ -->
