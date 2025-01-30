@@ -210,8 +210,8 @@
                     }
 
                     &:nth-child(2) {
-                        height: 220px;
-                        bottom: -170px;
+                        height: 250px;
+                        bottom: -210px;
                         left: 20%;
                         transform: rotate(20deg);
 
@@ -251,10 +251,11 @@
 
                 @media (max-width: 1200px) {
                     right: 0;
+                    bottom: -22%;
                 }
 
                 @media (max-width: 768px) {
-                    bottom: -10%;
+                    bottom: -17%;
                 }
 
                 @media (max-width: 520px) {
@@ -337,7 +338,6 @@
         }
 
         &__text {
-            font-size: clamp(0.75rem, 0.625rem + 0.63vw, 1.188rem);
             padding: 0 60px 0 0;
 
             @media (max-width: 768px) {

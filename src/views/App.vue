@@ -28,7 +28,7 @@ table{border-collapse:collapse;border-spacing:0}
   font-family: "SuisseIntlRegular", sans-serif;
   font-weight: 400;
   color: #fff;
-  font-size: 19px;
+  font-size: clamp(0.75rem, 0.625rem + 0.63vw, 1.188rem);
   line-height: 1;
 }
 
