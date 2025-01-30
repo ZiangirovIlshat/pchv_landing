@@ -80,4 +80,13 @@ table{border-collapse:collapse;border-spacing:0}
   color: #000;
 }
 
+.h2-heading {
+  font-size: clamp(1.75rem, 0.75rem + 5vw, 5.25rem);
+  letter-spacing: calc(-1 * (clamp(2.375rem, 0.941rem + 7.17vw, 7.313rem) / 100 * 4));
+
+  &.dark {
+    color: $colored-text;
+  }
+}
+
 </style>

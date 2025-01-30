@@ -47,6 +47,10 @@
             conic-gradient(from 174.84deg at 60.29% 60.09%, #2B0080 -33.49deg, #000000 50.79deg, #4D0099 110.29deg, #B7007A 135.03deg, #550080 146.73deg, #FF00AA 205.47deg, #FF3399 221.3deg, #2B0080 237.09deg, #000000 300.96deg, #2B0080 326.51deg, #000000 410.79deg);
         padding: 110px 0 0 0;
 
+        @media(max-width: 768px) {
+            padding: 80px 0 0 0;;
+        }
+
         &__header {
             margin: 0 0 60px 0;
 
