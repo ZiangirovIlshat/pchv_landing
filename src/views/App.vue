@@ -32,10 +32,18 @@ table{border-collapse:collapse;border-spacing:0}
   line-height: 1;
 }
 
+body {
+  &._menu-is-opened {
+    overflow-y: hidden;
+  }
+}
+
 .wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
+  overflow: hidden;
 
   position: relative;
 }

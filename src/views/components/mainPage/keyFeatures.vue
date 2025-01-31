@@ -64,7 +64,7 @@
     .key-features {
         background: 
             conic-gradient(from 80.04deg at 39.37% 56.44%, #2B0080 -33.49deg, #000000 50.79deg, #4D0099 110.29deg, #B7007A 135.03deg, #550080 146.73deg, #FF00AA 205.47deg, #FF3399 221.3deg, #2B0080 237.09deg, #000000 300.96deg, #2B0080 326.51deg, #000000 410.79deg);
-            overflow: hidden;
+        overflow: hidden;
 
         &__row {
             display: flex;
@@ -72,7 +72,7 @@
             margin: 0 -30px;
 
             @media (max-width: 768px) {
-                margin: 0 -20px;
+                margin: 0 -15px;
             }
         }
 
@@ -335,6 +335,10 @@
         &__heading {
             font-size: clamp(1.313rem, 0.83rem + 2.41vw, 3rem);
             margin: 0 0 24px 0;
+
+            @media (max-width: 768px) {
+                margin: 0 0 15px 0;
+            }
         }
 
         &__text {

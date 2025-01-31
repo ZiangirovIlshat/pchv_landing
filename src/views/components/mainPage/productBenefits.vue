@@ -42,7 +42,7 @@
             justify-content: space-between;
             align-items: center;
 
-            @media (max-width: 840px) {
+            @media (max-width: 850px) {
                 flex-direction: column;
             }
         }
@@ -56,7 +56,7 @@
             height: 250px;
             background: linear-gradient(90deg, #FF02A9 -5.48%, #91017D 14.37%, #B0017C 25.72%, #640183 47.83%, #9C0191 78.46%, #FF0EBA 107.95%);
 
-            @media (max-width: 840px) {
+            @media (max-width: 850px) {
                 &:first-child, &:last-child {
                     display: none;
                 }
@@ -68,9 +68,13 @@
         }
 
         &__main-text {
-           font-size: clamp(4.25rem, 3.578rem + 3.36vw, 6.563rem);
-           text-align: center;
-           margin: 20px 0 0 0;
+            font-size: clamp(3.75rem, 2.727rem + 5.11vw, 6.563rem);
+            text-align: center;
+            margin: 20px 0 0 0;
+
+            @media (max-width: 768px) {
+                margin: 0;
+            }
         }
 
         &__sub-text {
