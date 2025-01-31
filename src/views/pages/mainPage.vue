@@ -6,17 +6,19 @@
             <productBenefits/>
             <keyFeatures/>
             <usageScenarios/>
+            <featuresAndCharacteristics/>
         </main>
         <pageFooter/>
     </div>
 </template>
 
 <script>
-import pageHeading from '../components/pageHeading.vue';
-import topSection from '../components/mainPage/topSection.vue';
-import productBenefits from '../components/mainPage/productBenefits.vue';
-import keyFeatures from '../components/mainPage/keyFeatures.vue';
-import usageScenarios from '../components/mainPage/usageScenarios.vue';
+import pageHeading from "../components/pageHeading.vue";
+import topSection from "../components/mainPage/topSection.vue";
+import productBenefits from "../components/mainPage/productBenefits.vue";
+import keyFeatures from "../components/mainPage/keyFeatures.vue";
+import usageScenarios from "../components/mainPage/usageScenarios.vue";
+import featuresAndCharacteristics from "../components/mainPage/featuresAndCaracteristics.vue";
 
 import pageFooter from '../components/pageFooter.vue';
 
@@ -29,6 +31,7 @@ export default {
         productBenefits,
         keyFeatures,
         usageScenarios,
+        featuresAndCharacteristics,
 
         pageFooter,
     },

@@ -13,9 +13,9 @@
                 <nav class="menu" :class="{'_fixed' : menuFixed}">
                     <ul :class="{'_colored-hover' : menuFixed}">
                         <template v-if="width > 920">
-                            <li><a class="menu__link" href="/">преимущества</a></li>
-                            <li><a class="menu__link" href="/">характеристики</a></li>
-                            <li><a class="menu__link" href="/">дополнительное оборудование</a></li>
+                            <li><a class="menu__link" @click="scrollTo('advantages')" href="#advantages">преимущества</a></li>
+                            <li><a class="menu__link" @click="scrollTo('features')" href="#features">характеристики</a></li>
+                            <li><a class="menu__link" @click="scrollTo()" href="/">дополнительное оборудование</a></li>
                         </template>
                     </ul>
                     <div class="menu__btns">
@@ -122,8 +122,8 @@
                     <div class="mobile-menu__body">
                         <nav>
                             <ul>
-                                <li><a class="mobile-menu__link" href="/">преимущества</a></li>
-                                <li><a class="mobile-menu__link" href="/">характеристики</a></li>
+                                <li><a class="mobile-menu__link" @click="scrollTo('advantages')" href="#advantages">преимущества</a></li>
+                                <li><a class="mobile-menu__link" @click="scrollTo('features')" href="#features">характеристики</a></li>
                                 <li><a class="mobile-menu__link" href="/">дополнительное оборудование</a></li>
                             </ul>
                         </nav>
@@ -214,6 +214,30 @@
                 this.menuIsOpen = false;
                 document.querySelector("body").classList.remove("_menu-is-opened");
             },
+
+            scrollTo(elem) {
+                this.closeMenu();
+
+                event.preventDefault();
+
+                const targetElement = document.querySelector("#" + elem);
+
+                if (targetElement) {
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = window.pageYOffset;
+
+                    let offset = 100;
+
+                    if(this.width < 920) {
+                        offset = 50;
+                    }
+
+                    window.scrollTo({
+                        top: elementPosition + offsetPosition - offset,
+                        behavior: 'smooth'
+                    });
+                }
+            },
         },
 
         created() {
@@ -232,8 +256,8 @@
         @media (max-width: 920px) {
             max-width: 63px;
             min-width: 63px;
-            max-height: 18px;
-            min-height: 18px;
+            max-height: 19px;
+            min-height: 19px;
         }
 
         svg {

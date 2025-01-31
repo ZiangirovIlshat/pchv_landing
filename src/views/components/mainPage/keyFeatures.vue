@@ -1,5 +1,5 @@
 <template>
-    <section class="key-features">
+    <section class="key-features" id="advantages">
         <div class="container">
             <div class="key-features__row">
                 <div class="key-features__column image-col">
@@ -61,15 +61,28 @@
 </script>
 
 <style lang="scss" scoped>
-    .key-features {
-        background: 
-            conic-gradient(from 80.04deg at 39.37% 56.44%, #2B0080 -33.49deg, #000000 50.79deg, #4D0099 110.29deg, #B7007A 135.03deg, #550080 146.73deg, #FF00AA 205.47deg, #FF3399 221.3deg, #2B0080 237.09deg, #000000 300.96deg, #2B0080 326.51deg, #000000 410.79deg);
+    .key-features {            
         overflow: hidden;
+        background: conic-gradient(
+            from 80.04deg at 39.37% 56.44%, 
+            #2B0080 -33.49deg, 
+            #000000 50.79deg, 
+            #4D0099 110.29deg, 
+            #B7007A 135.03deg, 
+            #550080 146.73deg, 
+            #FF00AA 205.47deg, 
+            #FF3399 221.3deg, 
+            #2B0080 237.09deg, 
+            #000000 300.96deg, 
+            #2B0080 326.51deg,
+            #000000 410.79deg
+        );
+        background-size: cover;
 
         &__row {
             display: flex;
             justify-content: space-between;
-            margin: 0 -30px;
+            margin: 0 -20px;
 
             @media (max-width: 768px) {
                 margin: 0 -15px;
@@ -153,9 +166,9 @@
 
                     &:nth-child(3) {
                         transform: rotate(20deg);
-                        width: 2000px;
-                        top: 45%;
-                        left: -1800px;
+                        width: 2500px;
+                        top: 22%;
+                        left: -2400px;
 
                         @media (max-width: 1400px) {
                             display: none;

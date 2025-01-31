@@ -24,18 +24,18 @@ table{border-collapse:collapse;border-spacing:0}
   src: url('@/assets/fonts/SuisseIntl-Regular-BzoWxrQg.otf') format('opentype');
 }
 
+body {
+  &._menu-is-opened {
+    overflow-y: hidden;
+  }
+}
+
 #app {
   font-family: "SuisseIntlRegular", sans-serif;
   font-weight: 400;
   color: #fff;
   font-size: clamp(0.75rem, 0.625rem + 0.63vw, 1.188rem);
   line-height: 1;
-}
-
-body {
-  &._menu-is-opened {
-    overflow-y: hidden;
-  }
 }
 
 .wrapper {
