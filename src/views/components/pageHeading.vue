@@ -1,8 +1,8 @@
 <template>
-    <header class="header">
+    <header class="header" :class="{'_fixed' : menuFixed}">
         <div class="container">
             <div class="header__row">
-                <div class="header__logo logo">
+                <div class="header__logo logo" :class="{'_dark' : menuFixed}">
                     <a href="/">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 139 41" id="logo">
                             <rect x="0.5" y="0.5" width="138" height="40"></rect>
@@ -10,8 +10,8 @@
                         </svg>
                     </a>
                 </div>
-                <nav class="menu">
-                    <ul>
+                <nav class="menu" :class="{'_fixed' : menuFixed}">
+                    <ul :class="{'_colored-hover' : menuFixed}">
                         <template v-if="width > 920">
                             <li><a class="menu__link" href="/">преимущества</a></li>
                             <li><a class="menu__link" href="/">характеристики</a></li>
@@ -20,7 +20,7 @@
                     </ul>
                     <div class="menu__btns">
                         <div class="menu__btns-elem">
-                            <div class="menu__cart-bnt cart-btn">
+                            <div class="menu__cart-btn cart-btn" :class="{'_dark' : menuFixed}">
                                 <a href="/" title="корзина">
                                     <svg version="1.0" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 512.000000 512.000000" id="cart">
                                         <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" stroke="none" id="cart-g">
@@ -55,7 +55,7 @@
                         </div>
 
                         <div class="menu__btns-elem">
-                            <div class="burger-menu" @click="openMenu()">
+                            <div class="burger-menu" :class="{'_dark' : menuFixed}" @click="openMenu()">
                                 <span></span>
                             </div>
                         </div>
@@ -173,7 +173,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="mobile-menu__mask"></div>
+
+                <div class="mobile-menu__mask" @click="closeMenu()"></div>
             </div>
     </header>
 </template>
@@ -181,6 +182,13 @@
 <script>
     export default {
         name: "pageHeading",
+
+        props: {
+            menuFixed: {
+                type: Boolean,
+                default: false,
+            },
+        },
 
         data() {
             return {
@@ -193,6 +201,8 @@
             updateWidth() {
                 this.width = window.innerWidth;
                 if(this.width > 768) this.menuIsOpen = false;
+
+                document.querySelector("body").classList.remove("_menu-is-opened");
             },
 
             openMenu() {
@@ -246,25 +256,43 @@
             min-height: 23px;
         }
 
-            svg {
-                width: 100%;
-                height: 100%;
-            }
+        svg {
+            width: 100%;
+            height: 100%;
+        }
     }
 
     .header {
-        $header-text-color: #000;
-        $header-text-hover-color: $primary-color;
-
         padding: 20px 0;
         font-size: 16px;
         position: absolute;
         width: 100%;
-        color: $header-text-color;
+        color: #fff;
+        z-index: 10;
+
+        &._fixed {
+            background-color: #fff;
+            color: $colored-text;
+            position: fixed;
+            -webkit-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
+            -moz-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
+            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
+
+            animation: headerDown 0.5s ease-out forwards;
+        }
+
+        @keyframes headerDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
 
         @media (max-width: 920px) {
+            border-bottom: 1px solid #fff;
             padding: 0;
-            border-bottom: 1px solid #DBB3DC;
         }
 
         &__row {
@@ -294,6 +322,14 @@
         align-items: center;
         gap: 15px;
 
+        &._fixed {
+            @media(max-width: 920px) {
+                .menu__btns-elem {
+                    border-left: 1px solid $colored-text;
+                }
+            }
+        }
+
         ul {
             display: flex;
             align-items: center;
@@ -316,7 +352,7 @@
         }
 
         &__link {
-            color: #fff;
+            color: inherit;
             text-decoration: none;
 
             &:hover {
@@ -341,20 +377,20 @@
             }
         }
 
-        &__cart-bnt {
+        &__cart-btn {
 
             svg {
                 g { fill: #fff; }
 
-                &:hover {
-                    g { fill: $primary-color; }
-                }
+                &:hover { g { fill: $primary-color; } }
             }
 
             &._dark {
                 svg {
                     g { fill: $colored-text;}
                 }
+
+                &:hover { g { fill: $primary-color; } }
             }
         }
     }
@@ -367,6 +403,11 @@
 
         @media (max-width: 920px) {
             display: block;
+        }
+
+        &._dark {
+            &::before, span { background-color: $colored-text; }
+            &::after { color: $colored-text; }
         }
 
         &::before, span {
@@ -405,21 +446,16 @@
         width: 100vw;
         top: 0;
         right: 0;
-        z-index: 10;
 
         font-size: 14px;
 
+        color: $colored-text;
+
         display: none;
-        justify-content: space-between;
 
         &._opened {
             display: flex;
             justify-content: flex-end;
-
-            .mobile-menu__content {
-                transform: translateX(0px);
-                transition: .3s;
-            }
         }
 
         &__mask {
@@ -440,17 +476,28 @@
 
             background-color: #fff;
 
-            transform: translateX(-260px);
-            transition: .3s;
-
             display: flex;
             flex-direction: column;
+
+            animation: menuOpen 0.3s ease-out forwards;
+        }
+
+        @keyframes menuOpen {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
 
         &__header {
             display: flex;
             justify-content: space-between;
             border-bottom: 1px solid;
+            border-image: $gradient-background 1;
         }
 
         &__header-item {
@@ -460,6 +507,7 @@
                 flex: 1;
                 border-left: 1px solid;
                 border-right: 1px solid;
+                border-image: $gradient-background 1;
                 display: flex;
                 justify-content: center;
             }
@@ -497,15 +545,19 @@
                 width: 1px;
                 height: 20px;
                 background-color: #000;
+                transition: .5s;
             }
 
-            &::before  {
-                transform: rotate(45deg);
-            }
+            &::before { transform: rotate(90deg); animation: closeBtn1 .3s ease-out forwards; animation-delay: 0.2s; } 
+            &::after { transform: rotate(90deg); animation: closeBtn2 .3s ease-out forwards; animation-delay: 0.2s; }
+        }
 
-            &::after {
-                transform: rotate(-45deg);
-            }
+        @keyframes closeBtn1 {
+            from { transform: rotate(90deg); } to { transform: rotate(45deg); }
+        }
+
+        @keyframes closeBtn2 {
+            from { transform: rotate(-90deg); } to { transform: rotate(-45deg); }
         }
 
         &__body {
@@ -516,8 +568,9 @@
             display: block;
             text-decoration: none;
             color: inherit;
-            border-bottom: 1px solid;
             padding: 15px 20px;
+            border-bottom: 1px solid;
+            border-image: $gradient-background 1;
         }
 
         &__footer {
@@ -562,9 +615,8 @@
         }
 
         &__btn {
+            display: flex;
+            justify-content: center;
         }
     }
-
-
-
 </style>

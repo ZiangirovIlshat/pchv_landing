@@ -54,7 +54,7 @@
         &__line {
             width: 1px;
             height: 250px;
-            background: linear-gradient(90deg, #FF02A9 -5.48%, #91017D 14.37%, #B0017C 25.72%, #640183 47.83%, #9C0191 78.46%, #FF0EBA 107.95%);
+            background: $gradient-background;
 
             @media (max-width: 850px) {
                 &:first-child, &:last-child {

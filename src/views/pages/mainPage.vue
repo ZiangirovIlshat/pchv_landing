@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <pageHeading/>
+        <pageHeading :menuFixed="isScrolled ? true : false" />
         <main class="content">
             <topSection/>
             <productBenefits/>
@@ -31,7 +31,35 @@ export default {
         usageScenarios,
 
         pageFooter,
-    }
+    },
+
+    data() {
+        return {
+            isScrolled: false,
+        };
+    },
+
+    mounted() {
+        window.addEventListener('scroll', this.handleScroll);
+    },
+
+    beforeUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
+    },
+
+    methods: {
+        handleScroll() {
+            const topSection = document.querySelector(".top-section");
+            const topSectionBottom = topSection.getBoundingClientRect().bottom;
+
+            if (topSectionBottom < 0 ) {
+                this.isScrolled = true;
+            } else {
+                this.isScrolled = false;
+            }
+        },
+    },
+
 }
 </script>
 
