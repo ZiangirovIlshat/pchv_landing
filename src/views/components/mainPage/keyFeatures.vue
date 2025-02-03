@@ -3,20 +3,8 @@
         <div class="container">
             <div class="key-features__row">
                 <div class="key-features__column image-col">
-                    <div class="key-features__image-container">
-                        <div class="line vertical"></div>
-                        <div class="line horizontal"></div>
-                        <div class="line horizontal"></div>
-                        <img src="../../../assets/images/features_pchv_3.png" alt="ПЧВ3">
-                    </div>
-                    <div class="key-features__image-container">
-                        <div class="line vertical"></div>
-                        <div class="line vertical"></div>
-                        <img src="../../../assets/images/features_pchv_1.png" alt="ПЧВ1">
-                    </div>
-                    <div class="key-features__image-container">
-                        <div class="line vertical"></div>
-                        <img src="../../../assets/images/features_pchv_1-2.png" alt="ПЧВ1">
+                    <div class="key-features__image-block">
+                        <img src="../../../assets/images/keyFeatures.png" alt="ПЧВ3">
                     </div>
                 </div>
                 <div class="key-features__column">
@@ -55,17 +43,16 @@
 </template>
 
 <script>
+
     export default {
         name: "keyFeatures",
     }
 </script>
 
 <style lang="scss" scoped>
-    .key-features {            
-        overflow: hidden;
-        background: conic-gradient(
-            from 80.04deg at 39.37% 56.44%, 
-            #2B0080 -33.49deg, 
+    .key-features {
+        $background-gradient:
+            #2B0080 -31.49deg, 
             #000000 50.79deg, 
             #4D0099 110.29deg, 
             #B7007A 135.03deg, 
@@ -75,9 +62,15 @@
             #2B0080 237.09deg, 
             #000000 300.96deg, 
             #2B0080 326.51deg,
-            #000000 410.79deg
-        );
+            #000000 410.79deg;
+ 
+        background: conic-gradient(from 80.04deg at 30% 50.44%, $background-gradient);
         background-size: cover;
+        background-attachment: fixed;
+
+        @media (max-width: 1200px) {
+            background: conic-gradient(from 80.04deg at 30% 56.44%, $background-gradient);
+        }
 
         &__row {
             display: flex;
@@ -103,191 +96,38 @@
             &.image-col {
                 position: relative;
                 border-right: 1px solid #fff;
-                flex: 0 0 50%;
-
-                @media (max-width: 1400px) {
-                    flex: 0 0 40%;
-                }
+                flex: 0 0 40%;
 
                 @media (max-width: 1200px) {
                     flex: 0 0 30%;
                 }
-
-                @media (max-width: 768px) {
-                    flex: 0 0 25%;
-                }
             }
         }
 
-        &__image-container {
-            position: absolute;
+        &__image-block {
+            position: sticky;
+            top: 100px;
+            text-align: center;
+            
+            @media (max-width: 768px) {
+                top: 60px;
+                height: 65vw;
+
+                img {
+                    height: 95%;
+                    width: auto;
+                }
+            }
 
             img {
                 width: 100%;
                 height: auto;
-                line-height: 0;
-                position: relative;
-                z-index: 5;
-            }
-
-            &:first-child {
-                top: 5%;
-                right: 27%;
-                width: 356px;
-
-                @media (max-width: 1400px) {
-                    width: calc(130px + (356 - 130) * ((100vw - 360px) / (1400 - 360)));
-                }
-
-                @media (max-width: 1200px) {
-                    right: 8%;
-                }
 
                 @media (max-width: 768px) {
-                   top: 57px;
-                }
- 
-               .line {
-                    &:first-child {
-                        height: 140px;
-                        top: -120px;
-                        left: 53%;
-                    }
-
-                    &:nth-child(2) {
-                        width: 250px;
-                        top: 80%;
-                        right: -195px;
-
-                        @media (max-width: 1400px) {
-                            display: none;
-                        }
-                    }
-
-                    &:nth-child(3) {
-                        transform: rotate(20deg);
-                        width: 2500px;
-                        top: 22%;
-                        left: -2400px;
-
-                        @media (max-width: 1400px) {
-                            display: none;
-                        }
-                    }
-                }
-            }
-
-            &:nth-child(2) {
-                top: 48%;
-                left: 65%;
-                width: 188px;
-
-                @media (max-width: 1400px) {
-                    width: calc(59px + (188 - 59) * ((100vw - 360px) / (1400 - 360)));
-                }
-                
-                @media (max-width: 1200px) {
-                    left: 62%;
-                    top: 50%;
-                }
-
-                @media (max-width: 768px) {
-                    left: 52%;
-                }
-
-                @media (max-width: 520px) {
-                    top: 42%;
-                }
-
-
-                .line {
-                    &:first-child {
-                        height: 230px;
-                        top: -190px;
-                        left: 16%;
-                        transform: rotate(-15deg);
-
-                        @media (max-width: 1400px) {
-                            transform: rotate(-25deg);
-                            left: 10%;
-                        }
-
-                        @media (max-width: 768px) {
-                            transform: rotate(-20deg);
-                            left: 3%; 
-                        }
-
-                        @media (max-width: 520px) {
-                            transform: rotate(-8deg);
-                        }
-                    }
-
-                    &:nth-child(2) {
-                        height: 250px;
-                        bottom: -210px;
-                        left: 20%;
-                        transform: rotate(20deg);
-
-                        @media (max-width: 1400px) {
-                            transform: rotate(25deg);
-                            left: 10%;
-                        }
-
-                        @media (max-width: 920px) {
-                            height: 300px;
-                            bottom: -250px;
-                        }
-
-                        @media (max-width: 768px) {
-                            transform: rotate(18deg);
-                            left: 2%; 
-                        }
-
-                        @media (max-width: 520px) {
-                            transform: rotate(12deg);
-                            left: -10%;
-                        }
-                    }
-                }
-            }
-
-            &:last-child {
-                bottom: -15%;
-                right: 7%;
-                width: 575px;
-
-                @media (max-width: 1400px) {
-                    width: calc(173px + (641 - 173) * ((100vw - 360px) / (1400 - 360)));
-                    right: 5%;
-                    bottom: -22%;
-                }
-
-                @media (max-width: 1200px) {
-                    right: 0;
-                    bottom: -22%;
-                }
-
-                @media (max-width: 768px) {
-                    bottom: -17%;
-                }
-
-                @media (max-width: 520px) {
-                    right: 0;
-                    bottom: 10%;
-                }
-
-                .line {
-                    height: 650px;
-                    top: -600px;
-                    left: 50%;
-
-                    @media (max-width: 1400px) {
-                        left: 50%;
-                    }
-
-                    @media (max-width: 1200px) {
-                        display: none;
-                    }
+                    position: absolute;
+                    top: 0;
+                    left: -25%;
+                    width: 130%;
                 }
             }
         }
@@ -374,9 +214,6 @@
         &.horizontal {
             height: 1px;
         }
-    }
-
-    .image-col {
     }
 
 </style>

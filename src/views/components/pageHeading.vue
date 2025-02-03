@@ -65,7 +65,7 @@
         </div>
             <div 
                 class="mobile-menu"
-                :class="{'_opened' : menuIsOpen}"
+                :class="menuIsOpen ? '_opened' : '_closed'"
             >
                 <div class="mobile-menu__content">
                     <div class="mobile-menu__header">
@@ -200,9 +200,11 @@
         methods: {
             updateWidth() {
                 this.width = window.innerWidth;
-                if(this.width > 768) this.menuIsOpen = false;
 
-                document.querySelector("body").classList.remove("_menu-is-opened");
+                if(this.width > 920) {
+                    this.menuIsOpen = false;
+                    document.querySelector("body").classList.remove("_menu-is-opened");
+                }
             },
 
             openMenu() {
@@ -470,16 +472,26 @@
         width: 100vw;
         top: 0;
         right: 0;
+        overflow: hidden;
 
         font-size: 14px;
 
         color: $colored-text;
 
-        display: none;
-
         &._opened {
             display: flex;
             justify-content: flex-end;
+
+            .mobile-menu__content { animation: menuOpen 0.3s ease-out forwards; }
+        }
+
+        @keyframes menuOpen {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        &._closed {
+            display: none;
         }
 
         &__mask {
@@ -503,18 +515,7 @@
             display: flex;
             flex-direction: column;
 
-            animation: menuOpen 0.3s ease-out forwards;
-        }
-
-        @keyframes menuOpen {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+            transition: .2s;
         }
 
         &__header {
@@ -525,7 +526,6 @@
         }
 
         &__header-item {
-            padding: 15px;
 
             &:nth-child(2) {
                 flex: 1;
@@ -538,14 +538,29 @@
         }
 
         &__cart-btn {
+            min-width: 50px;
+            min-height: 50px;
+            max-width: 50px;
+            max-height: 50px;
+            padding: 15px;
+
             svg {
+                width: 22px;
+                height: 22px;
+
                 rect { stroke: #000;}
                 path {fill: #000;}
             }
         }
 
         &__logo {
+            padding: 15px 0;
+
             svg {
+                height: 18px;
+                width: 63px;
+
+
                 rect { stroke: #000;}
                 path {fill: #000;}
             }
@@ -560,12 +575,15 @@
 
         &__close-btn {
             position: relative;
-            width: 20px;
+            width: 50px;
+            height: 50px;
+            padding: 15px;
 
             &::before, &::after {
                 content: "";
                 position: absolute;
-                left: 10px;
+                left: 25px;
+                top: 15px;
                 width: 1px;
                 height: 20px;
                 background-color: #000;

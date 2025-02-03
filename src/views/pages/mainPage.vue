@@ -1,13 +1,18 @@
 <template>
     <div class="wrapper">
         <pageHeading :menuFixed="isScrolled ? true : false" />
+
         <main class="content">
             <topSection/>
             <productBenefits/>
             <keyFeatures/>
             <usageScenarios/>
             <featuresAndCharacteristics/>
+            <technicalCharacteristics/>
+            <productLines/>
+
         </main>
+
         <pageFooter/>
     </div>
 </template>
@@ -19,6 +24,8 @@ import productBenefits from "../components/mainPage/productBenefits.vue";
 import keyFeatures from "../components/mainPage/keyFeatures.vue";
 import usageScenarios from "../components/mainPage/usageScenarios.vue";
 import featuresAndCharacteristics from "../components/mainPage/featuresAndCaracteristics.vue";
+import technicalCharacteristics from "../components/mainPage/technicalCharacteristics.vue";
+import productLines from "../components/mainPage/productLines.vue";
 
 import pageFooter from '../components/pageFooter.vue';
 
@@ -32,6 +39,8 @@ export default {
         keyFeatures,
         usageScenarios,
         featuresAndCharacteristics,
+        technicalCharacteristics,
+        productLines,
 
         pageFooter,
     },
@@ -66,6 +75,20 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+    .swiper-pagination-bullet {
+        width: 16px;
+        height: 16px;
+        background: #F1E5F9;
+        opacity: 1;
 
+        @media(max-width: 768px) {
+            width: 10px;
+            height: 10px;
+        }
+    }
+
+    .swiper-pagination-bullet-active {
+        background: $primary-color;
+    }
 </style>

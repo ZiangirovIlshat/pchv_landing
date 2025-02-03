@@ -7,7 +7,7 @@
                 <table>
                     <tbody v-if="width > 1200">
                         <tr>
-                            <td class="features-and-characteristics__cell right-cell" rowspan="2">
+                            <td class="features-and-characteristics__cell right-cell" :rowspan="2">
                                 <p class="features-and-characteristics__text">рабочий температурный диапазон</p>
                                 <p class="features-and-characteristics__gradient-text gradient-text">от -10<br>до +50°C</p>
                             </td>
@@ -23,7 +23,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="features-and-characteristics__cell img-cell right-cell" rowspan="5">
+                            <td class="features-and-characteristics__cell img-cell right-cell" :rowspan="5">
                                 <img src="../../../assets/images/featuresAndCharacteristics.png" alt="ПЧВ3">
                             </td>
                             <td class="features-and-characteristics__cell">
@@ -145,6 +145,10 @@
 
         &__content {
             margin: 0 -20px;
+
+            @media (max-width: 768px) {
+                margin: 0 -15px;
+            }
         }
 
         &__cell {
@@ -159,15 +163,15 @@
 
                 img {
                     display: block;
+                    width: 650px;
                     height: 100%;
-                    width: auto;
-
-                    @media (max-width: 1400px) {
-                        width: calc(375px + (657 - 375) * ((100vw - 360px) / (1400 - 360)));
-                    }
 
                     @media (max-width: 1200px) {
                         margin: 0 auto;
+                    }
+
+                    @media (max-width: 768px) {
+                        width: 100%;
                     }
                 }
             }

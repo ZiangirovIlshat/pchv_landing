@@ -43,8 +43,6 @@ body {
   flex-direction: column;
   min-height: 100vh;
 
-  overflow: hidden;
-
   position: relative;
 }
 
@@ -78,6 +76,11 @@ body {
     font-size: 14px;
     width: 170px;
     padding: 13px 20px;
+  }
+
+  &:hover {
+    background-color: $hover-btn-color;
+    opacity: background-color .2s;
   }
 }
 

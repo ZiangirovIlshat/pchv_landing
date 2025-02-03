@@ -3,7 +3,7 @@
         <div class="container">
             <h2 class="usage-scenarios__heading h2-heading dark">Сценарии использования <br>ПЧВ1 / ПЧВ3</h2>
 
-            <div class="usage-scenarios__slider slider">
+            <div class="usage-scenarios__slider">
                 <div class="usage-scenarios__swiper-pagination-top">
                     <ul>
                         <li
@@ -16,9 +16,11 @@
                 </div>
                 
                 <swiper
-                    ref="mySwiper"
+                    class="slider-usage-scenarios"
+
                     :modules="modules"
                     :pagination="pagination"
+
                     @slideChange="onSlideChange"
                     @swiper="onSwiperInit"
                 >
@@ -47,7 +49,7 @@
 
 <script>
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { Pagination } from 'swiper/modules';
+import { Pagination } from "swiper/modules";
 import "swiper/swiper-bundle.css";
 
 import usageScenariosSlide1 from "../../../assets/images/usageScenariosSlide1.png";
@@ -56,11 +58,13 @@ import usageScenariosSlide3 from "../../../assets/images/usageScenariosSlide3.pn
 import usageScenariosSlide4 from "../../../assets/images/usageScenariosSlide4.png";
 import usageScenariosSlide5 from "../../../assets/images/usageScenariosSlide5.png";
 
-export default {
-    components: {
-        Swiper,
-        SwiperSlide,
-    },
+    export default {
+        name: "usageScenarios",
+
+        components: {
+            Swiper,
+            SwiperSlide,
+        },
 
         data() {
             return {
@@ -95,7 +99,7 @@ export default {
                 modules: [Pagination],
 
                 pagination: {
-                    el: '.usage-scenarios__swiper-pagination-bottom',
+                    el: ".usage-scenarios__swiper-pagination-bottom",
                     clickable: true,
                 },
 
@@ -119,23 +123,7 @@ export default {
     };
 </script>
 
-<style lang="scss">
-    .swiper-pagination-bullet {
-        width: 16px;
-        height: 16px;
-        background: #F1E5F9;
-        opacity: 1;
-
-        @media(max-width: 768px) {
-            width: 10px;
-            height: 10px;
-        }
-    }
-
-    .swiper-pagination-bullet-active {
-        background: $primary-color;
-    }
-
+<style lang="scss" scoped>
     .usage-scenarios {
         padding: 120px 0;
 
