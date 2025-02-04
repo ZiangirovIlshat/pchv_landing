@@ -180,8 +180,8 @@
         &__text {
             margin: 0 0 70px 0;
 
-            @media (max-width: 1400px) {
-                margin-bottom: calc(20px + (70 - 20) * ((100vw - 360px) / (1400 - 360)));
+            @media (max-width: 1440px) {
+                margin-bottom: calc(20px + (70 - 20) * ((100vw - 360px) / (1440 - 360)));
             }
         }
 

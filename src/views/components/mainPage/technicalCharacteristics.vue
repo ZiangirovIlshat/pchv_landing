@@ -150,8 +150,8 @@
             width: 500px;
             height: auto;
 
-            @media (max-width: 1400px) {
-                width: calc(120px + (500 - 120) * ((100vw - 360px) / (1400 - 360)));
+            @media (max-width: 1440px) {
+                width: calc(120px + (500 - 120) * ((100vw - 360px) / (1440 - 360)));
             }
         }
 

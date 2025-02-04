@@ -10,6 +10,7 @@
             <featuresAndCharacteristics/>
             <technicalCharacteristics/>
             <productLines/>
+            <additionalEquipment/>
 
         </main>
 
@@ -26,6 +27,7 @@ import usageScenarios from "../components/mainPage/usageScenarios.vue";
 import featuresAndCharacteristics from "../components/mainPage/featuresAndCaracteristics.vue";
 import technicalCharacteristics from "../components/mainPage/technicalCharacteristics.vue";
 import productLines from "../components/mainPage/productLines.vue";
+import additionalEquipment from "../components/mainPage/additionalEquipment.vue";
 
 import pageFooter from '../components/pageFooter.vue';
 
@@ -41,6 +43,7 @@ export default {
         featuresAndCharacteristics,
         technicalCharacteristics,
         productLines,
+        additionalEquipment,
 
         pageFooter,
     },

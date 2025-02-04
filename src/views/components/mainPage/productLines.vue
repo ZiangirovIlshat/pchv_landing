@@ -4,36 +4,44 @@
             <h2 class="product-lines__heading h2-heading dark">Обзор линеек ПЧВ</h2>
             <div class="product-lines__slider">
                 <swiper
-                    class="product-lines-slider"
+                    class="product-lines-slider slider" 
                     ref="productLines"
 
                     :modules="modules"
                     :pagination="pagination"
                     :navigation="true"
 
-                    :loop="true"
-                    :slidesPerView="3"
+                    :slidesPerView="'auto'"
                     :centeredSlides="true"
-                    :spaceBetween="20"  
+
+                    :initialSlide="1"
+
+                    :breakpoints="swiperBreakpoints"
+
+                    @slideChange="onSlideChange"
+                    @swiper="onSwiperInit"
                 >
                     <swiper-slide v-for="(slide, index) in slides" :key="index">
                         <div class="slider__slide">
-                            <div class="slider__video-box">
-                                <iframe 
-                                    :src="slide.src" 
-                                    width="100%" 
-                                    height="100%"
-                                    allow="encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
-                                    frameborder="0"
-                                    allowfullscreen>
-                                </iframe>
-                            </div>
-                            <p>{{ slide.name }}</p>
+                            <iframe 
+                                :src="slide.src" 
+                                width="100%"
+                                height="100%"
+                                allow="encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+                                frameborder="0"
+                                allowfullscreen>
+                            </iframe>
                         </div>
                     </swiper-slide>
                 </swiper>
 
-                <div class="product-lines__swiper-pagination-bottom"></div>
+                <p class="product-lines__video-name">{{ slides[currentIndex].name }}</p>
+
+                <div class="product-lines__navigations">
+                    <div class="product-lines__mobile-prev-btn" @click="goToPrev"></div>
+                    <div class="product-lines__swiper-pagination-bottom"></div>
+                    <div class="product-lines__mobile-next-btn" @click="goToNext"></div>
+                </div>
             </div>
         </div>
     </section>
@@ -75,13 +83,53 @@ import "swiper/swiper-bundle.css";
                     el: ".product-lines__swiper-pagination-bottom",
                     clickable: true,
                 },
+
+                swiperInstance: null,
+
+                currentIndex: 0,
+
+                swiperBreakpoints: {
+                    0: { spaceBetween: 20 },
+                    768: { spaceBetween: 95 },
+                    920: { spaceBetween: 110 },
+                    1200: { spaceBetween: 130 },
+                },
             }
         },
+
+        methods: {
+            onSwiperInit(swiper) {
+                this.swiperInstance = swiper;
+            },
+
+            onSlideChange(swiper) {
+                this.currentIndex = swiper.activeIndex;
+            },
+
+            goToPrev() {
+                this.swiperInstance.slidePrev();
+            },
+
+            goToNext() {
+                this.swiperInstance.slideNext();
+            },
+        }
     }
 </script>
 
 <style lang="scss">
     .product-lines-slider {
+
+        .swiper-wrapper {
+            padding: 40px 0;
+            display: flex;
+            align-items: center;
+
+            @media (max-width: 768px) {
+                padding: 0;
+            }
+        }
+
         .swiper-button-prev, .swiper-button-next {
             color: $primary-color;
 
@@ -96,11 +144,57 @@ import "swiper/swiper-bundle.css";
         }
 
         .swiper-button-prev {
-            left: var(--swiper-navigation-sides-offset, 180px);
+            left: var(--swiper-navigation-sides-offset, 200px);
+
+            @media (max-width: 1440px) {
+                left: var(--swiper-navigation-sides-offset, calc(40px + (200 - 40) * ((100vw - 768px) / (1440 - 768))));
+            }
         }
 
         .swiper-button-next {
-            right: var(--swiper-navigation-sides-offset, 180px);
+            right: var(--swiper-navigation-sides-offset, 200px);
+
+            @media (max-width: 1440px) {
+                right: var(--swiper-navigation-sides-offset, calc(40px + (200 - 40) * ((100vw - 768px) / (1440 - 768))));
+            }
+        }
+
+        .swiper-button-prev , .swiper-button-next {
+            @media (max-width: 768px) {
+                display: none;
+            }
+        }
+
+        .swiper-slide {
+            width: 802px;
+            height: 452px;
+
+            @media (max-width: 1440px) {
+                width: calc(337px + (802 - 337) * ((100vw - 360px) / (1440 - 360)));
+                height: calc(191px + (452 - 191) * ((100vw - 360px) / (1440 - 360)));
+            }
+        }
+
+        .swiper-slide.swiper-slide-active {
+            z-index: 2;
+            transform: scale(1.2);
+
+            @media (max-width: 768px) {
+                transform: scale(1);
+            }
+        }
+
+        .swiper-slide.swiper-slide-next, .swiper-slide.swiper-slide-prev {
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.6);
+                z-index: 1;
+            }
         }
     }
 </style>
@@ -109,15 +203,65 @@ import "swiper/swiper-bundle.css";
     .product-lines {
         padding: 120px 0;
 
+
         @media (max-width: 768px) {
             padding: 60px 0;
         }
 
         &__heading {
             margin: 0 0 45px 0;
+
+            @media (max-width: 768px) {
+                margin: 0 0 25px 0;
+            }
         }
 
-        &__slider {}
+        &__slider {
+            margin: 0 -20px;
+
+            @media (max-width: 768px) {
+                margin: 0 -15px;    
+            }
+        }
+
+        &__video-name {
+            text-align: center;
+            color: $secondary-colored-text;
+            margin: 0 0 40px 0;
+            font-size: clamp(0.875rem, 0.693rem + 0.91vw, 1.375rem);
+            padding: 0 10px;
+
+            @media (max-width: 768px) {
+                margin: 0 0 30px 0;
+            }
+        }
+
+        &__navigations {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        &__mobile-prev-btn, &__mobile-next-btn {
+            @media (min-width: 768px) {
+                display: none;
+            }
+
+            width: 15px;
+            height: 15px;
+            border-top: 3px solid $primary-color;
+        }
+
+        &__mobile-prev-btn {
+            border-left: 3px solid $primary-color;
+            transform: rotate(-45deg);
+        }
+
+        &__mobile-next-btn {
+            border-right: 3px solid $primary-color;
+            transform: rotate(45deg);
+        }
 
         &__swiper-pagination-bottom {
             display: flex;
@@ -126,44 +270,12 @@ import "swiper/swiper-bundle.css";
     }
 
     .slider {
-        margin: 0 0 40px 0;
+        margin: 0 0 20px 0;
 
-        &__prev-btn, &__next-btn {
-            position: absolute;
-
+        &__slide {
+            width: 100%;
+            height: 100%;
         }
-
-        &__prev-btn {
-
-        }
-
-        &__next-btn {
-
-        }
-
-        // &__slide {
-        //     margin: 0 auto;
-        //     width: 927px;
-
-        //     @media(max-width: 1400px) {
-        //         width: calc(336px + (927 - 336) * ((100vw - 360px) / (1400 - 360)));
-        //     }
-
-        //     p {
-        //         font-size: clamp(0.875rem, 0.693rem + 0.91vw, 1.375rem);
-        //         margin: 15px 0 0 0;
-        //         color: $secondary-colored-text;
-        //     }
-        // }
-
-        // &__video-box {
-        //     width: 100%;
-        //     height: 523px;
-
-        //     @media(max-width: 1400px) {
-        //         height: calc(191px + (523 - 191) * ((100vw - 360px) / (1400 - 360)));
-        //     }
-        // }
     }
 
 </style>

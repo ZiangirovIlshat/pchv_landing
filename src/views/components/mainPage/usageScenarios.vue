@@ -96,6 +96,8 @@ import usageScenariosSlide5 from "../../../assets/images/usageScenariosSlide5.pn
                     },
                 ],
 
+                swiperInstance: null,
+
                 modules: [Pagination],
 
                 pagination: {
