@@ -28,14 +28,19 @@
                         <div class="slider__item">
                             <p class="slider__desc">
                                 {{ slide.desc }}
-                                <span>
-                                    <svg width="100" height="100">
-                                        <use xlink:href="../../../assets/images/sprite.svg#zoom" />
-                                    </svg>
-                                </span>
                             </p>
                             <div class="slider__img-block">
-                                <img :src="slide.img" :alt="slide.heading" />
+                                <imageMagnifier
+                                    v-if="width > 768"
+                                    :src="slide.img"
+                                    :alt="slide.heading" 
+                                />
+
+                                <img
+                                    v-else
+                                    :src="slide.img"
+                                    :alt="slide.heading"
+                                />
                             </div>
                         </div>
                     </swiper-slide>
@@ -52,6 +57,8 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination } from "swiper/modules";
 import "swiper/swiper-bundle.css";
 
+import imageMagnifier from "../mainPage/imageMagnifier.vue"
+
 import usageScenariosSlide1 from "../../../assets/images/usageScenariosSlide1.png";
 import usageScenariosSlide2 from "../../../assets/images/usageScenariosSlide2.png";
 import usageScenariosSlide3 from "../../../assets/images/usageScenariosSlide3.png";
@@ -64,6 +71,7 @@ import usageScenariosSlide5 from "../../../assets/images/usageScenariosSlide5.pn
         components: {
             Swiper,
             SwiperSlide,
+            imageMagnifier,
         },
 
         data() {
@@ -106,10 +114,16 @@ import usageScenariosSlide5 from "../../../assets/images/usageScenariosSlide5.pn
                 },
 
                 currentIndex: 0,
+
+                width: window.innerWidth,
             };
         },
 
         methods: {
+            updateWidth() {
+                this.width = window.innerWidth;
+            },
+
             onSwiperInit(swiper) {
                 this.swiperInstance = swiper;
             },
@@ -121,6 +135,10 @@ import usageScenariosSlide5 from "../../../assets/images/usageScenariosSlide5.pn
             onSlideChange(swiper) {
                 this.currentIndex = swiper.activeIndex;
             },
+        },
+
+        created() {
+            window.addEventListener("resize", this.updateWidth);
         }
     };
 </script>
@@ -168,8 +186,10 @@ import usageScenariosSlide5 from "../../../assets/images/usageScenariosSlide5.pn
                         text-decoration: underline;
                     }
 
-                    &:hover {
-                        color: $primary-color;
+                    @media (hover: hover) and (pointer: fine) {
+                        &:hover {
+                            color: $primary-color;
+                        }
                     }
                 }
             }

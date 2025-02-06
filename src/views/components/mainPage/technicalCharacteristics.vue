@@ -10,6 +10,7 @@
                            <h3>ОВЕН ПЧВ1</h3>
                            <img src="../../../assets/images/technicalСharacteristics_pchv1.png" alt="ПЧВ1">
                         </td>
+
                         <td>
                             <h3>ОВЕН ПЧВ3</h3>
                             <img src="../../../assets/images/technicalСharacteristics_pchv3.png" alt="ПЧВ3">
@@ -25,6 +26,7 @@
                             <p>S-образная характеристика контроля частоты</p>
                             <p>Вход для подключения тормозного резистора</p>
                         </td>
+
                         <td class="technical-characteristics__characteristics-cell">
                             <p>Управление насосами и вентиляторами</p>
                             <p>Мощность до 450 кВт</p>
@@ -39,13 +41,20 @@
                         <td>
                             <div class="technical-characteristics__buy-btn">
                                 <p>от 13 200 ₽</p>
-                                <button class="btn">заказать</button>
+                                <RouterLink
+                                    class="btn"
+                                    :to="{ name: 'selector', query: { series: 'ПЧВ1' }}"
+                                >заказать</RouterLink>
                             </div>
                         </td>
+
                         <td>
                             <div class="technical-characteristics__buy-btn">
                                 <p>от 23 700 ₽</p>
-                                <button class="btn">заказать</button>
+                                <RouterLink
+                                    class="btn"
+                                    :to="{ name: 'selector', query: { series: 'ПЧВ3' }}"
+                                >заказать</RouterLink>
                             </div>
                         </td>
                     </tr>
@@ -127,7 +136,7 @@
                 font-size: clamp(1.125rem, 0.903rem + 1.11vw, 1.875rem);
             }
 
-            button {
+            a {
                 @media (max-width: 768px) {
                     width: 100%;
                 }

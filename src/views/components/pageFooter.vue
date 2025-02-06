@@ -188,9 +188,12 @@
                 color: $primary-color;
             }
 
-            &:hover {
-                color: $primary-color;
+            @media (hover: hover) and (pointer: fine) {
+                &:hover {
+                    color: $primary-color;
+                }
             }
+            
         }
 
         &__social-links {
@@ -212,20 +215,25 @@
                     fill: $footer-text
                 }
 
-                a:hover {
-                    svg {
-                        fill: $primary-color;
+                @media (hover: hover) and (pointer: fine) {
+                    a:hover {
+                        svg {
+                            fill: $primary-color;
+                        }
                     }
                 }
+                
 
                 &:nth-child(3) {
                     svg {
                         stroke: #fff;
                     }
 
-                    a:hover {
-                        svg {
-                            stroke: $primary-color;
+                    @media (hover: hover) and (pointer: fine) {
+                        a:hover {
+                            svg {
+                                stroke: $primary-color;
+                            }
                         }
                     }
                 }

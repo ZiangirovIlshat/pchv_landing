@@ -1,11 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import mainPage from '../views/pages/mainPage.vue'
+import modificationSelectorPage from '../views/pages/modificationSelectorPage.vue'
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
+    path: "/",
+    name: "home",
     component: mainPage
+  },
+  {
+    path: "/selector",
+    name: "selector",
+    component: modificationSelectorPage,
+    props: true,
   },
 ]
 

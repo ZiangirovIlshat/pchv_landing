@@ -138,8 +138,10 @@ import "swiper/swiper-bundle.css";
                 font-weight: 700;
             }
 
-            &:hover {
-                color: $hover-btn-color;
+            @media (hover: hover) and (pointer: fine) {
+                &:hover {
+                    color: $hover-btn-color;
+                }
             }
         }
 

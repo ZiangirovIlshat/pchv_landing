@@ -28,7 +28,10 @@
                     <img src="../../../assets/images/pchvTopSection.png" alt="Преобразователи частоты ПЧВ ОВЕН">
                 </div>
                 <div class="top-section__btn-block">
-                    <a href="/" class="top-section__button btn">заказать</a>
+                    <RouterLink
+                        class="top-section__button btn"
+                        :to="{ name: 'selector', query: { series: '' }}"
+                    >заказать</RouterLink>
                 </div>
             </div>
         </div>
@@ -36,8 +39,14 @@
 </template>
 
 <script>
+import { RouterLink } from 'vue-router';
+
     export default {
-        name: "topSection"
+        name: "topSection",
+
+        components: {
+            RouterLink,
+        }
     }
 </script>
 

@@ -25,7 +25,7 @@ table{border-collapse:collapse;border-spacing:0}
 }
 
 body {
-  &._menu-is-opened {
+  &._no-scroll {
     overflow-y: hidden;
   }
 }
@@ -60,6 +60,16 @@ body {
   }
 }
 
+a {
+  text-decoration: none;
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: $primary-color;
+    } 
+  }
+}
+
 .btn {
   display: inline-block;
   width: 287px;
@@ -78,9 +88,12 @@ body {
     padding: 13px 20px;
   }
 
-  &:hover {
-    background-color: $hover-btn-color;
-    opacity: background-color .2s;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: $hover-btn-color;
+      opacity: background-color .2s;
+      color: #fff;
+    }
   }
 }
 
@@ -98,6 +111,10 @@ body {
   &.dark {
     color: $colored-text;
   }
+}
+
+.form {
+  color: $colored-text;
 }
 
 </style>

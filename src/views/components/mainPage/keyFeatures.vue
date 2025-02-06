@@ -64,12 +64,14 @@
             #2B0080 326.51deg,
             #000000 410.79deg;
  
-        background: conic-gradient(from 80.04deg at 30% 50.44%, $background-gradient);
+        background: conic-gradient(from 80.04deg at 30% 50%, $background-gradient);
         background-size: cover;
         background-attachment: fixed;
 
         @media (max-width: 1200px) {
-            background: conic-gradient(from 80.04deg at 30% 56.44%, $background-gradient);
+            background: conic-gradient(from 80.04deg at 20% 30%, $background-gradient);
+            background-size: cover;
+            background-attachment: fixed;
         }
 
         &__row {
@@ -106,28 +108,24 @@
 
         &__image-block {
             position: sticky;
-            top: 100px;
+            top: 150px;
             text-align: center;
-            
-            @media (max-width: 768px) {
-                top: 60px;
-                height: 65vw;
 
-                img {
-                    height: 95%;
-                    width: auto;
-                }
+            @media (max-width: 920px) {
+                height: 110vw;
+                width: auto;
             }
 
             img {
-                width: 100%;
                 height: auto;
+                width: 100%;
 
-                @media (max-width: 768px) {
+                @media (max-width: 920px) {
                     position: absolute;
                     top: 0;
-                    left: -25%;
-                    width: 130%;
+                    left: -30vw;
+                    height: 100vw;
+                    width: auto;
                 }
             }
         }
