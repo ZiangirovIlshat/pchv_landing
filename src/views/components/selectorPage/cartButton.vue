@@ -1,11 +1,16 @@
 <template>
     <div class="cart-btn">
         <div class="cart-btn__count">
-            <button @click="count !== 0 ? count-- : ''">-</button>
+            <button @click="decrementCount">-</button>
             <span> {{ count }} </span>
-            <button @click="count++">+</button>
+            <button @click="incrementCount">+</button>
         </div>
-        <div class="cart-btn__buy-btn" title="добавить в корзину">
+
+        <div class="cart-btn__delete-btn" v-if="isInCart" @click="removeFromCartHandler">
+            Del
+        </div>
+
+        <div class="cart-btn__buy-btn" v-else title="добавить в корзину" @click="addToCartHandler">
             <svg version="1.0" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 512.000000 512.000000" id="cart">
                 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" stroke="none" id="cart-g">
                     <path d="M25 4955 c-35 -34 -33 -78 4 -116 l29 -29 304 0 c336 0 365 -4 452
@@ -34,31 +39,105 @@
                     </path>
                 </g>
             </svg>
+            <svg version="1.0" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 512.000000 512.000000" id="cart">
+                <!-- Ваш SVG-код здесь -->
+            </svg>
         </div>
     </div>
 </template>
 
 <script>
-    export default {
-        name: "cartButton",
+import { mapGetters, mapActions } from "vuex";
 
-        props: {
-            data: {
-                require: true,
-                type: Array,
+export default {
+    name: "cartButton",
+
+    props: {
+        data: {
+            required: true,
+            type: Object,
+        }
+    },
+
+    data() {
+        return {
+            count: 0,
+        }
+    },
+
+    computed: {
+        ...mapGetters("cart", ["cartItems", "totalPrice", "totalItems"]),
+
+        isInCart() {
+            return this.cartItems.some(cartItem => cartItem.code === this.data.code);
+        }
+    },
+
+    methods: {
+        ...mapActions("cart", ["addToCart", "removeFromCart", "updateCartItemCount"]),
+
+        incrementCount() {
+            this.count++;
+            if (this.isInCart) {
+                this.updateCartItemCount({ code: this.data.productInf.code, count: this.count });
             }
         },
 
-        data() {
-            return {
-                count: 0,
+        decrementCount() {
+            if (this.count > 0) {
+                this.count--;
+                if (this.isInCart) {
+                    this.updateCartItemCount({ code: this.data.productInf.code, count: this.count });
+                }
             }
         },
 
-        methods: {
+        addToCartHandler() {
+            if (this.count > 0) {
+                const item = {
+                    name: this.data.name,
+                    code: this.data.productInf.code,
+                    price: this.data.productInf.price,
+                    count: this.count,
+                    image_thumb: this.data.productInf.image_thumb,
+                };
 
+                this.addToCart(item);
+            }
         },
-    }
+
+        removeFromCartHandler() {
+            this.removeFromCart(this.data.productInf.code);
+            this.resetCount();
+        },
+
+        resetCount() {
+            this.count = 0;
+        },
+
+        updateCount() {
+            const item = this.cartItems.find(cartItem => cartItem.code === this.data.productInf.code);
+            if (item) {
+                this.count = item.count;
+            } else {
+                this.resetCount();
+            }
+        }
+    },
+
+    watch: {
+        cartItems: {
+            handler() {
+                this.updateCount();
+            },
+            deep: true
+        }
+    },
+
+    mounted() {
+        this.updateCount();
+    },
+}
 </script>
 
 <style lang="scss" scoped>
@@ -67,10 +146,10 @@
         display: flex;
         gap: 10px;
         justify-content: space-between;
-        margin: 0 auto;
 
         &__count {
             width: 65px;
+            height: 36px;
             border: 1px solid $light-colored-text;
             display: flex;
             justify-content: space-between;

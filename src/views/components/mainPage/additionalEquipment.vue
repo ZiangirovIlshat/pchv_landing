@@ -10,7 +10,7 @@
                     <p class="additional-equipment__text">Оставьте заявку и технический специалист перезвонит вам в ближайшее время.</p>
 
                     <div class="additional-equipment__btn-box">
-                        <button class="btn">оставить заявку</button>
+                        <button class="btn" @click="openPopUp()">оставить заявку</button>
                     </div>
                 </div>
 
@@ -19,8 +19,8 @@
                 </div>
             </div>
         </div>
-        <div class="additional-equipment__pop-up-box">
-            <popUp/>
+        <div class="additional-equipment__pop-up-box" v-if="popUpIsOpen">
+            <popUp @close="closePopUp()"/>
         </div>
     </section>
 </template>
@@ -33,6 +33,28 @@ import popUp from "../mainPage/popUp.vue";
 
         components: {
             popUp,
+        },
+
+        data() {
+            return {
+                popUpIsOpen: false,
+            }
+        },
+
+        methods: {
+            openPopUp() {
+                this.popUpIsOpen = true;
+
+                document.querySelector("html").classList.add("_no-scroll");
+                document.querySelector("body").classList.add("_no-scroll");
+            },
+
+            closePopUp() {
+                this.popUpIsOpen = false;
+
+                document.querySelector("html").classList.remove("_no-scroll");
+                document.querySelector("body").classList.remove("_no-scroll");
+            }
         }
     }
 </script>
@@ -133,9 +155,11 @@ import popUp from "../mainPage/popUp.vue";
             background: rgba(0, 0, 0, 0.7);
             z-index: 20;
 
-            display: none;
+            display: flex;
             justify-content: center;
             align-items: center;
+
+            padding: 40px 20px;
         }
     }
 

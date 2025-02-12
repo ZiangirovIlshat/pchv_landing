@@ -2,6 +2,7 @@
   <RouterView />
 </template>
 
+
 <style lang="scss">
 * {box-sizing: border-box;}
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}
@@ -24,7 +25,7 @@ table{border-collapse:collapse;border-spacing:0}
   src: url('@/assets/fonts/SuisseIntl-Regular-BzoWxrQg.otf') format('opentype');
 }
 
-body {
+body, html {
   &._no-scroll {
     overflow-y: hidden;
   }
@@ -60,6 +61,8 @@ body {
   }
 }
 
+
+
 a {
   text-decoration: none;
 
@@ -82,10 +85,18 @@ a {
   cursor: pointer;
   color: #fff;
 
+  &.thin {
+    padding: 15px 30px;
+  }
+
   @media(max-width: 768px) {
     font-size: 14px;
     width: 170px;
     padding: 13px 20px;
+
+    &.thin {
+      padding: 10px 20px;
+    }
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -113,8 +124,115 @@ a {
   }
 }
 
+
+
 .form {
-  color: $colored-text;
+  .agreement-error {
+    margin: 5px 0 0 0;
+    display: inline-block;
+    background-color: #E50000;
+    padding: 6px 10px;
+    font-size: 15px;
+    color: #fff;
+  }
+}
+
+.form-item {
+  margin: 0 0 15px 0;
+  font-size: 22px;
+  font-size: clamp(0.875rem, 0.693rem + 0.91vw, 1.375rem);
+
+  a {
+    color: $primary-color;
+  }
+
+  &.agreement {
+    font-size: clamp(0.75rem, 0.659rem + 0.45vw, 1rem);
+
+    input[type="checkbox"] {
+      width: 22px;
+      height: 22px;
+
+      @media (max-width: 768px) {
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    input[type="checkbox"] {
+      width: 15px;
+      height: 15px;
+      border: 1px solid $light-colored-text;
+      accent-color: #fff;
+
+      &:checked {
+        outline: 1px solid $light-colored-text;
+      }
+    }
+  }
+
+	&__form-elem-box {
+    border-bottom: 1px solid $light-colored-text;
+
+    select, textarea, input[type="text"] {
+      width: 100%;
+      border: none;
+      background: none;
+      padding: 0 0 15px 0;
+      font-size: clamp(0.875rem, 0.693rem + 0.91vw, 1.375rem);
+
+      &:focus-visible, &:focus {
+        border: none;
+        outline: none;
+      }
+
+      &::placeholder {
+        color: #12012480;
+        font-size: clamp(0.875rem, 0.693rem + 0.91vw, 1.375rem);
+      }
+
+      &._error::placeholder {
+        color: #F00115;
+      }
+    }
+
+    select {
+      appearance: none;
+    }
+
+    textarea {
+      font-size: inherit;
+      letter-spacing: inherit;
+      font-family: inherit;
+      font-weight: normal;
+
+      resize: none;
+    }
+
+    &.select {
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: calc(50% - 5px);
+        right: 15px;
+        border: 10px solid transparent;
+        border-top: 14px solid $primary-color;
+      }
+    }
+	}
+
+	&__hint {
+    font-size: 16px;
+    margin: 5px 0 0 0;
+	}
 }
 
 </style>

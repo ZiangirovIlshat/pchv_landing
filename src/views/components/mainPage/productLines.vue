@@ -43,6 +43,8 @@
                     <div class="product-lines__mobile-next-btn" @click="goToNext"></div>
                 </div>
             </div>
+
+            <br>
         </div>
     </section>
 </template>

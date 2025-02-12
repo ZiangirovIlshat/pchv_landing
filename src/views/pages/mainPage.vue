@@ -1,8 +1,6 @@
 <template>
     <div class="wrapper">
-        <pageHeading :menuFixed="isScrolled ? true : false">
-            
-        </pageHeading>
+        <pageHeading :menuFixed="isScrolled ? true : false" />
 
         <main class="content">
             <topSection/>

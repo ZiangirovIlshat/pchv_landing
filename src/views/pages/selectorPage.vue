@@ -1,197 +1,70 @@
 <template>
-    <section class="modification-selector">
-        <div class="container">
-            <p v-if="priceData.loading">Загрузка цен...</p>
-            <p v-else-if="priceData.error">{{ priceData.error }}</p>
-            <template v-else>
-                <div class="modification-selector__header">
-                    <button class="modification-selector__clear-btn" @click="clearFilters()">Очистить фильтры</button>
+    <div class="wrapper">
+        <pageHeading :menuFixed="true" />
+
+        <main class="content">
+            <div class="container">
+                <div class="selector">
+                    <p v-if="priceData.loading">Загрузка цен...</p>
+
+                    <p v-else-if="priceData.error">{{ priceData.error }}</p>
+
+                    <template v-else>
+                        <div class="selector__row">
+                            <div class="selector__right-bar">
+                                <selectorBar
+                                    :filtersOptions="filtersOptions"
+                                    @selectValue="handleFiltersValues"
+                                />
+                            </div>
+
+                            <div class="selector__body">
+                                <p class="selector__heading">Выбор модификации</p>
+
+                                <p
+                                    class="selector__non-products"
+                                    v-if="Object.keys(filteredModifications).length === 0"
+                                >Не найдено подходящих модификаций</p>
+
+                                <productList v-else :products="filteredModifications" />
+
+                                <p class="selector__heading">Дополнительное оборудование</p>
+
+                                <p v-if="modificationAccessoriesData.loading">Загрузка цен...</p>
+
+                                <p v-else-if="modificationAccessoriesData.error">{{ modificationAccessoriesData.error }}</p>
+
+                                <accessories
+                                    :products="modificationAccessoriesData.data"
+                                    v-else
+                                />
+                            </div>
+                        </div>
+                    </template>
                 </div>
-                <div class="modification-selector__filters">
-                    <div class="filter">
-                        <div class="filter__name">Серия</div>
-                        <div class="filter__select-box">
-                            <select
-                                name="select-series"
-                                id="select-series"
-                                v-model="filtersValues.series"
-                            >
-                                <option :value="null">Выберите</option>
-                                <option
-                                    :value="option"
-                                    v-for="option in filtersOptions.series"
-                                    :key="option"
-                                >{{ option }}</option>
-                            </select>
-                        </div>
-                    </div>
+            </div>
+        </main>
 
-                    <div class="filter">
-                        <div class="filter__name">Мощность</div>
-                        <div class="filter__select-box">
-                            <select
-                                name="select-power"
-                                id="select-power"
-                                v-model="filtersValues.power"
-                            >
-                                <option :value="null">Выберите</option>
-                                <option :value="option"
-                                    v-for="option in filtersOptions.power"
-                                    :key="option"
-                                >{{ option }}</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="filter">
-                        <div class="filter__name">Напряжение</div>
-                        <div class="filter__select-box">
-                            <select
-                                name="select-power"
-                                id="select-power"
-                                v-model="filtersValues.voltage"
-                            >
-                                <option :value="null">Выберите</option>
-                                <option :value="option"
-                                    v-for="option in filtersOptions.voltage"
-                                    :key="option"
-                                >{{ option }}</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="filter">
-                        <div class="filter__name">Наминальный выходной ток</div>
-                        <div class="filter__select-box">
-                            <select
-                                name="select-power"
-                                id="select-power"
-                                v-model="filtersValues.nominal_output_current"
-                            >
-                                <option :value="null">Выберите</option>
-                                <option
-                                    :value="option"
-                                    v-for="option in filtersOptions.nominal_output_current"
-                                    :key="option"
-                                >{{ option }}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modification-selector__products">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Модификация</th>
-                                <th>Аксессуары</th>
-                                <th>Мощность</th>
-                                <th>Напряжение</th>
-                                <th>Наминальный выходной ток</th>
-                                <th>Цена с НДС	</th>
-                                <th>Заказ</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <template v-for="(item, key, index) in filteredModifications">
-                                <tr 
-                                    :class="{'_non-border' : accessoriesIsActive === key}"
-                                    :key="key + '_product'"
-                                    v-if="index < limit"
-                                >
-                                    <td>
-                                        <img :src="item.image_thumb" :alt="key">
-                                    </td>
-
-                                    <td>
-                                        <a
-                                            :href="item.link"
-                                            target="_blank"
-                                            title="На страницу товара">{{ key }}
-                                        </a>
-                                    </td>
-
-                                    <td>
-                                        <div 
-                                            class="modification-selector__accessory-btn"
-                                            :class="{'_opened' : accessoriesIsActive === key}"
-                                            @click="getAccessories(key)"
-                                            title="Панель аксессуаров">
-                                        </div>
-                                    </td>
-                                    <td>{{ item.power }}</td>
-                                    <td>{{ item.voltage }}</td>
-                                    <td>{{ item.nominal_output_current }}</td>
-                                    <td>
-                                        <template v-if="item.price">
-                                            {{
-                                                parseFloat(item.price).toLocaleString(
-                                                    "ru-RU",
-                                                    {
-                                                        style: "currency",
-                                                        currency: "RUB",
-                                                        minimumFractionDigits: 2,
-                                                        maximumFractionDigits: 2,
-                                                    }
-                                                )
-                                            }}
-                                        </template>
-                                        <span v-else>-</span>
-                                    </td>
-                                    <td>
-                                        <cartButton :data="[item.price, item.code]" v-if="item.price" />
-                                        <span v-else>По запросу</span>
-                                    </td>
-                                </tr>
-
-                                <tr :key="key + '_accessories'"
-                                    v-if="index < limit && accessoriesIsActive === key"
-                                >
-                                    <td colspan="8">
-                                        <p 
-                                            class="accessories__loading" 
-                                            v-if="modificationAccessoriesData.loading"
-                                        >Загрузка...</p>
-                                        <p 
-                                            class="accessories__error" 
-                                            v-else-if="modificationAccessoriesData.error"
-                                        >{{ modificationAccessoriesData.error }}</p>
-                                        <div class="accessories__body" v-else>
-                                            <p class="accessories__heading">Дополнительное оборудование</p>
-                                            <accessoryPicker :data="modificationAccessoriesData.data" />
-                                        </div>
-                                    </td>
-                                </tr>
-                            </template>
-                        </tbody>
-                    </table>
-                </div>
-
-                <button class="more-btn" @click="limit = 100" v-if="limit !== 100">Показать еще</button>
-                <button class="more-btn" @click="limit = 5" v-else>Свернуть</button>
-            </template>
-        </div>
-    </section>
+        <pageFooter/>
+    </div>
 </template>
 
 <script>
-import accessoryPicker from "./accessoryPicker.vue";
-import cartButton from "./cartButton.vue";
+import pageHeading from "../components/pageHeading.vue";
+import selectorBar from "../components/selectorPage/selectorBar.vue";
+import productList from "../components/selectorPage/productList.vue";
+import accessories from "../components/selectorPage/accessoriesSection.vue";
+import pageFooter from "../components/pageFooter.vue";
 
     export default {
-        name: "modificationSelector",
+        name: "selectorPage",
 
         components: {
-            accessoryPicker,
-            cartButton,
-        },
-
-        props: {
-            series: {
-                default: null,
-                type: String,
-            }
+            pageHeading,
+            selectorBar,
+            productList,
+            accessories,
+            pageFooter,
         },
 
         data() {
@@ -1451,21 +1324,18 @@ import cartButton from "./cartButton.vue";
                     }
                 ],
 
-                filtersValues: { series: null, power: null, voltage: null, nominal_output_current: null, },
-                filtersOptions: { series: [], power: [], voltage: [], nominal_output_current: [] },
+                filtersValues:   { series: {}, voltage: {}, power: {}, nominal_output_current: {} },
+                filtersOptions:  { series: [], voltage: [], power: [], nominal_output_current: [] },
 
                 filteredModifications: {},
-
-                limit: 5,
 
                 width: 0,
 
                 priceGeter: "https://owen.ru/upl_files/modules/price_getter/get.php",
                 priceData: { loading: false, error: "" },
 
-                accessoriesIsActive: null,
                 modificationAccessoriesData: {
-                    data: {},
+                    data: [],
                     loading: false,
                     error: ""
                 },
@@ -1551,65 +1421,85 @@ import cartButton from "./cartButton.vue";
                 this.priceData.loading = false;
             },
 
-            async getAccessories(key) {
-                if(!this.accessoriesIsActive || this.accessoriesIsActive !== key) {
-                    this.accessoriesIsActive = key;
-                } else if(this.accessoriesIsActive === key) {
-                    this.accessoriesIsActive = null;
+            async getAccessories() {
+                this.modificationAccessoriesData.loading = true;
+
+                this.modificationAccessoriesData.data = [];
+
+                let filteredModificationsNames = Object.keys(this.filteredModifications);
+
+                const accessoriesForProducts = 
+                    this.accessories.filter(item => filteredModificationsNames.includes(item.modification.trim()));
+
+                let accessoriesList = [];
+
+                for (let key in accessoriesForProducts) {
+                    const el = accessoriesForProducts[key];
+
+                    for(let category in el) {
+                        if(category === "modification") continue;
+                        if(el[category] === "none") continue;
+
+                        if(Array.isArray(el[category])) {
+                            accessoriesList = accessoriesList.concat(el[category]);
+                        } else {
+                            accessoriesList.push(el[category].trim());
+                        }
+                    }
+                }
+
+
+                const uniqueAccessories = [...new Set(accessoriesList)];
+                uniqueAccessories.sort();
+
+                let accessoriesData = [];
+                accessoriesData = await this.getPriceGetterData(uniqueAccessories);
+
+                if(!accessoriesData) {
+                    this.modificationAccessoriesData.error = "Что-то пошло не так, пожалуйста, перезагрузите страницу и повторите попытку";
                     return;
                 }
 
-                this.modificationAccessoriesData.loading = true;
-                this.modificationAccessoriesData.error = "";
-                this.modificationAccessoriesData.data = {};
-
-                let modificationAccessories = this.accessories.filter(el => el.modification.trim() == key)[0];
-
-                let productList = [];
-
-                for (let key in modificationAccessories) {
-                    if(key === "modification") continue;
-
-                    const el = modificationAccessories[key];
-
-                    if(Array.isArray(el)) {
-                        el.forEach(product => { productList.push(product) });
-                    } else {
-                        productList.push(el);
-                    }
-                }
-
-                let accessoriesPGData = await this.getPriceGetterData(productList);
-
-                if(!accessoriesPGData) { this.modificationAccessoriesData.error = "Не удалось получить данные" } 
-
-                for (let key in modificationAccessories) {
-                    if(key === "modification") continue;
-
-                    const el = modificationAccessories[key];
-
-
-                    if(Array.isArray(el)) {
-                        el.forEach(product => {
-                            let productInf = accessoriesPGData.filter(item => item.name == product)[0];
-
-                            if(productInf) {
-                                if(!this.modificationAccessoriesData.data[key]) this.modificationAccessoriesData.data[key] = [];
-                                this.modificationAccessoriesData.data[key].push(productInf);
-                            }
-                        });
-                    } else {
-                        let productInf = accessoriesPGData.filter(item => item.name == el)[0];
-                        if(!productInf) continue;
-
-                        if(!this.modificationAccessoriesData.data[key]) this.modificationAccessoriesData.data[key] = [];
-                        this.modificationAccessoriesData.data[key].push(productInf);
-                    }
-                }
+                this.modificationAccessoriesData.data = accessoriesData;
 
                 this.modificationAccessoriesData.loading = false;
+            },
 
-                console.log(this.modificationAccessoriesData.data);
+            async getFilteredModifications() {
+                this.filteredModifications = {};
+
+                for (let modification in this.modifications) {
+                    const modificationData = this.modifications[modification];
+
+                    let matchesAllFilters = true;
+
+                    for(let property in this.filtersValues) {
+                        const options = this.filtersValues[property];
+
+                        if(property === "series") {
+                            if(options["ПЧВ1"] && modification.indexOf("ПЧВ1") === -1) matchesAllFilters = false;
+                            if(options["ПЧВ3"] && modification.indexOf("ПЧВ3") === -1) matchesAllFilters = false;
+
+                            if(options["ПЧВ1"] && options["ПЧВ3"])  matchesAllFilters = true;
+                        } else {
+
+                            const selectedOptions = Object.keys(options).filter(option => options[option]);
+
+                            if (selectedOptions.length > 0) {
+                                const isMatch = selectedOptions.some(option => modificationData[property] === option);
+                                if (!isMatch) {
+                                    matchesAllFilters = false;
+                                }
+                            }
+                        }
+                    }
+
+                    if (matchesAllFilters) {
+                        this.filteredModifications[modification] = modificationData;
+                    }
+                }
+
+                await this.getAccessories();
             },
 
             getFiltersOptions() {
@@ -1655,51 +1545,15 @@ import cartButton from "./cartButton.vue";
                 }
             },
 
-            getFilteredModifications() {
-                this.filteredModifications = {};
-
-                for (let modification in this.modifications) {
-                    const el = this.modifications[modification];
-
-                    let matchesAllFilters = true;
-
-                    if(this.filtersValues.series && modification.indexOf(this.filtersValues.series) == -1) {
-                        matchesAllFilters = false;
-                        continue;
-                    }
-        
-                    for (let key in this.filtersValues) {
-                        if(key === "series") continue;
-
-                        if (this.filtersValues[key] && this.filtersValues[key] !== el[key]) {
-                            matchesAllFilters = false;
-                            break;
-                        }
-                    }
-
-                    if (matchesAllFilters) {
-                        this.filteredModifications[modification] = el;
-                    }
-                }
+            handleFiltersValues(data) {
+                this.filtersValues = JSON.parse(JSON.stringify(data));
             },
-
-            clearFilters() {
-                this.limit = 5;
-
-                this.filtersValues.series = null;
-                this.filtersValues.power = null;
-                this.filtersValues.voltage = null; 
-                this.filtersValues.nominal_output_current = null;
-
-                this.filteredModifications = Object.assign({}, this.modifications);
-            }
         },
 
         watch: {
             filtersValues: {
                 handler() {
                     this.getFilteredModifications();
-                    this.getFiltersOptions();
                 },
 
                 deep: true,
@@ -1713,200 +1567,43 @@ import cartButton from "./cartButton.vue";
 
             this.filteredModifications = Object.assign({}, this.modifications);
 
-            this.getFilteredModifications();
             this.getFiltersOptions();
-
-            if(this.series) {
-                this.filtersValues.series = this.series;
-            }
+            await this.getAccessories();
         },
     }
 </script>
 
 <style lang="scss" scoped>
-    $gray: #f0f0f0;
-
-    .modification-selector {
+    .selector {
         padding: 120px 0 60px 0;
         color: $colored-text;
 
-        &__header {
-            display: flex;
-            justify-content: end;
-            margin: 0 0 40px 0;
-        }
-
-        &__clear-btn {
-            padding: 10px 20px;
-            background-color: $gray;
-            border: none;
-            font-weight: 600;
-
-            cursor: pointer;
-        }
-
-        &__filters {
+		&__row {
             display: flex;
             justify-content: space-between;
-            align-items: end;
-            margin: 0 0 30px 0;
-        }
+            gap: 20px;
+		}
 
-        &__products {}
+		&__right-bar {
+            flex: 0 0 18%;
+		}
 
-        &__accessory-btn {
-            position: relative;
-            cursor: pointer;
-            width: 20px;
-            height: 20px;
-            display: block;
-            margin: 0 auto;
-
-            &._opened {
-                transform: rotate(180deg);
-
-                &::after { top: 0; }
-            }
-
-            @media (hover: hover) and (pointer: fine) {
-                &:hover {
-                    &::after { border-top: 10px solid $secondary-color; }
-                }
-            }
-
-            &::after {
-                content: "";
-                position: absolute;
-                top: 10px;
-                left: 0;
-                border: 10px solid transparent;
-                border-top: 10px solid $primary-color;
-            }
-        }
-    }
-
-    .filter {
-        flex: 0 0 24%;
-
-        &__name {
-            padding: 0 0 5px 0;
-        }
-
-        &__select-box {
-            margin: 5px 0 0 0;
-            position: relative;
-
-            &:after {
-                content: "";
-                position: absolute;
-                top: calc(50% - 5px);
-                right: 15px;
-                border: 5px solid transparent;
-                border-top: 8px solid $colored-text;
-            }
-
-                select {
-                    width: 100%;
-                    border: none;
-                    background-color: $gray;
-                    padding: 20px 10px;
-                    font-size: 14px;
-
-                    cursor: pointer;
-
-                    appearance: none;
-
-                    &:focus-visible, &:focus {
-                        outline: none;
-                    }
-                }
-        }
-    }
-
-    table {
-        width: 100%;
-
-        th{
-            background-color: $gray;
-            padding: 15px 0;
-            text-align: left;
-            font-size: 15px;
-            font-weight: 600;
-
-            text-align: center;
-
-            &:nth-child(2), &:nth-child(7) {
-                text-align: left;
-            }
-        }
-
-        tr {
-            border-bottom: 1px solid $gray;
-            padding: 6px 0;
-
-            &._non-border {
-                border-bottom: none;
-            }
-        }
-
-        td{
-            align-content: center;
-            vertical-align: middle;
-
-            &:first-child, &:nth-child(2) &:last-child {
-                text-align: center;
-
-                img {
-                    width: 60px;
-                    height: 60px;
-                }
-            }
-
-            &:nth-child(2) {
-                a {
-                    color: inherit;
-
-                    @media (hover: hover) and (pointer: fine) {
-                        &:hover {
-                            color: $secondary-color;
-                        }
-                    }
-                }
-            }
-
-            &:nth-child(4), &:nth-child(5), &:nth-child(6) {
-                color: $light-colored-text;
-                text-align: center;
-            }
-        }
-    }
-
-    .accessories {
-
-        &__loading { text-align: center; }
-
-        &__error { text-align: center; }
-
-        &__body {
-            padding: 10px 30px;
-            margin: 0 0 30px 0;
-        }
+		&__body {
+            flex: 0 0 80%;
+		}
 
         &__heading {
             font-size: 22px;
-            text-align: left;
-            margin: 10px 0;
+            margin: 0 0 20px 0;
         }
-    }
 
-    .more-btn {
-        margin: 30px 0 0 0;
-        background-color: $primary-color;
-        color: #fff;
-        font-size: 16px;
-        border: none;
-        padding: 10px 30px;
+        &__non-products {
+            margin: 0 0 30px 0;
+            color: $light-colored-text;
+        }
 
-        cursor: pointer;
+        &__btn {
+            width: auto;
+        }
     }
 </style>

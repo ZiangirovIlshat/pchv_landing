@@ -3,20 +3,20 @@
         <div class="container">
             <div class="header__row">
                 <div class="header__logo logo" :class="{'_dark' : menuFixed}">
-                    <a href="/">
+                    <RouterLink to="/">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 139 41" id="logo">
                             <rect x="0.5" y="0.5" width="138" height="40"></rect>
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M1 40H2H14.1575C7.93717 37.9782 3.02181 33.0628 1 26.8425V39V40ZM0 20.5V40V41H1H20.5H56.8676C63.3892 41 67.8468 36.6872 69.392 31.5089C70.8397 26.6576 69.7677 20.9346 65.423 17.1417C67.5094 14.6 67.9613 10.6286 66.8467 7.23663C65.5653 3.33731 62.1655 0 56.5264 0H20.5H1H0V1V20.5ZM35.6856 6.72856L35.7028 6.71142L35.0008 6.0094C32.7408 3.74781 29.955 2.01167 26.8425 1H49.5V27H50.5V1H56.5264C66.301 1 68.5001 11.8133 64.646 16.5109C64.4313 16.7726 64.1979 17.0153 63.9459 17.2361C64.2212 17.4399 64.4847 17.6515 64.7364 17.87C73.0599 25.0973 68.5392 40 56.8676 40H26.8425C35.06 37.329 41 29.6082 41 20.5C41 15.1989 38.9879 10.3677 35.6856 6.72856ZM34.9777 7.43655C38.0993 10.894 40 15.475 40 20.5C40 31.2696 31.2696 40 20.5 40C9.73045 40 1 31.2696 1 20.5C1 15.475 2.90068 10.894 6.02234 7.43656L19.7929 21.2071L20.5 21.9142L21.2071 21.2071L34.9777 7.43655ZM34.2886 6.71142C34.2873 6.71012 34.286 6.70883 34.2847 6.70754C34.2709 6.69376 34.2571 6.68 34.2433 6.66626C34.0213 6.44574 33.7946 6.2311 33.5634 6.02243C29.9895 2.79743 25.3374 1 20.5 1C15.6626 1 11.0105 2.79743 7.43665 6.02244C7.20487 6.23159 6.97763 6.44674 6.75517 6.6678C6.74056 6.68232 6.72598 6.69686 6.71142 6.71142L7.41852 7.41853L19.7929 19.7929L20.5 20.5L21.2071 19.7929L33.5815 7.41852L34.2886 6.71142ZM5.31435 6.72857C3.39107 8.84808 1.9054 11.372 1 14.1575V2V1H2H14.1575C11.0462 2.01128 8.26139 3.74647 6.00183 6.00679L5.2972 6.71142L5.31435 6.72857ZM119.5 1V14.2H118.5V1H119.5ZM119.5 26.8V40H118.5V26.8H119.5ZM99.5 13.9V1H98.5V13.4H79V14.4H98.5V26.6H79V27.6H98.5V40H99.5V27.1V13.9Z"></path>
                         </svg>
-                    </a>
+                    </RouterLink>
                 </div>
 
                 <nav class="menu" :class="{'_fixed' : menuFixed}">
                     <ul :class="{'_colored-hover' : menuFixed}">
                         <template v-if="width > 920">
-                            <li><a class="menu__link" @click="scrollTo('advantages')" href="#advantages">преимущества</a></li>
-                            <li><a class="menu__link" @click="scrollTo('features')" href="#features">характеристики</a></li>
-                            <li><a class="menu__link" @click="scrollTo('additional-equipment')" href="#additional-equipment">дополнительное оборудование</a></li>
+                            <li><a class="menu__link" @click="scrollTo('advantages')">преимущества</a></li>
+                            <li><a class="menu__link" @click="scrollTo('features')">характеристики</a></li>
+                            <li><a class="menu__link" @click="scrollTo('additional-equipment')">дополнительное оборудование</a></li>
                         </template>
                     </ul>
 
@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <div 
+        <div
             class="mobile-menu"
             :class="menuIsOpen ? '_opened' : '_closed'"
         >
@@ -109,12 +109,12 @@
 
                     <div class="mobile-menu__header-item">
                         <div class="mobile-menu__logo logo">
-                            <a href="/">
+                            <RouterLink to="/">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 139 41" id="logo">
                                     <rect x="0.5" y="0.5" width="138" height="40"></rect>
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M1 40H2H14.1575C7.93717 37.9782 3.02181 33.0628 1 26.8425V39V40ZM0 20.5V40V41H1H20.5H56.8676C63.3892 41 67.8468 36.6872 69.392 31.5089C70.8397 26.6576 69.7677 20.9346 65.423 17.1417C67.5094 14.6 67.9613 10.6286 66.8467 7.23663C65.5653 3.33731 62.1655 0 56.5264 0H20.5H1H0V1V20.5ZM35.6856 6.72856L35.7028 6.71142L35.0008 6.0094C32.7408 3.74781 29.955 2.01167 26.8425 1H49.5V27H50.5V1H56.5264C66.301 1 68.5001 11.8133 64.646 16.5109C64.4313 16.7726 64.1979 17.0153 63.9459 17.2361C64.2212 17.4399 64.4847 17.6515 64.7364 17.87C73.0599 25.0973 68.5392 40 56.8676 40H26.8425C35.06 37.329 41 29.6082 41 20.5C41 15.1989 38.9879 10.3677 35.6856 6.72856ZM34.9777 7.43655C38.0993 10.894 40 15.475 40 20.5C40 31.2696 31.2696 40 20.5 40C9.73045 40 1 31.2696 1 20.5C1 15.475 2.90068 10.894 6.02234 7.43656L19.7929 21.2071L20.5 21.9142L21.2071 21.2071L34.9777 7.43655ZM34.2886 6.71142C34.2873 6.71012 34.286 6.70883 34.2847 6.70754C34.2709 6.69376 34.2571 6.68 34.2433 6.66626C34.0213 6.44574 33.7946 6.2311 33.5634 6.02243C29.9895 2.79743 25.3374 1 20.5 1C15.6626 1 11.0105 2.79743 7.43665 6.02244C7.20487 6.23159 6.97763 6.44674 6.75517 6.6678C6.74056 6.68232 6.72598 6.69686 6.71142 6.71142L7.41852 7.41853L19.7929 19.7929L20.5 20.5L21.2071 19.7929L33.5815 7.41852L34.2886 6.71142ZM5.31435 6.72857C3.39107 8.84808 1.9054 11.372 1 14.1575V2V1H2H14.1575C11.0462 2.01128 8.26139 3.74647 6.00183 6.00679L5.2972 6.71142L5.31435 6.72857ZM119.5 1V14.2H118.5V1H119.5ZM119.5 26.8V40H118.5V26.8H119.5ZM99.5 13.9V1H98.5V13.4H79V14.4H98.5V26.6H79V27.6H98.5V40H99.5V27.1V13.9Z"></path>
                                 </svg>
-                            </a>
+                            </RouterLink>
                         </div>
                     </div>
 
@@ -125,9 +125,9 @@
                 <div class="mobile-menu__body">
                     <nav>
                         <ul>
-                            <li><a class="mobile-menu__link" @click="scrollTo('advantages')" href="#advantages">преимущества</a></li>
-                            <li><a class="mobile-menu__link" @click="scrollTo('features')" href="#features">характеристики</a></li>
-                            <li><a class="mobile-menu__link" @click="scrollTo('additional-equipment')" href="#additional-equipment">дополнительное оборудование</a></li>
+                            <li><a class="mobile-menu__link" @click="scrollTo('advantages')">преимущества</a></li>
+                            <li><a class="mobile-menu__link" @click="scrollTo('features')">характеристики</a></li>
+                            <li><a class="mobile-menu__link" @click="scrollTo('additional-equipment')">дополнительное оборудование</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -183,6 +183,8 @@
 </template>
 
 <script>
+import { RouterLink } from 'vue-router';
+
     export default {
         name: "pageHeading",
 
@@ -191,6 +193,10 @@
                 type: Boolean,
                 default: false,
             },
+        },
+
+        components: {
+            RouterLink
         },
 
         data() {
@@ -205,49 +211,58 @@
                 this.width = window.innerWidth;
 
                 if(this.width > 920) {
-                    this.menuIsOpen = false;
-                    document.querySelector("body").classList.remove("_no-scroll");
+                    this.closeMenu()
                 }
             },
 
             openMenu() {
                 this.menuIsOpen = true;
+
+                document.querySelector("html").classList.add("_no-scroll");
                 document.querySelector("body").classList.add("_no-scroll");
             },
 
             closeMenu() {
                 this.menuIsOpen = false;
+
+                document.querySelector("html").classList.remove("_no-scroll");
                 document.querySelector("body").classList.remove("_no-scroll");
             },
 
             scrollTo(elem) {
-                const isHomePage = window.location.pathname === '/' || window.location.pathname === '/index.html';
+                const isHomePage = this.$route.path === '/' || this.$route.path === '/index.html';
 
                 if (!isHomePage) {
-                    window.location.href = "/#" + elem;
+                    this.$router.push({ path: '/' }).then(() => {
+                        this.scrollToElement(elem);
+                    });
+                } else {
+                    this.scrollToElement(elem);
                 }
+            },
 
+            scrollToElement(elem) {
                 this.closeMenu();
 
-                event.preventDefault();
+                this.$nextTick(() => {
+                    const targetElement = document.querySelector(`#${elem}`);
 
-                const targetElement = document.querySelector("#" + elem);
+                    if (targetElement) {
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = window.pageYOffset;
 
-                if (targetElement) {
-                    const elementPosition = targetElement.getBoundingClientRect().top;
-                    const offsetPosition = window.pageYOffset;
+                        let offset = 100;
 
-                    let offset = 100;
+                        if (this.width < 920) {
+                            offset = 50;
+                        }
 
-                    if(this.width < 920) {
-                        offset = 50;
+                        window.scrollTo({
+                            top: elementPosition + offsetPosition - offset,
+                            behavior: "smooth"
+                        });
                     }
-
-                    window.scrollTo({
-                        top: elementPosition + offsetPosition - offset,
-                        behavior: 'smooth'
-                    });
-                }
+                });
             },
         },
 
@@ -392,6 +407,7 @@
         &__link {
             color: inherit;
             text-decoration: none;
+            cursor: pointer;
 
             @media (hover: hover) and (pointer: fine) {
                 &:hover {
@@ -492,7 +508,8 @@
         width: 100vw;
         top: 0;
         right: 0;
-        overflow: hidden;
+
+        overflow-x: hidden;
 
         font-size: 14px;
 
@@ -501,6 +518,8 @@
         &._opened {
             display: flex;
             justify-content: flex-end;
+            min-height: 100vh;
+            height: 100%;
 
             .mobile-menu__content { animation: menuOpen 0.3s ease-out forwards; }
         }
@@ -517,18 +536,21 @@
         &__mask {
             background-color: rgba(0, 0, 0, 50%);
             position: absolute;
-            top: 0;
+
             left: 0;
             right: 0;
-            bottom: 0;
+            height: 100vh;
         }
         
         &__content {
-            z-index: 15;
+            z-index: 20;
             position: relative;
 
             width: 260px;
-            height: 100vh;
+            min-height: 100vh;
+            height: auto;
+
+            overflow-y: scroll;
 
             background-color: #fff;
 
