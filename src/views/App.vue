@@ -86,7 +86,7 @@ a {
   color: #fff;
 
   &.thin {
-    padding: 15px 30px;
+    padding: 10px 30px;
   }
 
   @media(max-width: 768px) {
@@ -95,7 +95,7 @@ a {
     padding: 13px 20px;
 
     &.thin {
-      padding: 10px 20px;
+      padding: 8px 20px;
     }
   }
 

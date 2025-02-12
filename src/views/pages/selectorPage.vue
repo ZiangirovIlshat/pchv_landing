@@ -14,6 +14,7 @@
                             <div class="selector__right-bar">
                                 <selectorBar
                                     :filtersOptions="filtersOptions"
+                                    :mobileVersion="width <= 920"
                                     @selectValue="handleFiltersValues"
                                 />
                             </div>
@@ -1578,10 +1579,18 @@ import pageFooter from "../components/pageFooter.vue";
         padding: 120px 0 60px 0;
         color: $colored-text;
 
+        @media (max-width: 920px) {
+            padding: 60px 0 60px 0;
+        }
+
 		&__row {
             display: flex;
             justify-content: space-between;
             gap: 20px;
+
+            @media (max-width: 920px) {
+                flex-direction: column;
+            }
 		}
 
 		&__right-bar {

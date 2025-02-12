@@ -8,23 +8,30 @@
                 </div>
                 <div class="accessories__name">{{ item.name }}</div>
                 <div class="accessories__cart-section">
-                    <cartButton v-if="item.price" :data="[item.price, item.code]" />
+                    <cartButton 
+                        v-if="item.price"
+                        :data="{
+                            'name': item.name,
+                            'productInf': {
+                                code: item.code,
+                                price: item.price,
+                                image_thumb: item.image_thumb,
+                            } 
+                        }" 
+                    />
                     <div>
-                        <p class="accessories__price" v-if="item.price">
-                            {{
-                                parseFloat(item.price).toLocaleString(
-                                    "ru-RU",
-                                    {
-                                        style: "currency",
-                                        currency: "RUB",
-                                        minimumFractionDigits: 0,
-                                        maximumFractionDigits: 0,
-                                    }
-                                )
-                            }}
-                        </p>
+                        <template v-if="item.price">
+                            <p class="accessories__price">
+                                {{
+                                    calculateTotalPrice(item.price, getProductCount(item.name))
+                                }}
+                            </p>
+                            <span v-if="getProductCount(item.name) > 0">
+                                за {{ getProductCount(item.name) }} {{ getProductLabel(getProductCount(item.name)) }}
+                            </span>
+                        </template>
+
                         <span v-else>по запросу</span>
-                        <span>за {{  }} товара</span>
                     </div>
                 </div>
             </div>
@@ -39,6 +46,7 @@
 
 <script>
 import cartButton from "../selectorPage/cartButton.vue";
+import { mapGetters } from "vuex";
 
     export default {
         name: "accessoriesSection",
@@ -58,6 +66,44 @@ import cartButton from "../selectorPage/cartButton.vue";
             return {
                 limit: 5,
             }
+        },
+
+        computed: {
+            ...mapGetters("cart", ["cartItems", "totalItems", "totalPrice"]),
+        },
+
+        methods: {
+            getProductCount(productName) {
+                const cartItem = this.cartItems.find(item => item.name === productName);
+                return cartItem ? cartItem.count : 0;
+            },
+            
+            calculateTotalPrice(price, count) {
+                let totalPrice = 0;
+
+                if(count === 0) {
+                    totalPrice = price;
+                } else {
+                    totalPrice = price * count;
+                }
+
+                return totalPrice.toLocaleString("ru-RU", {
+                    style: "currency",
+                    currency: "RUB",
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0,
+                });
+            },
+
+            getProductLabel(count) {
+                if (count % 10 === 1 && count % 100 !== 11) {
+                    return "товар";
+                } else if ((count % 10 >= 2 && count % 10 <= 4) && (count % 100 < 10 || count % 100 >= 20)) {
+                    return "товара";
+                } else {
+                    return "товаров";
+                }
+            }
         }
     }
 </script>
@@ -71,9 +117,22 @@ import cartButton from "../selectorPage/cartButton.vue";
 
 
         &__item {
-            width: 200px;
+            width: 205px;
             height: 260px;
             font-size: 16px;
+
+            @media (max-width: 920px) {
+                width: 160px;
+            }
+
+            @media (max-width: 768px) {
+                width: 150px;
+            }
+
+            @media (max-width: 520px) {
+                flex: 0 0 46%;
+                width: 100%;
+            }
         }
 
         &__img {
@@ -125,12 +184,25 @@ import cartButton from "../selectorPage/cartButton.vue";
         }
 
         &__name {
-            margin: 0 0 20px  0;
+            font-size: clamp(0.75rem, 0.679rem + 0.36vw, 1rem);
+            margin: 0 0 10px  0;
         }
 
         &__cart-section {
             display: flex;
             justify-content: space-between;
+
+            @media (max-width: 920px) {
+                flex-direction: column;
+
+                div:nth-child(2) {
+                    margin: 8px 0 0 0;
+
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                }
+            }
 
             span {
                 color: $light-colored-text;
@@ -140,7 +212,11 @@ import cartButton from "../selectorPage/cartButton.vue";
 
         &__price {
             color: $secondary-color;
-            margin: 0 0 8px 0;
+            font-size: clamp(0.875rem, 0.839rem + 0.18vw, 1rem);
+
+            @media (max-width: 920px) {
+                margin: 0;
+            }
         }
 
         &__btns {

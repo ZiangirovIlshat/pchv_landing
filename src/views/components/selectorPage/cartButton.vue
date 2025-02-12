@@ -1,16 +1,31 @@
 <template>
     <div class="cart-btn">
-        <div class="cart-btn__count">
+        <div class="cart-btn__count" :class="{'_active' : count > 0}">
             <button @click="decrementCount">-</button>
             <span> {{ count }} </span>
             <button @click="incrementCount">+</button>
         </div>
 
-        <div class="cart-btn__delete-btn" v-if="isInCart" @click="removeFromCartHandler">
-            Del
+        <div 
+            class="cart-btn__delete-btn"
+            v-if="isInCart"
+            title="удалить товар из корзины"
+            @click="removeFromCartHandler"
+        >
+            <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.875 5.75H4.79167H20.125" stroke="#A58AB2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M18.2077 5.7513V19.168C18.2077 19.6763 18.0057 20.1638 17.6463 20.5233C17.2869 20.8827 16.7993 21.0846 16.291 21.0846H6.70768C6.19935 21.0846 5.71184 20.8827 5.35239 20.5233C4.99295 20.1638 4.79102 19.6763 4.79102 19.168V5.7513M7.66602 5.7513V3.83464C7.66602 3.3263 7.86795 2.83879 8.2274 2.47935C8.58684 2.1199 9.07435 1.91797 9.58268 1.91797H13.416C13.9243 1.91797 14.4119 2.1199 14.7713 2.47935C15.1307 2.83879 15.3327 3.3263 15.3327 3.83464V5.7513" stroke="#A58AB2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9.58398 10.543V16.293" stroke="#A58AB2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M13.416 10.543V16.293" stroke="#A58AB2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
         </div>
 
-        <div class="cart-btn__buy-btn" v-else title="добавить в корзину" @click="addToCartHandler">
+        <div
+            class="cart-btn__buy-btn"
+            v-else 
+            title="добавить в корзину"
+            @click="addToCartHandler"
+        >
             <svg version="1.0" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 512.000000 512.000000" id="cart">
                 <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)" stroke="none" id="cart-g">
                     <path d="M25 4955 c-35 -34 -33 -78 4 -116 l29 -29 304 0 c336 0 365 -4 452
@@ -39,9 +54,6 @@
                     </path>
                 </g>
             </svg>
-            <svg version="1.0" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 512.000000 512.000000" id="cart">
-                <!-- Ваш SVG-код здесь -->
-            </svg>
         </div>
     </div>
 </template>
@@ -49,101 +61,111 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 
-export default {
-    name: "cartButton",
+    export default {
+        name: "cartButton",
 
-    props: {
-        data: {
-            required: true,
-            type: Object,
-        }
-    },
-
-    data() {
-        return {
-            count: 0,
-        }
-    },
-
-    computed: {
-        ...mapGetters("cart", ["cartItems", "totalPrice", "totalItems"]),
-
-        isInCart() {
-            return this.cartItems.some(cartItem => cartItem.code === this.data.code);
-        }
-    },
-
-    methods: {
-        ...mapActions("cart", ["addToCart", "removeFromCart", "updateCartItemCount"]),
-
-        incrementCount() {
-            this.count++;
-            if (this.isInCart) {
-                this.updateCartItemCount({ code: this.data.productInf.code, count: this.count });
+        props: {
+            data: {
+                required: true,
+                type: Object,
             }
         },
 
-        decrementCount() {
-            if (this.count > 0) {
-                this.count--;
-                if (this.isInCart) {
-                    this.updateCartItemCount({ code: this.data.productInf.code, count: this.count });
+        data() {
+            return {
+                count: 0,
+            }
+        },
+
+        computed: {
+            ...mapGetters("cart", ["cartItems", "totalPrice", "totalItems"]),
+
+            isInCart() {
+                return this.cartItems.some(cartItem => cartItem.code === this.data.productInf.code);
+            }
+        },
+
+        methods: {
+            ...mapActions("cart", ["addToCart", "removeFromCart", "updateItemCount"]),
+
+            incrementCount() {
+                if (this.count < 10) {
+                    this.count++;
+
+                    if (this.isInCart) {
+                        this.updateItemCount({ productCode: this.data.productInf.code, count: this.count });
+                    }
+                }
+            },
+
+            decrementCount() {
+                if (this.count > 0) {
+                    this.count--;
+
+                    if(this.count === 0) {
+                        this.removeFromCartHandler();
+                    }
+
+                    if (this.isInCart) {
+                        this.updateItemCount({ productCode: this.data.productInf.code, count: this.count });
+                    }
+                }
+            },
+
+            addToCartHandler() {
+                if (this.count > 0) {
+                    const item = {
+                        name: this.data.name,
+                        code: this.data.productInf.code,
+                        price: this.data.productInf.price,
+                        count: this.count,
+                        image_thumb: this.data.productInf.image_thumb,
+                    };
+
+                    this.addToCart(item);
+                }
+            },
+
+            removeFromCartHandler() {
+                this.removeFromCart(this.data.productInf.code);
+                this.resetCount();
+            },
+
+            resetCount() {
+                this.count = 0;
+            },
+
+            updateCount() {
+                const item = this.cartItems.find(cartItem => cartItem.code === this.data.productInf.code);
+
+                if (item) {
+                    this.count = item.count;
+                } else {
+                    this.resetCount();
                 }
             }
         },
 
-        addToCartHandler() {
-            if (this.count > 0) {
-                const item = {
-                    name: this.data.name,
-                    code: this.data.productInf.code,
-                    price: this.data.productInf.price,
-                    count: this.count,
-                    image_thumb: this.data.productInf.image_thumb,
-                };
-
-                this.addToCart(item);
+        watch: {
+            cartItems: {
+                handler() {
+                    this.updateCount();
+                },
+                deep: true
             }
         },
 
-        removeFromCartHandler() {
-            this.removeFromCart(this.data.productInf.code);
-            this.resetCount();
+        mounted() {
+            this.updateCount();
         },
-
-        resetCount() {
-            this.count = 0;
-        },
-
-        updateCount() {
-            const item = this.cartItems.find(cartItem => cartItem.code === this.data.productInf.code);
-            if (item) {
-                this.count = item.count;
-            } else {
-                this.resetCount();
-            }
-        }
-    },
-
-    watch: {
-        cartItems: {
-            handler() {
-                this.updateCount();
-            },
-            deep: true
-        }
-    },
-
-    mounted() {
-        this.updateCount();
-    },
-}
+    }
 </script>
 
 <style lang="scss" scoped>
     .cart-btn {
         width: 115px;
         display: flex;
+        align-items: center;
         gap: 10px;
         justify-content: space-between;
 
@@ -154,6 +176,10 @@ export default {
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            &._active {
+                border: 1px solid $primary-color;
+            }
 
             button {
                 color: $primary-color;
@@ -167,13 +193,19 @@ export default {
             }
         }
 
-        &__buy-btn {
+        &__buy-btn, &__delete-btn {
             width: 36px;
             height: 36px;
-            padding: 4px;
+            padding: 5px;
+
+            display: flex;
+            justify-content: center;
+            align-self: center;
 
             cursor: pointer;
+        }
 
+        &__buy-btn {
             background-color: $primary-color;
 
             @media (hover: hover) and (pointer: fine) {
@@ -191,6 +223,8 @@ export default {
                 fill: #fff;
             }
         }
+
+        &__delete-btn {}
     }
 
 </style>

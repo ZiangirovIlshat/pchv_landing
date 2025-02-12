@@ -26,13 +26,10 @@ const cart = {
         },
 
         UPDATE_ITEM_COUNT(state, { productCode, count }) {
-            const existingProduct = state.items.find(item => item.code === productCode);
-
-            if (existingProduct) {
-                existingProduct.count = count;
-                if (existingProduct.count <= 0) {
-                    state.items = state.items.filter(item => item.code !== productCode);
-                }
+            const item = state.items.find(cartItem => cartItem.code === productCode);
+            console.log(productCode)
+            if (item) {
+                item.count = count;
             }
         }
     },

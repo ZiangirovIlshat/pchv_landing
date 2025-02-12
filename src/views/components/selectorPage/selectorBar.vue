@@ -1,29 +1,35 @@
 <template>
     <section class="picker">
-        <div class="picker__filter-item" v-for="(item, key, index) in filtersOptions" :key="key">
-            <div class="picker__filter-name">{{ filterNames[index] }}</div>
-            <div class="picker__filter-options">
-                <template v-for="(option, index) in item">
-                    <p class="picker__checkbox-container" v-if="index < limits[key]" :key="option">
-                        <input
-                            type="checkbox"
-                            :name="`${key}_${option}`"
-                            v-model="selectedValues[key][option]"
-                            @change="$emit('selectValue', selectedValues)"
-                        >
-                        <label :for="`${key}_${option}`">
-                            {{ option }}
-                        </label>
-                    </p>
-                </template>
+        <template v-if="!mobileVersion">
+            <div class="picker__filter-item" v-for="(item, key, index) in filtersOptions" :key="key">
+                <div class="picker__filter-name">{{ filterNames[index] }}</div>
+                <div class="picker__filter-options">
+                    <template v-for="(option, index) in item">
+                        <p class="picker__checkbox-container" v-if="index < limits[key]" :key="option">
+                            <input
+                                type="checkbox"
+                                :name="`${key}_${option}`"
+                                v-model="selectedValues[key][option]"
+                                @change="$emit('selectValue', selectedValues)"
+                            >
+                            <label :for="`${key}_${option}`">
+                                {{ option }}
+                            </label>
+                        </p>
+                    </template>
 
-                <template v-if="limits[key] !== 100 && item.length > 10">
-                    <p class="picker__nodes">˙ ˙ ˙</p>
-                    <p class="picker__show-more-btn open" @click="limits[key] = 100">Показать все</p>
-                </template>
-                <p class="picker__show-more-btn close" v-if="limits[key] === 100  && item.length > 10" @click="limits[key] = 10">Скрыть</p>
+                    <template v-if="limits[key] !== 100 && item.length > 10">
+                        <p class="picker__nodes">˙ ˙ ˙</p>
+                        <p class="picker__show-more-btn open" @click="limits[key] = 100">Показать все</p>
+                    </template>
+                    <p class="picker__show-more-btn close" v-if="limits[key] === 100  && item.length > 10" @click="limits[key] = 10">Скрыть</p>
+                </div>
             </div>
-        </div>
+        </template>
+
+        <template v-else>
+
+        </template>
     </section>
 </template>
 
@@ -36,6 +42,11 @@
                 require: true,
                 type: Object,
             },
+
+            mobileVersion: {
+                require: true,
+                type: Boolean,
+            }
         },
 
         data() {
