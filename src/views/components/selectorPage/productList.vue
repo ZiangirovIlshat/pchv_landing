@@ -1,7 +1,11 @@
 <template>
     <section class="product-list">
         <template v-for="(item, key, index) in products">
-            <div class="product-list__item" v-if="index < limit" :key="key">
+            <div 
+                class="product-list__item"
+                :class="{'_incart' : isProductInCart(item.code)}"
+                v-if="index < limit" :key="key"
+            >
                 <div class="product-list__img">
                     <img :src="item.image_thumb" :alt="key">
                 </div>
@@ -16,7 +20,7 @@
                         </div>
                     </div>
 
-                    <template v-if="width > 768">
+                    <template v-if="!mobileVersion">
                         <div class="product-list__cart-btn">
                             <cartButton :data="{'name' : key, 'productInf': item}" />
                         </div>
@@ -32,7 +36,7 @@
                                     за {{ getProductCount(key) }} {{ getProductLabel(getProductCount(key)) }}
                                 </span>
                             </template>
-                            <p v-else class="product-list__is-buy">на заказ</p>
+                            <p v-else class="product-list__is-not-buy">на заказ</p>
                         </div>
                     </template>
 
@@ -52,7 +56,7 @@
                                     за {{ getProductCount(key) }} {{ getProductLabel(getProductCount(key)) }}
                                 </span>
                             </template>
-                            <p v-else class="product-list__is-buy">на заказ</p>
+                            <p v-else class="product-list__is-not-buy">на заказ</p>
                         </div>
                     </div>
                 </div>
@@ -80,6 +84,11 @@ export default {
         products: {
             required: true,
             type: Object,
+        },
+
+        mobileVersion: {
+            require: true,
+            type: Boolean,
         }
     },
 
@@ -90,7 +99,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters("cart", ["cartItems", "totalItems", "totalPrice"]),
+        ...mapGetters("cart", ["cartItems", "totalItems", "totalPrice", "isProductInCart"]),
     },
 
     methods: {
@@ -135,6 +144,10 @@ export default {
         padding: 0 0 60px 0;
         margin: 15px 0 0 0;
 
+        @media (max-width: 768px) {
+            padding: 0 0 40px 0;
+        }
+
         &__item {
             display: flex;
             gap: 30px;
@@ -142,6 +155,8 @@ export default {
             align-items: center;
             border-bottom: 1px solid $light-colored-text;
             padding: 15px 0;
+
+            position: relative;
         }
 
         &__img {
@@ -238,7 +253,7 @@ export default {
             gap: 10px;
         }
 
-        &__is-buy {
+        &__is-not-buy {
             border: 1px solid $light-colored-text;
             color: $secondary-colored-text;
             padding: 3px 8px;

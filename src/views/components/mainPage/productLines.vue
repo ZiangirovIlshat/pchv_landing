@@ -24,7 +24,7 @@
                     <swiper-slide v-for="(slide, index) in slides" :key="index">
                         <div class="slider__slide">
                             <iframe 
-                                :src="slide.src" 
+                                :src="slide.src + '&js_api=1'" 
                                 width="100%"
                                 height="100%"
                                 allow="encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
@@ -52,6 +52,7 @@
 <script>
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Pagination, Navigation } from "swiper/modules";
+
 import "swiper/swiper-bundle.css";
 
     export default {
@@ -96,6 +97,8 @@ import "swiper/swiper-bundle.css";
                     920: { spaceBetween: 110 },
                     1200: { spaceBetween: 130 },
                 },
+
+                player: null,
             }
         },
 
@@ -106,6 +109,18 @@ import "swiper/swiper-bundle.css";
 
             onSlideChange(swiper) {
                 this.currentIndex = swiper.activeIndex;
+
+                this.stopVideo();
+            },
+
+            stopVideo() {
+                let slides = document.querySelectorAll(".slider__slide");
+
+                slides.forEach(el => {
+                    let iframe = el.querySelector("iframe");
+                    let player = window.VK.VideoPlayer(iframe);
+                    player.pause()
+                });
             },
 
             goToPrev() {
@@ -115,7 +130,7 @@ import "swiper/swiper-bundle.css";
             goToNext() {
                 this.swiperInstance.slideNext();
             },
-        }
+        },
     }
 </script>
 

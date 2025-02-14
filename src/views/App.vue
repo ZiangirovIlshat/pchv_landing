@@ -73,6 +73,49 @@ a {
   }
 }
 
+input[type="checkbox"], input[type="radio"]  {
+  appearance: none;
+  position: relative;
+
+  min-width: 14px;
+  max-width: 14px;
+  min-height: 14px;
+  max-height: 14px;
+
+  margin: 0 7px 3px 0;
+  background: #fff;
+  border: 1px solid $light-colored-text;
+  transition: 500ms;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    min-width: 12px;
+    max-width: 12px;
+    min-height: 12px;
+    max-height: 12px;
+  }
+
+  &::after {
+    content: "🗸";
+    font-size: 14px;
+    line-height: 14px;
+    position: absolute;
+    top: 0;
+    display: none;
+    color: $primary-color;
+
+    @media (max-width: 768px) {
+      font-size: 12px;
+      line-height: 12px;
+    }
+  }
+
+  &:checked::after {
+    display: block;
+    transition: 500ms;
+  }
+}
+
 .btn {
   display: inline-block;
   width: 287px;
@@ -124,7 +167,20 @@ a {
   }
 }
 
-
+._incart {
+  &::after {
+    content: "В корзине";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    color: #fff;
+    font-size: 12px;
+    line-height: 12px;
+    padding: 2px 5px;
+    border-radius: 4px;
+    background-color: $secondary-color;
+  }
+}
 
 .form {
   .agreement-error {
@@ -142,20 +198,48 @@ a {
   font-size: 22px;
   font-size: clamp(0.875rem, 0.693rem + 0.91vw, 1.375rem);
 
-  a {
-    color: $primary-color;
-  }
+  position: relative;
 
-  &.agreement {
+  &.agreement { 
     font-size: clamp(0.75rem, 0.659rem + 0.45vw, 1rem);
 
     input[type="checkbox"] {
-      width: 22px;
-      height: 22px;
+      min-width: 22px;
+      max-width: 22px;
+      min-height: 22px;
+      max-height: 22px;
 
       @media (max-width: 768px) {
-        width: 14px;
-        height: 14px;
+        min-width: 14px;
+        max-width: 14px;
+        min-height: 14px;
+        max-height: 14px;
+      }
+
+      &::after {
+        font-size: 22px;
+        line-height: 22px;
+        top: 2px;
+        left: 2px;
+        font-weight: 600;
+        color: $colored-text;
+
+        @media (max-width: 768px) {
+          top: 0;
+          left: 0;
+          line-height: 14px;
+          font-size: 14px;
+        }
+      }
+    }
+  }
+
+  &.high {
+    input {
+      @media (max-width: 768px) {
+        & {
+          padding: 20px 0 !important;
+        }
       }
     }
   }
@@ -164,18 +248,11 @@ a {
     display: flex;
     align-items: center;
     gap: 4px;
-
-    input[type="checkbox"] {
-      width: 15px;
-      height: 15px;
-      border: 1px solid $light-colored-text;
-      accent-color: #fff;
-
-      &:checked {
-        outline: 1px solid $light-colored-text;
-      }
-    }
+    color: $light-colored-text;
+    font-size: clamp(0.875rem, 0.732rem + 0.71vw, 1.375rem);
   }
+
+  a { color: $primary-color; }
 
 	&__form-elem-box {
     border-bottom: 1px solid $light-colored-text;
@@ -185,7 +262,11 @@ a {
       border: none;
       background: none;
       padding: 0 0 15px 0;
-      font-size: clamp(0.875rem, 0.693rem + 0.91vw, 1.375rem);
+      font-size: clamp(0.875rem, 0.732rem + 0.71vw, 1.375rem);
+
+      @media (max-width: 768px) {
+        padding: 0 0 5px 0;
+      }
 
       &:focus-visible, &:focus {
         border: none;
@@ -193,17 +274,24 @@ a {
       }
 
       &::placeholder {
-        color: #12012480;
+        color: $light-colored-text;
         font-size: clamp(0.875rem, 0.693rem + 0.91vw, 1.375rem);
       }
 
       &._error::placeholder {
-        color: #F00115;
+        color: $err-text;
       }
     }
 
     select {
       appearance: none;
+
+      font-size: clamp(0.875rem, 0.732rem + 0.71vw, 1.375rem);
+      color: $light-colored-text;
+
+      option {
+        font-size: clamp(0.75rem, 0.679rem + 0.36vw, 1rem);
+      }
     }
 
     textarea {
@@ -221,18 +309,58 @@ a {
       &::after {
         content: "";
         position: absolute;
-        top: calc(50% - 5px);
+        top: 20%;
         right: 15px;
         border: 10px solid transparent;
         border-top: 14px solid $primary-color;
+
+        @media (max-width: 768px) {
+          top: 16%;
+          border: 8px solid transparent;
+          border-top: 12px solid $primary-color;
+        }
+      }
+    }
+
+    &.checkbox {
+      display: flex;
+      align-items: center;
+      border-bottom: none;
+      margin: 0 0 15px 0;
+      font-size: clamp(0.75rem, 0.679rem + 0.36vw, 1rem);
+
+      @media (max-width: 768px) {
+        margin: 0 0 5px 0;
       }
     }
 	}
 
 	&__hint {
-    font-size: 16px;
+    font-size: clamp(0.75rem, 0.679rem + 0.36vw, 1rem);
+    color: $light-colored-text;
+
     margin: 5px 0 0 0;
 	}
+
+  &__error {
+    font-size: clamp(0.75rem, 0.679rem + 0.36vw, 1rem);
+    color: $err-text;
+
+    margin: 5px 0 0 0;
+  }
+
+  &__custom-placeholder {
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    color: $light-colored-text;
+    font-size: clamp(0.875rem, 0.693rem + 0.91vw, 1.375rem);
+
+    @media (max-width: 768px) {
+      bottom: 5px;
+    }
+  }
 }
 
 </style>

@@ -20,6 +20,7 @@
 
 <script>
 import pageHeading from "../components/pageHeading.vue";
+
 import topSection from "../components/mainPage/topSection.vue";
 import productBenefits from "../components/mainPage/productBenefits.vue";
 import keyFeatures from "../components/mainPage/keyFeatures.vue";

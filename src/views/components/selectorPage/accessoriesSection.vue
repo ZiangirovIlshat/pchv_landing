@@ -1,7 +1,12 @@
 <template>
     <section class="accessories">
         <template v-for="(item, index) in products">
-            <div class="accessories__item" v-if="index < limit" :key="item.name">
+            <div
+                class="accessories__item"
+                :class="{'_incart' : isProductInCart(item.code)}"
+                v-if="index < limit"
+                :key="item.name"
+            >
                 <div class="accessories__img">
                     <img v-if="item.image_thumb" :src="item.image_thumb" :alt="item.name">
                     <span class="accessories__non-image" v-else></span>
@@ -69,7 +74,7 @@ import { mapGetters } from "vuex";
         },
 
         computed: {
-            ...mapGetters("cart", ["cartItems", "totalItems", "totalPrice"]),
+            ...mapGetters("cart", ["cartItems", "totalItems", "totalPrice", "isProductInCart"]),
         },
 
         methods: {
@@ -120,6 +125,8 @@ import { mapGetters } from "vuex";
             width: 205px;
             height: 260px;
             font-size: 16px;
+
+            position: relative;
 
             @media (max-width: 920px) {
                 width: 160px;

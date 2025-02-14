@@ -5,14 +5,17 @@
                 <div class="picker__filter-name">{{ filterNames[index] }}</div>
                 <div class="picker__filter-options">
                     <template v-for="(option, index) in item">
-                        <p class="picker__checkbox-container" v-if="index < limits[key]" :key="option">
+                        <p class="picker__radio-container radio-container" v-if="index < limits[key]" :key="option">
                             <input
-                                type="checkbox"
-                                :name="`${key}_${option}`"
-                                v-model="selectedValues[key][option]"
-                                @change="$emit('selectValue', selectedValues)"
+                                type="radio"
+                                :name="key + '_' + index"
+                                :id="key + '_' + index"
+                                v-model="selectedValues[key]"
+                                :value="option"
+
+                                @click="disableValue(key, option)"
                             >
-                            <label :for="`${key}_${option}`">
+                            <label :for="key + '_' + index">
                                 {{ option }}
                             </label>
                         </p>
@@ -28,7 +31,40 @@
         </template>
 
         <template v-else>
+            <div class="picker-mobile">
+                <div class="picker-mobile__item" v-for="(item, key, index) in filtersOptions" :key="key">
+                    <div
+                        class="picker-mobile__selector"
+                        :class="{'_opened' : openSelect === key}"
+                        @click="showOptions(key)"
+                    >
+                        <p 
+                            class="picker-mobile__heading" 
+                            v-if="!selectedValues[key]"
+                        >{{ filterNames[index] }}</p>
+                        <p v-else>{{ selectedValues[key] }}</p>
+                    </div>
 
+                    <div class="picker-mobile__options" v-if="openSelect === key">
+                        <p
+                            class="picker-mobile__radio-container radio-container"
+                            v-for="(option, index) in item"
+                            :key="option"
+                        >
+                            <input
+                                type="radio"
+                                :name="key + '_' + index"
+                                :id="key + '_' + index"
+                                v-model="selectedValues[key]"
+                                :value="option"
+                            >
+                            <label :for="key + '_' + index">
+                                {{ option }}
+                            </label>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </template>
     </section>
 </template>
@@ -46,6 +82,10 @@
             mobileVersion: {
                 require: true,
                 type: Boolean,
+            },
+
+            selectedSeries: {
+                type: String,
             }
         },
 
@@ -55,14 +95,15 @@
                     "Серия",
                     "Напряжение",
                     "Мощность",
-                    "Наминальный выходной ток",
+                    "Номинальный выходной ток",
                 ],
 
                 limits: {},
-
                 selectedValues: {},
 
                 initialized: false,
+
+                openSelect: null,
             }
         },
 
@@ -71,20 +112,25 @@
                 if (this.initialized) return;
 
                 for (let key in this.filtersOptions) {
-                    this.selectedValues[key] = {};
 
                     this.limits[key] = 10;
-
-                    const options = this.filtersOptions[key];
-
-                    for (let i = 0; i < options.length; i++) {
-                        const el = options[i];
-
-                        this.selectedValues[key][el] = false;
-                    }
+                    this.selectedValues[key] = null;
                 }
 
                 this.initialized = true;
+            },
+
+            showOptions(key) {
+                if(!this.openSelect) {
+                    this.openSelect = key;
+                    return;
+                }
+
+                this.openSelect = null;
+            },
+
+            disableValue(key, option) {
+                if(this.selectedValues[key] === option) this.selectedValues[key] = null
             }
         },
 
@@ -99,14 +145,48 @@
                 },
 
                 deep: true,
+            },
+
+            selectedValues: {
+                handler(newVal) {
+                    if (newVal) {
+                        this.$emit("selectValue", this.selectedValues)
+                    }
+                },
+
+                deep: true,
             }
         },
 
-        created() {}
+        mounted() {
+            if (this.selectedSeries) {
+                this.selectedValues.series = this.selectedSeries;
+
+                setTimeout(() => {
+                    this.$emit("selectValue", this.selectedValues);
+                }, 200)
+            }
+        },
     }
 </script>
 
 <style lang="scss" scoped>
+    .radio-container {
+        margin: 8px 0;
+        font-size: 16px;
+        color: $light-colored-text;
+        display: flex;
+        align-items: center;
+        
+        label {
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px){
+            font-size: 12px;
+        }
+    }
+
     .picker {
         color: $colored-text;
         padding: 40px 0 0 0;
@@ -117,42 +197,6 @@
 
         &__filter-name {
             font-size: 22px;
-        }
-
-        &__filter-options {}
-
-        &__checkbox-container {
-            margin: 8px 0;
-            font-size: 16px;
-            color: $light-colored-text;
-            display: flex;
-            align-items: center;
-
-            input[type="checkbox"] {
-                appearance: none;
-                position: relative;
-                width: 14px;
-                height: 14px;
-                margin: 0 7px 3px 0;
-                background: #fff;
-                border: 1px solid $light-colored-text;
-                transition: 500ms;
-                cursor: pointer;
-
-                &::after {
-                    content: "✔";
-                    position: absolute;
-                    display: none;
-                    color: $primary-color;
-                    font-size: 15px;
-                    top: -4px;
-                }
-
-                &:checked::after {
-                    display: block;
-                    transition: 500ms;
-                }
-            }
         }
 
         &__nodes {
@@ -209,5 +253,56 @@
         }
 
     }
+
+    .picker-mobile {
+
+        &__item {
+            width: 100%;
+            margin: 0 0 10px 0;
+        }
+
+        &__selector {
+            padding: 10px 30px 10px 10px;
+            border: 1px solid $light-colored-text;
+            position: relative;
+
+            &._opened {
+                &::after {
+                    transform: rotate(180deg);
+                    top: 5px;
+                }
+            }
+
+            &::after {
+                content: "";
+                position: absolute;
+                top: 15px;
+                right: 9px;
+                border: 7px solid transparent;
+                border-top: 10px solid $primary-color;
+            }
+        }
+
+        &__heading {
+            font-size: 14px;
+        }
+
+        &__selected-values {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        &__options {
+            padding: 10px;
+            border: 1px solid $light-colored-text;
+            border-top: none;
+        }
+        
+    }
+
 
 </style>

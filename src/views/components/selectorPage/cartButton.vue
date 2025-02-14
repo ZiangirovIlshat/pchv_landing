@@ -1,14 +1,18 @@
 <template>
     <div class="cart-btn">
-        <div class="cart-btn__count" :class="{'_active' : count > 0}">
+        <div
+            class="cart-btn__count"
+            :class="{'_active' : count > 0}"
+            v-if="type !== 'onlyDel'"
+        >
             <button @click="decrementCount">-</button>
             <span> {{ count }} </span>
             <button @click="incrementCount">+</button>
         </div>
 
-        <div 
+        <div
             class="cart-btn__delete-btn"
-            v-if="isInCart"
+            v-if="isInCart && type !== 'onlyCount'"
             title="удалить товар из корзины"
             @click="removeFromCartHandler"
         >
@@ -22,7 +26,7 @@
 
         <div
             class="cart-btn__buy-btn"
-            v-else 
+            v-else-if="type !== 'onlyCount'"
             title="добавить в корзину"
             @click="addToCartHandler"
         >
@@ -68,6 +72,13 @@ import { mapGetters, mapActions } from "vuex";
             data: {
                 required: true,
                 type: Object,
+            },
+
+            type: {
+                type: String,
+                default: "full",
+                // onlyDel - только кнопка удалить
+                // onlyCount - только счетчик
             }
         },
 
@@ -89,7 +100,7 @@ import { mapGetters, mapActions } from "vuex";
             ...mapActions("cart", ["addToCart", "removeFromCart", "updateItemCount"]),
 
             incrementCount() {
-                if (this.count < 10) {
+                if (this.count < 9) {
                     this.count++;
 
                     if (this.isInCart) {
@@ -113,17 +124,22 @@ import { mapGetters, mapActions } from "vuex";
             },
 
             addToCartHandler() {
-                if (this.count > 0) {
-                    const item = {
-                        name: this.data.name,
-                        code: this.data.productInf.code,
-                        price: this.data.productInf.price,
-                        count: this.count,
-                        image_thumb: this.data.productInf.image_thumb,
-                    };
+                if(this.count === 0) this.count = 1;
 
-                    this.addToCart(item);
-                }
+                const item = {
+                    name: this.data.name,
+                    code: this.data.productInf.code,
+                    price: this.data.productInf.price,
+                    count: this.count,
+
+                    propertys: {
+                        voltage: this.data.productInf.voltage ?? null,
+                        power: this.data.productInf.power ?? null,
+                        nominal_output_current: this.data.productInf.nominal_output_current ?? null,
+                    }
+                };
+
+                this.addToCart(item);
             },
 
             removeFromCartHandler() {

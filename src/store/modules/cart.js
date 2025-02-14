@@ -8,7 +8,10 @@ const cart = {
     getters: {
         cartItems: (state) => state.items,
         totalItems: (state) => state.items.reduce((total, item) => total + item.count, 0),
-        totalPrice: (state) => state.items.reduce((total, item) => total + item.price * item.count, 0)
+        totalPrice: (state) => state.items.reduce((total, item) => total + item.price * item.count, 0),
+        isProductInCart: (state) => (productCode) => {
+            return state.items.some(item => item.code === productCode);
+        },
     },
   
     mutations: {
@@ -27,10 +30,14 @@ const cart = {
 
         UPDATE_ITEM_COUNT(state, { productCode, count }) {
             const item = state.items.find(cartItem => cartItem.code === productCode);
-            console.log(productCode)
+
             if (item) {
                 item.count = count;
             }
+        },
+
+        CLEAR_CART(state) {
+            state.items = [];
         }
     },
 
@@ -46,6 +53,10 @@ const cart = {
         updateItemCount({ commit }, { productCode, count }) {
             commit("UPDATE_ITEM_COUNT", { productCode, count });
         },
+
+        clearCart({ commit }) {
+            commit("CLEAR_CART");
+        }
     }
 }
 

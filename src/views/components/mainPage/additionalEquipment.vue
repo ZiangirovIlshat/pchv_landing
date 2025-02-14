@@ -19,7 +19,7 @@
                 </div>
             </div>
         </div>
-        <div class="additional-equipment__pop-up-box" v-if="popUpIsOpen">
+        <div class="additional-equipment__pop-up-box" v-if="popUpIsOpen" @click="clickInBox($event)">
             <popUp @close="closePopUp()"/>
         </div>
     </section>
@@ -54,6 +54,10 @@ import popUp from "../mainPage/popUp.vue";
 
                 document.querySelector("html").classList.remove("_no-scroll");
                 document.querySelector("body").classList.remove("_no-scroll");
+            },
+
+            clickInBox(event) {
+                if(event.target.classList.contains("additional-equipment__pop-up-box")) this.closePopUp()
             }
         }
     }

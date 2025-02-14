@@ -15,30 +15,42 @@
                                 <selectorBar
                                     :filtersOptions="filtersOptions"
                                     :mobileVersion="width <= 920"
+                                    :selectedSeries="this.$route.query.series"
                                     @selectValue="handleFiltersValues"
                                 />
                             </div>
 
                             <div class="selector__body">
-                                <p class="selector__heading">Выбор модификации</p>
+                                <h1 class="selector__heading">Выбор модификации</h1>
 
                                 <p
                                     class="selector__non-products"
                                     v-if="Object.keys(filteredModifications).length === 0"
                                 >Не найдено подходящих модификаций</p>
 
-                                <productList v-else :products="filteredModifications" />
-
-                                <p class="selector__heading">Дополнительное оборудование</p>
-
-                                <p v-if="modificationAccessoriesData.loading">Загрузка цен...</p>
-
-                                <p v-else-if="modificationAccessoriesData.error">{{ modificationAccessoriesData.error }}</p>
-
-                                <accessories
-                                    :products="modificationAccessoriesData.data"
+                                <productList
                                     v-else
+                                    :mobileVersion="width <= 768"
+                                    :products="filteredModifications" 
                                 />
+
+                                <h2 class="selector__heading">Дополнительное оборудование</h2>
+
+                                <p 
+                                    class="selector__non-products"
+                                    v-if="modificationAccessoriesData.data.length === 0"
+                                >Не найдено подходящих аксуссуаров</p>
+
+                                <template v-else>
+                                    <p v-if="modificationAccessoriesData.loading">Загрузка цен...</p>
+
+                                    <p v-else-if="modificationAccessoriesData.error">{{ modificationAccessoriesData.error }}</p>
+
+                                    <accessories
+                                        v-else
+                                        :products="modificationAccessoriesData.data"
+                                    />
+                                </template>
                             </div>
                         </div>
                     </template>
@@ -52,13 +64,21 @@
 
 <script>
 import pageHeading from "../components/pageHeading.vue";
+
 import selectorBar from "../components/selectorPage/selectorBar.vue";
 import productList from "../components/selectorPage/productList.vue";
 import accessories from "../components/selectorPage/accessoriesSection.vue";
+
 import pageFooter from "../components/pageFooter.vue";
 
     export default {
         name: "selectorPage",
+
+        props: {
+            series: {
+                type: String,
+            }
+        },
 
         components: {
             pageHeading,
@@ -1330,7 +1350,7 @@ import pageFooter from "../components/pageFooter.vue";
 
                 filteredModifications: {},
 
-                width: 0,
+                width: window.innerWidth,
 
                 priceGeter: "https://owen.ru/upl_files/modules/price_getter/get.php",
                 priceData: { loading: false, error: "" },
@@ -1474,24 +1494,13 @@ import pageFooter from "../components/pageFooter.vue";
 
                     let matchesAllFilters = true;
 
-                    for(let property in this.filtersValues) {
-                        const options = this.filtersValues[property];
+                    for (let key in this.filtersValues) {
+                        const keyValue = this.filtersValues[key];
 
-                        if(property === "series") {
-                            if(options["ПЧВ1"] && modification.indexOf("ПЧВ1") === -1) matchesAllFilters = false;
-                            if(options["ПЧВ3"] && modification.indexOf("ПЧВ3") === -1) matchesAllFilters = false;
-
-                            if(options["ПЧВ1"] && options["ПЧВ3"])  matchesAllFilters = true;
+                        if(key === "series") {
+                            if(keyValue && modification.indexOf(keyValue) === -1) matchesAllFilters = false;
                         } else {
-
-                            const selectedOptions = Object.keys(options).filter(option => options[option]);
-
-                            if (selectedOptions.length > 0) {
-                                const isMatch = selectedOptions.some(option => modificationData[property] === option);
-                                if (!isMatch) {
-                                    matchesAllFilters = false;
-                                }
-                            }
+                            if(keyValue && modificationData[key] !== keyValue) matchesAllFilters = false;
                         }
                     }
 
@@ -1604,6 +1613,10 @@ import pageFooter from "../components/pageFooter.vue";
         &__heading {
             font-size: 22px;
             margin: 0 0 20px 0;
+
+            @media (max-width: 768px) {
+                font-size: 14px;
+            }
         }
 
         &__non-products {
