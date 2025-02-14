@@ -6,6 +6,7 @@
             <cartBody
                 :cartItems="cartItems"
                 :totalPrice="totalPrice"
+                @clearCart="clearCart()"
             />
             <applicationForm
                 @goToOwen="transferToOwenCart()"
@@ -51,7 +52,7 @@ import pageFooter from "../components/pageFooter.vue";
         },
 
         methods: {
-            ...mapActions("cart", ["addToCart", "removeFromCart", "updateItemCount"]),
+            ...mapActions("cart", ["addToCart", "removeFromCart", "updateItemCount", "clearCart"]),
 
             updateWidth() {
                 this.width = window.innerWidth;

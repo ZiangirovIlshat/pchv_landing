@@ -10,66 +10,71 @@
                 <RouterLink class="btn" to="/selector">Подобрать прибор</RouterLink>
             </div>
 
-            <div class="cart-body__cart-inf" v-if="cartItems.length > 0">
-                <div class="cart-inf">
-                    <p class="cart-inf__heading">Ваш заказ:</p>
-                    <p class="cart-inf__total-cart-inf"> {{ cartItems.length }} {{ getProductLabel(cartItems.length) }} на сумму {{ getLocaleString(totalPrice) }} </p>
+            <template v-if="cartItems.length > 0">
+                <div class="cart-body__cart-inf">
+                    <div class="cart-inf">
+                        <p class="cart-inf__heading">Ваш заказ:</p>
+                        <p class="cart-inf__total-cart-inf"> {{ cartItems.length }} {{ getProductLabel(cartItems.length) }} на сумму {{ getLocaleString(totalPrice) }} </p>
+                    </div>
+
+                    <div class="cart-inf__price">
+                        <span>Сумма:</span> <span class="cart-inf__total-price">{{ getLocaleString(totalPrice) }}</span>
+                    </div>
+
                 </div>
 
-                <div class="cart-inf__price">
-                    <span>Сумма:</span> <span class="cart-inf__total-price">{{ getLocaleString(totalPrice) }}</span>
-                </div>
+                <div class="cart-body__products">
+                    <div class="product"
+                        v-for="(item, index) in cartItems" 
+                        :key="item.code"
+                    >
+                        <div class="product__num">{{ index + 1 }}</div>
 
-            </div>
+                        <div class="product__body">
+                            <div class="product__propertys">
+                                <div class="product__name">{{ item.name }}</div>
 
-            <div class="cart-body__products">
-                <div class="product"
-                    v-for="(item, index) in cartItems" 
-                    :key="item.code"
-                >
-                    <div class="product__num">{{ index + 1 }}</div>
+                                <div class="product__inf">
+                                    <template v-if="item.propertys.voltage && item.propertys.power && item.propertys.nominal_output_current">
+                                        <p><span>Напряжение</span>                  <span>{{ item.propertys.voltage }}</span></p>
+                                        <p><span>Мощность</span>                    <span>{{ item.propertys.power }}</span></p>
+                                        <p><span>Номинальный выходной ток</span>    <span>{{ item.propertys.nominal_output_current }}</span></p>
+                                    </template>
 
-                    <div class="product__body">
-                        <div class="product__propertys">
-                            <div class="product__name">{{ item.name }}</div>
-
-                            <div class="product__inf">
-                                <template v-if="item.propertys.voltage && item.propertys.power && item.propertys.nominal_output_current">
-                                    <p><span>Напряжение</span>                  <span>{{ item.propertys.voltage }}</span></p>
-                                    <p><span>Мощность</span>                    <span>{{ item.propertys.power }}</span></p>
-                                    <p><span>Номинальный выходной ток</span>    <span>{{ item.propertys.nominal_output_current }}</span></p>
-                                </template>
-
-                                <p v-else>Дополнительное оборудование</p>
-                            </div>
-                        </div>
-
-                        <div class="product__cart-selectors">
-                            <div class="product__count" v-if="width > 768">
-                                <cartButton :type="'onlyCount'" :data="{'name' : item.name, 'productInf': item}" />
+                                    <p v-else>Дополнительное оборудование</p>
+                                </div>
                             </div>
 
-                            <div class="product__price">
-                                <p>{{ getLocaleString(item.price * item.count) }}</p>
-                                <span>за {{ item.count }} {{ getProductLabel(item.count) }}</span>
-                            </div>
+                            <div class="product__cart-selectors">
+                                <div class="product__count" v-if="width > 768">
+                                    <cartButton :type="'onlyCount'" :data="{'name' : item.name, 'productInf': item}" />
+                                </div>
 
-                            <div class="product__delete-btn" v-if="width > 768">
-                                <cartButton :type="'onlyDel'" :data="{'name' : item.name, 'productInf': item}" />
-                            </div>
+                                <div class="product__price">
+                                    <p>{{ getLocaleString(item.price * item.count) }}</p>
+                                    <span>за {{ item.count }} {{ getProductLabel(item.count) }}</span>
+                                </div>
 
-                            <div class="product__mobile-selectors" v-if="width <= 768">
-                                <div class="product__delete-btn">
+                                <div class="product__delete-btn" v-if="width > 768">
                                     <cartButton :type="'onlyDel'" :data="{'name' : item.name, 'productInf': item}" />
                                 </div>
-                                <div class="product__count">
-                                    <cartButton :type="'onlyCount'" :data="{'name' : item.name, 'productInf': item}" />
+
+                                <div class="product__mobile-selectors" v-if="width <= 768">
+                                    <div class="product__delete-btn">
+                                        <cartButton :type="'onlyDel'" :data="{'name' : item.name, 'productInf': item}" />
+                                    </div>
+                                    <div class="product__count">
+                                        <cartButton :type="'onlyCount'" :data="{'name' : item.name, 'productInf': item}" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
+                <p class="cart-body__clear-card" @click="$emit('clearCart')">Очистить корзину</p>
+                <br>
+            </template>
         </div>
     </div>
 </template>
@@ -188,6 +193,11 @@ import cartButton from "../selectorPage/cartButton.vue";
         }
 
         &__products {}
+
+        &__clear-card {
+            cursor: pointer;
+            text-decoration: underline;
+        }
     }
 
     .cart-inf {

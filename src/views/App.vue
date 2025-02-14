@@ -73,7 +73,8 @@ a {
   }
 }
 
-input[type="checkbox"], input[type="radio"]  {
+input[type="checkbox"], input[type="radio"] {
+  -webkit-appearance: none;
   appearance: none;
   position: relative;
 
@@ -81,11 +82,11 @@ input[type="checkbox"], input[type="radio"]  {
   max-width: 14px;
   min-height: 14px;
   max-height: 14px;
-
+  
   margin: 0 7px 3px 0;
   background: #fff;
   border: 1px solid $light-colored-text;
-  transition: 500ms;
+  border-radius: 0;
   cursor: pointer;
 
   @media (max-width: 768px) {
@@ -100,7 +101,8 @@ input[type="checkbox"], input[type="radio"]  {
     font-size: 14px;
     line-height: 14px;
     position: absolute;
-    top: 0;
+    top: 1px;
+    left: 1px;
     display: none;
     color: $primary-color;
 
@@ -110,9 +112,12 @@ input[type="checkbox"], input[type="radio"]  {
     }
   }
 
-  &:checked::after {
-    display: block;
-    transition: 500ms;
+  &:checked {
+    background: #fff;
+
+    &::after {
+      display: block;
+    }
   }
 }
 
@@ -313,6 +318,8 @@ input[type="checkbox"], input[type="radio"]  {
         right: 15px;
         border: 10px solid transparent;
         border-top: 14px solid $primary-color;
+
+        pointer-events: none;
 
         @media (max-width: 768px) {
           top: 16%;

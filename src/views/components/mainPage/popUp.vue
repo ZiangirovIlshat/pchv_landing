@@ -191,8 +191,10 @@
     }
 
     &__close-btn {
-        width: 35px;
-        height: 35px;
+        min-width: 35px;
+        max-width: 35px;
+        min-height: 35px;
+        max-height: 35px;
         margin-left: auto;
         margin-top: 20px;
         margin-right: 20px;

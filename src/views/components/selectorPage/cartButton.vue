@@ -100,6 +100,12 @@ import { mapGetters, mapActions } from "vuex";
             ...mapActions("cart", ["addToCart", "removeFromCart", "updateItemCount"]),
 
             incrementCount() {
+                if (this.count === 0) {
+                    this.count = 1;
+                    this.addToCartHandler();
+                    return;
+                }
+
                 if (this.count < 9) {
                     this.count++;
 

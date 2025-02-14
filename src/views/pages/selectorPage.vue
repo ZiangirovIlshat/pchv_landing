@@ -39,7 +39,7 @@
                                 <p 
                                     class="selector__non-products"
                                     v-if="modificationAccessoriesData.data.length === 0"
-                                >Не найдено подходящих аксуссуаров</p>
+                                >Не найдено подходящих аксессуаров</p>
 
                                 <template v-else>
                                     <p v-if="modificationAccessoriesData.loading">Загрузка цен...</p>
