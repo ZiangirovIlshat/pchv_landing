@@ -74,7 +74,7 @@ import { mapGetters } from "vuex";
         },
 
         computed: {
-            ...mapGetters("cart", ["cartItems", "totalItems", "totalPrice", "isProductInCart"]),
+            ...mapGetters("cart", ["cartItems", "totalItems", "isProductInCart"]),
         },
 
         methods: {
@@ -120,25 +120,22 @@ import { mapGetters } from "vuex";
         flex-wrap: wrap;
         gap: 20px;
 
-
         &__item {
-            width: 205px;
-            height: 260px;
+            width: calc(100% / 5 -  16px);
             font-size: 16px;
 
             position: relative;
 
-            @media (max-width: 920px) {
-                width: 160px;
+            @media (max-width: 1400px) {
+                width: calc(100% / 4 -  15px);
             }
 
-            @media (max-width: 768px) {
-                width: 150px;
+            @media (max-width: 1100px) {
+                width: calc(100% / 3 - 14px);
             }
 
             @media (max-width: 520px) {
-                flex: 0 0 46%;
-                width: 100%;
+                width: calc(100% / 2 - 11px);
             }
         }
 
@@ -158,8 +155,8 @@ import { mapGetters } from "vuex";
             padding: 25px;
 
             img {
-                width: 100%;
-                height: auto;
+                width: auto;
+                height: 100%;
                 object-fit: cover;
             }
         }

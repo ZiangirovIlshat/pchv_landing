@@ -37,6 +37,7 @@
                                 :class="{ '_error' : errors.phone }"
                                 type="text"
                                 name="phone"
+                                v-maska="'###'"
                                 :placeholder="errors.phone ? errors.phone : '+7'"
                                 v-model="formData.phone"
                             >
@@ -48,6 +49,7 @@
                             <textarea
                                 :class="{ '_error' : errors.descr }"
                                 name="descr"
+                                maxlength="200"
                                 :placeholder="errors.descr ? errors.descr : 'Опишите для какой сферы и задач требуется преобразователь частоты'"
                                 v-model="formData.descr"
                             ></textarea>
@@ -86,7 +88,6 @@
 </template>
 
 <script>
-
     export default {
         name: "popUp",
 
@@ -107,8 +108,10 @@
             },
 
             validation() {
-                this.errors.name = ""; this.errors.email = ""; 
-                this.errors.phone = ""; this.errors.descr = "";
+                this.errors.name      = "";
+                this.errors.email     = ""; 
+                this.errors.phone     = "";
+                this.errors.descr     = "";
                 this.errors.agreement = false;
 
                 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -282,6 +285,7 @@
                 min-height: 0px;
                 height: 0px;
                 width: 100%;
+                bottom: 0;
             }
 
             img {

@@ -91,9 +91,14 @@
 
 <style lang="scss" scoped>
     .image-magnifier {
+        padding: 30px;
         position: relative;
         display: inline-block;
         cursor: none;
+
+        @media (max-width: 768px) {
+            padding: 0;
+        }
 
         img {
             width: 100%;

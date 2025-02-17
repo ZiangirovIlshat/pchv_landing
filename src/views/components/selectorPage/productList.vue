@@ -157,6 +157,10 @@ export default {
             padding: 15px 0;
 
             position: relative;
+
+            @media (max-width: 768px) {
+                gap: 15px;
+            }
         }
 
         &__img {

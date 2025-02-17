@@ -85,7 +85,10 @@
                         </div>
                     </div>
 
-                    <div class="form__row" v-if="formData.basicInformation.shippingMethod !== 'Почта России'">
+                    <div class="form__row" 
+                        v-if="formData.basicInformation.shippingMethod !== 'Почта России' &&
+                        formData.basicInformation.shippingMethod !== 'Самовывоз со склада ОВЕН г. Москва' "
+                    >
                         <div class="form-item">
                             <template v-if="formData.basicInformation.shippingMethod === 'До двери'">
                                 <div class="form-item__form-elem-box checkbox">

@@ -57,6 +57,8 @@
                                 :id="key + '_' + index"
                                 v-model="selectedValues[key]"
                                 :value="option"
+
+                                @click="disableValue(key, option)"
                             >
                             <label :for="key + '_' + index">
                                 {{ option }}

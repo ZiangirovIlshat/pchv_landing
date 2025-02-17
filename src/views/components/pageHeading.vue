@@ -80,11 +80,11 @@
                 </div>
                 <div class="mobile-menu__footer">
                     <div class="mobile-menu__contacts">
-                        <p>Тел.: <a href="tel:+74957273016" >+7 (495) 727-30-16</a></p>
+                        <p>Тел.: <a href="tel:+74957273016">+7 (495) 727-30-16</a></p>
 
                         <p>E-mail: <a href="mailto:sales@owen.ru">sales@owen.ru</a></p>
 
-                        <p><a href="/">Политика конфиденциальности</a></p>
+                        <p><a @click="closeMenu()" href="/">Политика конфиденциальности</a></p>
                     </div>
 
                     <p class="mobile-menu__social-links">
