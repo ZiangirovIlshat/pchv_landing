@@ -1509,6 +1509,8 @@ import pageFooter from "../components/pageFooter.vue";
                     }
                 }
 
+                this.sortFilteredModifications();
+
                 await this.getAccessories();
             },
 
@@ -1555,6 +1557,18 @@ import pageFooter from "../components/pageFooter.vue";
                 }
             },
 
+            sortFilteredModifications() {
+                const entries = Object.entries(this.filteredModifications);
+
+                entries.sort((a, b) => {
+                    const powerA = parseFloat(a[1].power.replace(',', '.').replace(' кВт', ''));
+                    const powerB = parseFloat(b[1].power.replace(',', '.').replace(' кВт', ''));
+                    return powerA - powerB;
+                });
+
+                this.filteredModifications = Object.fromEntries(entries);
+            },
+
             handleFiltersValues(data) {
                 this.filtersValues = JSON.parse(JSON.stringify(data));
             },
@@ -1576,6 +1590,7 @@ import pageFooter from "../components/pageFooter.vue";
             await this.getAllData();
 
             this.filteredModifications = Object.assign({}, this.modifications);
+            this.sortFilteredModifications();
 
             this.getFiltersOptions();
             await this.getAccessories();

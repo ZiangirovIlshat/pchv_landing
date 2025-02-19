@@ -168,15 +168,24 @@ import cartLink from "../components/cartLink.vue";
             openMenu() {
                 this.menuIsOpen = true;
 
-                document.querySelector("html").classList.add("_no-scroll");
-                document.querySelector("body").classList.add("_no-scroll");
+                const scrollY = window.scrollY;
+
+                document.body.style.position = 'fixed';
+                document.body.style.top = `-${scrollY}px`;
+
+                document.body.style.overflowY = 'scroll';
             },
 
             closeMenu() {
                 this.menuIsOpen = false;
 
-                document.querySelector("html").classList.remove("_no-scroll");
-                document.querySelector("body").classList.remove("_no-scroll");
+                const scrollY = document.body.style.top;
+
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.overflowY = 'auto';
+
+                window.scrollTo(0, parseInt(scrollY || '0') * -1);
             },
 
             scrollTo(elem) {
@@ -251,6 +260,7 @@ import cartLink from "../components/cartLink.vue";
             background-color: #fff;
             color: $colored-text;
             position: fixed;
+            top: 0;
             -webkit-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
             -moz-box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);
             box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.15);

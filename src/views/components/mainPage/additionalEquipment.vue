@@ -45,15 +45,23 @@ import popUp from "../mainPage/popUp.vue";
             openPopUp() {
                 this.popUpIsOpen = true;
 
-                document.querySelector("html").classList.add("_no-scroll");
-                document.querySelector("body").classList.add("_no-scroll");
+                const scrollY = window.scrollY;
+
+                document.body.style.position = 'fixed';
+                document.body.style.top = `-${scrollY}px`;
+                document.body.style.overflowY = 'scroll';
             },
 
             closePopUp() {
                 this.popUpIsOpen = false;
 
-                document.querySelector("html").classList.remove("_no-scroll");
-                document.querySelector("body").classList.remove("_no-scroll");
+                const scrollY = document.body.style.top;
+
+                document.body.style.position = '';
+                document.body.style.top = '';
+                document.body.style.overflowY = 'auto';
+
+                window.scrollTo(0, parseInt(scrollY || '0') * -1);
             },
 
             clickInBox(event) {

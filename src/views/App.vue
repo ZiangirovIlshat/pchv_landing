@@ -25,10 +25,8 @@ table{border-collapse:collapse;border-spacing:0}
   src: url('@/assets/fonts/SuisseIntl-Regular-BzoWxrQg.otf') format('opentype');
 }
 
-body, html {
-  &._no-scroll {
-    overflow-y: hidden;
-  }
+body {
+  width: 100%;
 }
 
 #app {
@@ -97,9 +95,9 @@ input[type="checkbox"], input[type="radio"] {
   }
 
   &::after {
-    content: "🗸";
-    font-size: 14px;
-    line-height: 14px;
+    content: "✓";
+    font-size: 12px;
+    line-height: 12px;
     position: absolute;
     top: 1px;
     left: 1px;
@@ -107,8 +105,8 @@ input[type="checkbox"], input[type="radio"] {
     color: $primary-color;
 
     @media (max-width: 768px) {
-      font-size: 12px;
-      line-height: 12px;
+      font-size: 10px;
+      line-height: 10px;
     }
   }
 
@@ -122,6 +120,7 @@ input[type="checkbox"], input[type="radio"] {
 }
 
 .btn {
+  position: relative;
   display: inline-block;
   width: 287px;
   padding: 19px 40px;
@@ -137,6 +136,39 @@ input[type="checkbox"], input[type="radio"] {
     padding: 10px 30px;
   }
 
+  &._loading {
+    cursor: not-allowed;
+    opacity: 0.6;
+    color: $primary-color;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: calc(50% - 15px);
+      left: calc(50% - 12.5px);
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      transform: translate(-50%, -50%);
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: $primary-color;
+        color: $primary-color;
+        opacity: 0.6;
+      }
+    }
+  }
+
   @media(max-width: 768px) {
     font-size: 14px;
     width: 170px;
@@ -150,7 +182,7 @@ input[type="checkbox"], input[type="radio"] {
   @media (hover: hover) and (pointer: fine) {
     &:hover {
       background-color: $hover-btn-color;
-      opacity: background-color .2s;
+      transition: background-color .2s;
       color: #fff;
     }
   }
@@ -222,18 +254,18 @@ input[type="checkbox"], input[type="radio"] {
       }
 
       &::after {
-        font-size: 22px;
-        line-height: 22px;
+        font-size: 18px;
+        line-height: 18px;
         top: 2px;
-        left: 2px;
+        left: 4px;
         font-weight: 600;
         color: $colored-text;
 
         @media (max-width: 768px) {
           top: 0;
-          left: 0;
-          line-height: 14px;
-          font-size: 14px;
+          left: 1px;
+          line-height: 12px;
+          font-size: 12px;
         }
       }
     }

@@ -109,21 +109,54 @@
             }
         },
 
+        computed: {
+            currentFilter() {
+                return this.$route.query.filter || "";
+            },
+
+            filterValue: {
+                get() {
+                    return this.currentFilter;
+                },
+
+                set(value) {
+                    this.updateFilter(value);
+                }
+            }
+        },
+
         methods: {
+            updateFilter(value) {
+                const query = { ...this.$route.query, ...this.selectedValues };
+
+                if (value) {
+                    query.filter = value;
+                } else {
+                    delete query.filter;
+                }
+
+                for (const key in query) {
+                    if (query[key] === null || query[key] === '') {
+                        delete query[key];
+                    }
+                }
+
+                this.$router.push({ query });
+            },
+
             initializeSelectValues() {
                 if (this.initialized) return;
 
                 for (let key in this.filtersOptions) {
-
                     this.limits[key] = 10;
-                    this.selectedValues[key] = null;
+                    this.selectedValues[key] = this.$route.query[key] || null;
                 }
 
                 this.initialized = true;
             },
 
             showOptions(key) {
-                if(!this.openSelect) {
+                if (!this.openSelect) {
                     this.openSelect = key;
                     return;
                 }
@@ -132,14 +165,16 @@
             },
 
             disableValue(key, option) {
-                if(this.selectedValues[key] === option) this.selectedValues[key] = null
+                if (this.selectedValues[key] === option) {
+                    this.selectedValues[key] = null;
+                    this.updateFilter(this.filterValue);
+                }
             }
         },
 
         watch: {
             filtersOptions: {
                 immediate: true,
-
                 handler(newVal) {
                     if (newVal) {
                         this.initializeSelectValues();
@@ -152,7 +187,8 @@
             selectedValues: {
                 handler(newVal) {
                     if (newVal) {
-                        this.$emit("selectValue", this.selectedValues)
+                        this.updateFilter(this.filterValue);
+                        this.$emit("selectValue", this.selectedValues);
                     }
                 },
 
@@ -166,7 +202,7 @@
 
                 setTimeout(() => {
                     this.$emit("selectValue", this.selectedValues);
-                }, 200)
+                }, 300)
             }
         },
     }

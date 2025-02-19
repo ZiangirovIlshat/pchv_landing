@@ -37,7 +37,6 @@
                                 :class="{ '_error' : errors.phone }"
                                 type="text"
                                 name="phone"
-                                v-maska="'###'"
                                 :placeholder="errors.phone ? errors.phone : '+7'"
                                 v-model="formData.phone"
                             >
@@ -69,7 +68,7 @@
                         <div class="agreement-error" v-if="errors.agreement">Это обязательное поле</div>
                     </div>
 
-                    <button class="btn">Оставить заявку</button>
+                    <button class="btn" :class="{'_loading' :loading}">Оставить заявку</button>
                 </form>
             </div>
             <div class="pop-up__column img-col">
@@ -94,59 +93,49 @@
         data() {
             return {
                 formData: { name: "", email: "", phone: "+7", descr: "", agreement: false },
-                errors: { name: "", email: "", phone: "", descr: "", agreement: false },
-
+                errors: {},
+                loading: false,
                 formSubmited: false,
             }
         },
 
         methods: {
             async submitForm() {
-                if(!this.validation()) return;
+                if(this.loading === true) return;
 
-                this.formSubmited = true;
-            },
+                this.loading = true;
+                this.errors = {};
 
-            validation() {
-                this.errors.name      = "";
-                this.errors.email     = ""; 
-                this.errors.phone     = "";
-                this.errors.descr     = "";
-                this.errors.agreement = false;
+                try {
+                    const response = await fetch(process.env.VUE_APP_API_URL + "__application.php", {
+                        method: "POST",
+                        body: JSON.stringify(this.formData),
+                    });
 
-                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                const phonePattern = /^(?:\+7|8)\d{10}$/;
+                    if(!response.ok) { throw new Error(); }
 
-                if(!this.formData.agreement) {
-                    this.errors.agreement = true;
+                    let data = await response.json();
+
+                    if(!data.success) {
+                        if(data.erros) {
+                            this.errors = data.erros;
+                            data.erros.phone ? this.formData.phone = "" : '';
+
+                            return;
+                        }
+
+                        throw new Error();
+                    }
+
+                    if(data.success) {
+                        this.formSubmited = true;
+                    }
+                } catch (error) {
+                    this.errors.input = "Что-то пошло не так, пожалуйста, перезагрузите страницу и повторите попытку";
+                    return;
+                } finally {
+                    this.loading = false;
                 }
-
-                if (this.formData.name.length < 2) {
-                    this.errors.name = "Некорректно введено имя";
-                    this.formData.name = "";
-                }
-
-                if (!emailPattern.test(this.formData.email)) { 
-                    this.errors.email = "Некорректно введен email";
-                    this.formData.email = "";
-                }
-
-                if (!phonePattern.test(this.formData.phone)) { 
-                    this.errors.phone = "Некорректно введен номер";
-                    this.formData.phone = "";
-                }
-
-                if (this.formData.descr.length < 3) {
-                    this.errors.descr = "Это поля обязательное";
-                    this.formData.descr = "";
-                }
-
-                for (let key in this.errors) {
-                    const el = this.errors[key];
-                    if(el) return false;
-                }
-
-                return true;
             },
         }
     }
@@ -166,7 +155,7 @@
 .pop-up {
     background-color: #fff;
     max-width: 1200px;
-    max-height: 700px;
+    max-height: 740px;
     width: 100%;
     height: 100%;
     position: relative;
@@ -260,7 +249,7 @@
         &.text-col {
             height: 100%;
             flex: 0 0 60%;
-            padding: 0 0 50px 20px;
+            padding: 0 0 20px 20px;
 
             display: flex;
             flex-direction: column;

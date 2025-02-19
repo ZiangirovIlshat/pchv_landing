@@ -1,6 +1,6 @@
 <template>
     <div class="application-form">
-        <div class="application-form__head-panel" v-if="!basketIsEmpty || formSubmited">
+        <div class="application-form__head-panel" v-if="!basketIsEmpty">
             <div class="container">
                 <p>Оформление заказа</p>
             </div>
@@ -20,17 +20,16 @@
 
         <div class="application-form__body">
             <div class="container">
-                <div class="application-form__message" v-if="formSubmited">
-                    Ваш заказ оформлен!
-                </div>
-
                 <form id="form" class="form" @submit.prevent="submitForm" v-if="!basketIsEmpty">
                     <div class="form__row">
                         <div class="form__title">Плательщик*</div>
 
                         <div class="form-item">
                             <p class="form-item__form-elem-box select">
-                                <select v-model="formData.basicInformation.payer">
+                                <select 
+                                    v-model="formData.basicInformation.payer"
+                                    name="payer"
+                                >
                                     <option value="Физическое лицо">Физическое лицо</option>
                                     <option value="Юридическое лицо / ИП">Юридическое лицо / ИП</option>
                                 </select>
@@ -51,7 +50,10 @@
 
                         <div class="form-item">
                             <p class="form-item__form-elem-box select">
-                                <select v-model="formData.basicInformation.paymentMethod">
+                                <select 
+                                    v-model="formData.basicInformation.paymentMethod"
+                                    name="paymentMethod"
+                                >
                                     <option value="Безналичный расчет">Безналичный расчет</option>
                                 </select>
                             </p>
@@ -71,6 +73,7 @@
                                 <select 
                                     v-model="formData.basicInformation.shippingMethod"
                                     @change="formData.basicInformation.deliveryCompany = ''"
+                                    name="shippingMethod"
                                 >
                                     <option value="До двери">До двери</option>
                                     <option value="Самовывоз со склада ТК в своем городе">Самовывоз со склада ТК в своем городе</option>
@@ -96,6 +99,7 @@
                                         <input 
                                             type="radio"
                                             value="Мейджор Экспресс"
+                                            name="deliveryCompany"
                                             v-model="formData.basicInformation.deliveryCompany">
                                         <p>Мейджор Экспресс. <a href="/">Тарифы</a></p>
                                     </label>
@@ -106,6 +110,7 @@
                                         <input 
                                             type="radio"
                                             value="Курьер сервис экспресс"
+                                            name="deliveryCompany"
                                             v-model="formData.basicInformation.deliveryCompany">
                                         <p>Курьер сервис экспресс. <a href="/">Тарифы</a></p>
                                     </label>
@@ -118,6 +123,7 @@
                                         <input
                                             type="radio"
                                             value="Кашалот"
+                                            name="deliveryCompany"
                                             v-model="formData.basicInformation.deliveryCompany"
                                         >
                                         <p>Кашалот</p>
@@ -129,6 +135,7 @@
                                         <input
                                             type="radio"
                                             value="Деловые линии"
+                                            name="deliveryCompany"
                                             v-model="formData.basicInformation.deliveryCompany"
                                         >
                                         <p>Деловые линии. <a href="/">Тарифы</a></p>
@@ -140,6 +147,7 @@
                                         <input
                                             type="radio"
                                             value="ПЭК"
+                                            name="deliveryCompany"
                                             v-model="formData.basicInformation.deliveryCompany"
                                         >
                                         <p>ПЭК. <a href="/">Тарифы</a></p>
@@ -175,6 +183,7 @@
                                     type="text"
                                     v-model="formData.buyerInformation.fio"
                                     placeholder="ФИО*"
+                                    name="fio"
                                 >
                             </p>
                             <p
@@ -192,6 +201,7 @@
                                     type="text"
                                     v-model="formData.buyerInformation.phone"
                                     placeholder="Телефон*"
+                                    name="phone"
                                 >
                             </p>
                             <p
@@ -208,6 +218,7 @@
                                     type="text"
                                     v-model="formData.buyerInformation.secondaryPhone"
                                     placeholder="Доп. телефон"
+                                    name="secondaryPhone"
                                 >
                             </p>
                             <p
@@ -224,6 +235,7 @@
                                     type="text"
                                     v-model="formData.buyerInformation.email"
                                     placeholder="E-mail*"
+                                    name="email"
                                 >
                             </p>
                             <p
@@ -246,6 +258,7 @@
                                     type="text"
                                     v-model="formData.buyerInformation.passportData"
                                     placeholder="Паспортные данные*"
+                                    name="passportData"
                                 >
                             </p>
                             <p
@@ -261,6 +274,7 @@
                                 <input
                                     type="text"
                                     v-model="formData.buyerInformation.address"
+                                    name="address"
                                 >
                                 <label
                                     class="form-item__custom-placeholder"
@@ -292,6 +306,7 @@
                                         type="text"
                                         v-model="formData.organizationData.name"
                                         placeholder="Название, ИНН или адрес*"
+                                        name="organizationName"
                                     >
                                 </p>
                                 <p
@@ -310,6 +325,7 @@
                                         type="text"
                                         v-model="formData.organizationData.address"
                                         placeholder="Юридический адрес с индексом*"
+                                        name="organizationAddress"
                                     >
                                 </p>
                                 <p
@@ -328,6 +344,7 @@
                                         type="text"
                                         v-model="formData.organizationData.data"
                                         placeholder="ОГРН/ИНН/КПП и прочее"
+                                        name="organizationData"
                                     >
                                 </p>
                                 <p
@@ -348,6 +365,7 @@
                                         type="text"
                                         v-model="formData.bankDetails.name"
                                         placeholder="Название банка или БИК*"
+                                        name="bankName"
                                     >
                                 </p>
                                 <p
@@ -365,6 +383,7 @@
                                     <input
                                         type="text"
                                         v-model="formData.bankDetails.requisites"
+                                        name="requisites"
                                     >
                                     <label
                                         class="form-item__custom-placeholder"
@@ -387,6 +406,7 @@
                                         type="text"
                                         v-model="formData.bankDetails.paymentAccount"
                                         placeholder="Номер расчетного счета"
+                                        name="paymentAccount"
                                     >
                                 </p>
                                 <p
@@ -407,6 +427,7 @@
                                     v-model="formData.comment"
                                     placeholder="Комментарий к заявке"
                                     max="200"
+                                    name="comment"
                                 >
                             </p>
                         </div>
@@ -428,8 +449,16 @@
                             >{{ errors.agreement }}</p>
                         </div>
                     </div>
+
+                    <div class="form__row">
+                        <p class="form-item__error" v-if="errors.input">{{ errors.input }}</p>
+                    </div>
+
                     <br>
-                    <button class="btn" type="submit">оформить заявку</button>
+                    <button
+                        class="btn"
+                        :class="{'_loading' : loading}"
+                        type="submit">оформить заявку</button>
                 </form>
 
                 <div class="location-inf" v-if="formData.basicInformation.shippingMethod === 'Самовывоз со склада ОВЕН г. Москва'">
@@ -458,7 +487,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
     export default {
         name: "applicationForm",
@@ -472,6 +501,10 @@ import { mapActions } from "vuex";
             basketIsEmpty: {
                 type: Boolean,
             }
+        },
+
+        computed: {
+            ...mapGetters("cart", ["cartItems", "totalPrice"]),
         },
 
         data() {
@@ -508,10 +541,11 @@ import { mapActions } from "vuex";
                     comment: "",
                     agreement: false,
                 },
+
+                loading: false,
                 
                 errors: {},
 
-                formSubmited: false,
             }
         },
 
@@ -519,106 +553,44 @@ import { mapActions } from "vuex";
             ...mapActions("cart", ["clearCart"]),
 
             async submitForm() {
-                this.formSubmited = false;
+                if(this.loading === true) return;
 
-                if(!this.validation()) return;
+                this.loading      = true;
+                this.errors       = {};
 
-                this.formSubmited = true;
-                this.clearCart();
-            },
+                this.formData["totalPrice"] = this.totalPrice;
+                this.formData["cartItems"]  = this.cartItems;
 
-            validation() {
-                this.errors = {};
+                try {
+                    const response = await fetch(process.env.VUE_APP_API_URL + "__cart.php", {
+                        method: "POST",
+                        body: JSON.stringify(this.formData),
+                    });
 
-                for (let key in this.formData.basicInformation) {
-                    const elem = this.formData.basicInformation[key];
+                    if(!response.ok) { throw new Error(); }
 
-                    if(key === "deliveryCompany") {
-                        if(this.formData.basicInformation.shippingMethod !== "Почта России" && !elem) {
-                            this.errors["basicInformation"+ "_" + key] = "Укажите службу доставки";
+                    let data = await response.json();
+
+                    if(!data.success) {
+                        if(data.erros) {
+                            this.errors = data.erros;
+                            return;
                         }
 
-                        continue;
+                        throw new Error();
                     }
 
-                    if(!this.checkTextMinLenght(elem)) {
-                        this.errors["basicInformation"+ "_" + key] = "Это обязательное поле";
+                    if(data.success) {
+                        this.$emit("formSubmited", data.orderNumber)
+                        this.clearCart();
                     }
+
+                } catch (error) {
+                    this.errors.input = "Что-то пошло не так, пожалуйста, перезагрузите страницу и повторите попытку";
+                    return;
+                } finally {
+                    this.loading = false;
                 }
-
-                for (let key in this.formData.buyerInformation) {
-                    const elem = this.formData.buyerInformation[key];
-
-                    if(key === "phone") {
-                        if(!this.checkPhone(elem)) this.errors["buyerInformation"+ "_" + key] = "Некорректно указан номер";
-                        continue;
-                    }
-
-                    if(key === "secondaryPhone") {
-                        if(elem.length !== 0) {
-                            if(!this.checkPhone(elem)) this.errors["buyerInformation"+ "_" + key] = "Некорректно указан номер";
-                        }
-
-                        continue;
-                    }
-
-                    if(key === "email") {
-                        if(!this.checkEmail(elem)) this.errors["buyerInformation"+ "_" + key] = "Некорректно указана почта";
-                        continue;
-                    }
-
-                    if(key === "passportData") {
-                        if(this.formData.basicInformation.shippingMethod === "Самовывоз со склада ТК в своем городе") {
-                            if(!this.checkTextMinLenght(elem)) this.errors["buyerInformation"+ "_" + key] = "Это обязательное поле";
-                        }
-
-                        continue;
-                    }
-
-                    if(!this.checkTextMinLenght(elem)) this.errors["buyerInformation"+ "_" + key] = "Это обязательное поле";
-                }
-
-                if(this.formData.basicInformation.payer === "Юридическое лицо / ИП") {
-                    for (let key in this.formData.organizationData) {
-                        const elem = this.formData.organizationData[key];
-
-                        if(!this.checkTextMinLenght(elem)) this.errors["organizationData"+ "_" + key] = "Это обязательное поле";
-                    }
-                }
-
-                if(this.formData.basicInformation.payer === "Юридическое лицо / ИП") {
-                    for (let key in this.formData.bankDetails) {
-                        const elem = this.formData.bankDetails[key];
-
-                        if(!this.checkTextMinLenght(elem)) this.errors["bankDetails"+ "_" + key] = "Это обязательное поле";
-                    }
-                }
-
-                if(!this.formData.agreement)  this.errors["agreement"] = "Это обязательное поле";
-
-                console.log(this.errors);
-
-                if(Object.keys(this.errors).length !== 0) return false;
-                return true;
-            },
-
-            checkTextMinLenght(str) {
-                if(str.length < 1) return false;
-                return true;
-            },
-
-            checkEmail(str) {
-                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-                if(!emailPattern.test(str)) return false;
-                return true;
-            },
-
-            checkPhone(str) {
-                const phonePattern = /^(?:\+7|8)\d{10}$/;
-
-                if(!phonePattern.test(str)) return false;
-                return true;
             },
         }
     }

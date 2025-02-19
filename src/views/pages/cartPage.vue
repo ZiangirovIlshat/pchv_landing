@@ -3,16 +3,30 @@
         <pageHeading :menuFixed="true" />
 
         <main class="content">
-            <cartBody
+            <cartBody v-if="!orderNum"
+                @clearCart="clearCart()"
+
                 :cartItems="cartItems"
                 :totalPrice="totalPrice"
-                @clearCart="clearCart()"
             />
+
             <applicationForm
-                @goToOwen="transferToOwenCart()"
+                @goToOwen="transferToOwenCart"
+                @formSubmited="showOrderResult"
+
                 :transferErr="transferErr"
                 :basketIsEmpty="cartItems.length === 0"
             />
+            
+            <div class="order-result" v-if="orderNum">
+                <div class="container">
+                    <p>Ваша заявка принята!</p>
+                    <p>Заказ № <span>{{orderNum }}</span></p>
+                    <p>
+                        <RouterLink to="/" class="btn">На главную</RouterLink>
+                    </p>
+                </div>
+            </div>
         </main>
 
         <pageFooter/>
@@ -29,6 +43,8 @@ import applicationForm from "../components/cartPage/applicationForm.vue";
 
 import pageFooter from "../components/pageFooter.vue";
 
+import { RouterLink } from 'vue-router';
+
     export default {
         name: "cartPage",
 
@@ -39,20 +55,24 @@ import pageFooter from "../components/pageFooter.vue";
             applicationForm,
 
             pageFooter,
+
+            RouterLink,
         },
 
         data() {
             return {
                 transferErr: "",
+
+                orderNum: null,
             }
         },
 
         computed: {
-            ...mapGetters("cart", ["cartItems", "totalPrice", "totalItems"]),
+            ...mapGetters("cart", ["cartItems", "totalPrice"]),
         },
 
         methods: {
-            ...mapActions("cart", ["addToCart", "removeFromCart", "updateItemCount", "clearCart"]),
+            ...mapActions("cart", ["clearCart"]),
 
             updateWidth() {
                 this.width = window.innerWidth;
@@ -90,10 +110,32 @@ import pageFooter from "../components/pageFooter.vue";
 
                 window.location.href = "https://owen.ru/cart";
             },
+
+            showOrderResult(orderNumber) {
+                this.orderNum = orderNumber;
+            }
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    
+    .order-result {
+        padding: 120px 0 0 0;
+        color: $colored-text;
+
+        @media (max-width: 768px) {
+            padding: 60px 0 0 0;    
+        }
+
+        p {
+            font-size: 32px;
+            text-align: center;
+            margin: 0 0 20px 0;
+
+            span {
+                color: $secondary-color;
+                font-weight: 600;
+            }
+        }
+    }
 </style>
