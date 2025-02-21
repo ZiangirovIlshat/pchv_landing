@@ -68,6 +68,11 @@
                         <div class="agreement-error" v-if="errors.agreement">Это обязательное поле</div>
                     </div>
 
+                    <template v-if="errors.input">
+                        <p class="form-item__error">{{ errors.input }}</p>
+                        <br>
+                    </template>
+
                     <button class="btn" :class="{'_loading' :loading}">Оставить заявку</button>
                 </form>
             </div>
@@ -107,12 +112,12 @@
                 this.errors = {};
 
                 try {
-                    const response = await fetch(process.env.VUE_APP_API_URL + "__application.php", {
+                    const response = await fetch(process.env.VUE_APP_API_URL + "application.php", {
                         method: "POST",
                         body: JSON.stringify(this.formData),
                     });
 
-                    if(!response.ok) { throw new Error(); }
+                    if(!response.ok) { console.log("da"); throw new Error(); }
 
                     let data = await response.json();
 

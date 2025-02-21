@@ -562,7 +562,7 @@ import { mapGetters, mapActions } from "vuex";
                 this.formData["cartItems"]  = this.cartItems;
 
                 try {
-                    const response = await fetch(process.env.VUE_APP_API_URL + "__cart.php", {
+                    const response = await fetch(process.env.VUE_APP_API_URL + "cart.php", {
                         method: "POST",
                         body: JSON.stringify(this.formData),
                     });
