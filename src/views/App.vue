@@ -2,7 +2,6 @@
   <RouterView />
 </template>
 
-
 <style lang="scss">
 * {box-sizing: border-box;}
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{margin:0;padding:0;border:0;font-size:100%;font:inherit;vertical-align:baseline}
@@ -193,6 +192,17 @@ input[type="checkbox"], input[type="radio"] {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: #000;
+}
+
+.page-heading {
+  font-size: clamp(0.875rem, 0.732rem + 0.71vw, 1.375rem);
+  padding: 110px 0 20px 0;
+  border-bottom: 2px solid $light-colored-text;
+  color: $colored-text;
+
+  @media (max-width: 920px) {
+      padding: 60px 0 10px 0;
+  }
 }
 
 .h2-heading {

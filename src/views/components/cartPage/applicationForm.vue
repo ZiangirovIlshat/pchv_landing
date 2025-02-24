@@ -184,6 +184,8 @@
                                     v-model="formData.buyerInformation.fio"
                                     placeholder="ФИО*"
                                     name="fio"
+
+                                    maxlength="50"
                                 >
                             </p>
                             <p
@@ -202,6 +204,8 @@
                                     v-model="formData.buyerInformation.phone"
                                     placeholder="Телефон*"
                                     name="phone"
+
+                                    maxlength="20"
                                 >
                             </p>
                             <p
@@ -219,6 +223,8 @@
                                     v-model="formData.buyerInformation.secondaryPhone"
                                     placeholder="Доп. телефон"
                                     name="secondaryPhone"
+
+                                    maxlength="20"
                                 >
                             </p>
                             <p
@@ -236,6 +242,8 @@
                                     v-model="formData.buyerInformation.email"
                                     placeholder="E-mail*"
                                     name="email"
+
+                                    maxlength="50"
                                 >
                             </p>
                             <p
@@ -259,6 +267,8 @@
                                     v-model="formData.buyerInformation.passportData"
                                     placeholder="Паспортные данные*"
                                     name="passportData"
+
+                                    maxlength="50"
                                 >
                             </p>
                             <p
@@ -275,6 +285,8 @@
                                     type="text"
                                     v-model="formData.buyerInformation.address"
                                     name="address"
+
+                                    maxlength="50"
                                 >
                                 <label
                                     class="form-item__custom-placeholder"
@@ -307,6 +319,8 @@
                                         v-model="formData.organizationData.name"
                                         placeholder="Название, ИНН или адрес*"
                                         name="organizationName"
+
+                                        maxlength="50"
                                     >
                                 </p>
                                 <p
@@ -326,6 +340,8 @@
                                         v-model="formData.organizationData.address"
                                         placeholder="Юридический адрес с индексом*"
                                         name="organizationAddress"
+
+                                        maxlength="50"
                                     >
                                 </p>
                                 <p
@@ -345,6 +361,8 @@
                                         v-model="formData.organizationData.data"
                                         placeholder="ОГРН/ИНН/КПП и прочее"
                                         name="organizationData"
+
+                                        maxlength="50"
                                     >
                                 </p>
                                 <p
@@ -366,6 +384,8 @@
                                         v-model="formData.bankDetails.name"
                                         placeholder="Название банка или БИК*"
                                         name="bankName"
+
+                                        maxlength="50"
                                     >
                                 </p>
                                 <p
@@ -384,6 +404,8 @@
                                         type="text"
                                         v-model="formData.bankDetails.requisites"
                                         name="requisites"
+
+                                        maxlength="50"
                                     >
                                     <label
                                         class="form-item__custom-placeholder"
@@ -407,6 +429,8 @@
                                         v-model="formData.bankDetails.paymentAccount"
                                         placeholder="Номер расчетного счета"
                                         name="paymentAccount"
+
+                                        maxlength="50"
                                     >
                                 </p>
                                 <p
@@ -422,13 +446,13 @@
                     <div class="form__row">
                         <div class="form-item">
                             <p class="form-item__form-elem-box">
-                                <input
-                                    type="text"
+                                <textarea
                                     v-model="formData.comment"
                                     placeholder="Комментарий к заявке"
-                                    max="200"
                                     name="comment"
-                                >
+
+                                    maxlength="200"
+                                ></textarea>
                             </p>
                         </div>
                     </div>
@@ -441,7 +465,7 @@
                                     type="checkbox"
                                     v-model="formData.agreement"
                                 >
-                                <p>Я прочел и соглашаюсь с <a href="">политикой обработки персональных данных</a></p>
+                                <p>Я прочел и соглашаюсь с <RouterLink to="/privacy">политикой обработки персональных данных</RouterLink></p>
                             </label>
                             <p
                                 class="agreement-error"

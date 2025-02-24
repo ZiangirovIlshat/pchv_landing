@@ -1,15 +1,6 @@
 <template>
     <div class="cart-body">
-        <h1 class="cart-body__heading">
-            <div class="container">Корзина</div>
-        </h1>
         <div class="container">
-
-            <div class="cart-body__no-products" v-if="cartItems.length === 0">
-                <p>В вашей корзине пусто</p>
-                <RouterLink class="btn" to="/selector">Подобрать прибор</RouterLink>
-            </div>
-
             <template v-if="cartItems.length > 0">
                 <div class="cart-body__cart-inf">
                     <div class="cart-inf">
@@ -80,8 +71,6 @@
 </template>
 
 <script>
-import { RouterLink } from 'vue-router';
-
 import cartButton from "../selectorPage/cartButton.vue";
 
     export default {
@@ -89,7 +78,6 @@ import cartButton from "../selectorPage/cartButton.vue";
 
         components: {
             cartButton,
-            RouterLink,
         },
 
         props: {
@@ -140,7 +128,6 @@ import cartButton from "../selectorPage/cartButton.vue";
 <style lang="scss" scoped>
     .cart-body {
         color: $colored-text;
-        padding: 120px 0 0 0;
         font-size: clamp(0.75rem, 0.679rem + 0.36vw, 1rem);
 
         @media (max-width: 920px) {
@@ -157,24 +144,6 @@ import cartButton from "../selectorPage/cartButton.vue";
             }
         }
 
-        &__no-products {
-            padding: 30px 0;
-            text-align: center;
-
-            p {
-                font-size: 32px;
-                margin: 20px 0;
-            }
-
-            a {
-                background: linear-gradient(90deg, 
-                    #FF02A9 10%, 
-                    #91017D 35%,   
-                    #9C0191 75%, 
-                    #FF0EBA 110%
-                );
-            }
-        }
 
         &__cart-inf {
             display: flex;

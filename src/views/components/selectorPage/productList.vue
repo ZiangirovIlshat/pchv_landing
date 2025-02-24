@@ -140,7 +140,6 @@ export default {
 
 <style lang="scss" scoped>
     .product-list {
-        border-top: 1px solid $light-colored-text;
         padding: 0 0 60px 0;
         margin: 15px 0 0 0;
 

@@ -14,6 +14,8 @@
                                 name="name"
                                 :placeholder="errors.name ? errors.name : 'Имя'"
                                 v-model="formData.name"
+
+                                maxlength="50"
                             >
                         </p>
                     </div>
@@ -26,6 +28,8 @@
                                 name="email"
                                 :placeholder="errors.email ? errors.email : 'E-mail'"
                                 v-model="formData.email"
+
+                                maxlength="50"
                             >
                         </p>
                     </div>
@@ -39,6 +43,8 @@
                                 name="phone"
                                 :placeholder="errors.phone ? errors.phone : '+7'"
                                 v-model="formData.phone"
+
+                                maxlength="20"
                             >
                         </p>
                     </div>
@@ -51,6 +57,7 @@
                                 maxlength="200"
                                 :placeholder="errors.descr ? errors.descr : 'Опишите для какой сферы и задач требуется преобразователь частоты'"
                                 v-model="formData.descr"
+                                
                             ></textarea>
                         </div>
                     </div>
@@ -63,7 +70,7 @@
                                 type="checkbox"
                                 v-model="formData.agreement"
                             >
-                            <p>Я прочел и соглашаюсь с <a href="">политикой обработки персональных данных</a></p>
+                            <p>Я прочел и соглашаюсь с <RouterLink to="/privacy">политикой обработки персональных данных</RouterLink></p>
                         </label>
                         <div class="agreement-error" v-if="errors.agreement">Это обязательное поле</div>
                     </div>

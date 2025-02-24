@@ -84,7 +84,7 @@
 
                         <p>E-mail: <a href="mailto:sales@owen.ru">sales@owen.ru</a></p>
 
-                        <p><a @click="closeMenu()" href="/">Политика конфиденциальности</a></p>
+                        <p><RouterLink @click="closeMenu()" to="/privacy">Политика конфиденциальности</RouterLink></p>
                     </div>
 
                     <p class="mobile-menu__social-links">

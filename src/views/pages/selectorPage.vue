@@ -3,11 +3,21 @@
         <pageHeading :menuFixed="true" />
 
         <main class="content">
+            <h1 class="page-heading">
+                <div class="container">Выбор модификации</div>
+            </h1>
+
             <div class="container">
                 <div class="selector">
-                    <p v-if="priceData.loading">Загрузка цен...</p>
+                    <template v-if="priceData.loading">
+                        <br>
+                        <p>Загрузка цен...</p>
+                    </template>
 
-                    <p v-else-if="priceData.error">{{ priceData.error }}</p>
+                    <template v-else-if="priceData.error">
+                        <br>
+                        <p>{{ priceData.error }}</p>
+                    </template>
 
                     <template v-else>
                         <div class="selector__row">
@@ -21,8 +31,6 @@
                             </div>
 
                             <div class="selector__body">
-                                <h1 class="selector__heading">Выбор модификации</h1>
-
                                 <p
                                     class="selector__non-products"
                                     v-if="Object.keys(filteredModifications).length === 0"
@@ -1600,11 +1608,11 @@ import pageFooter from "../components/pageFooter.vue";
 
 <style lang="scss" scoped>
     .selector {
-        padding: 120px 0 60px 0;
+        padding: 0 0 60px 0;
         color: $colored-text;
 
         @media (max-width: 920px) {
-            padding: 60px 0 60px 0;
+            padding: 0 0 60px 0;
         }
 
 		&__row {

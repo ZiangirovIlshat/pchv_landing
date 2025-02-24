@@ -127,6 +127,8 @@ import { mapGetters } from "vuex";
             top: 0;
             left: calc(50% - 4px);
 
+            pointer-events: none;
+
             width: 13px;
             height: 13px;
 
