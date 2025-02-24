@@ -36,7 +36,7 @@
 
                     <div class="form-item">
                         <p class="form-item__form-elem-box custom-elem">
-                            <span><img src="../../../assets/images/flagRussia.png" alt=""></span>
+                            <span><img src="../../../assets/images/flagRussia.png" alt="ru"></span>
                             <input
                                 :class="{ '_error' : errors.phone }"
                                 type="text"
@@ -70,7 +70,7 @@
                                 type="checkbox"
                                 v-model="formData.agreement"
                             >
-                            <p>Я прочел и соглашаюсь с <RouterLink to="/privacy">политикой обработки персональных данных</RouterLink></p>
+                            <p>Я прочел и соглашаюсь с <RouterLink to="/privacy" target="_blank">политикой обработки персональных данных</RouterLink></p>
                         </label>
                         <div class="agreement-error" v-if="errors.agreement">Это обязательное поле</div>
                     </div>
@@ -99,8 +99,14 @@
 </template>
 
 <script>
+import { RouterLink } from 'vue-router';
+
     export default {
         name: "popUp",
+
+        components: {
+            RouterLink
+        },
 
         data() {
             return {

@@ -465,7 +465,7 @@
                                     type="checkbox"
                                     v-model="formData.agreement"
                                 >
-                                <p>Я прочел и соглашаюсь с <RouterLink to="/privacy">политикой обработки персональных данных</RouterLink></p>
+                                <p>Я прочел и соглашаюсь с <RouterLink to="/privacy" target="_blank">политикой обработки персональных данных</RouterLink></p>
                             </label>
                             <p
                                 class="agreement-error"
@@ -511,10 +511,15 @@
 </template>
 
 <script>
+import { RouterLink } from 'vue-router';
 import { mapGetters, mapActions } from "vuex";
 
     export default {
         name: "applicationForm",
+
+        components: {
+            RouterLink
+        },
 
         props: {
             transferErr: {
