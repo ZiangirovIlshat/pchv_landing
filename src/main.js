@@ -2,9 +2,12 @@ import { createApp } from 'vue'
 import App from './views/App.vue'
 import router from './router'
 import store from './store'
+import { createMetaManager } from 'vue-meta'
 
-
-createApp(App)
+const app = createApp(App)
     .use(store)
     .use(router)
-    .mount('#app')
+    .use(createMetaManager())
+
+await router.isReady()
+app.mount('#app')

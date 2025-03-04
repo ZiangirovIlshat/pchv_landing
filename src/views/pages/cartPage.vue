@@ -9,11 +9,22 @@
 
             <div class="container">
                 <div class="no-products" v-if="cartItems.length === 0">
-                    <p v-if="!orderNum">В корзине пока пусто</p>
-                    <p v-else>Ваш заказ принят</p>
+                    <p v-if="!orderUserData">В корзине пока пусто</p>
+                    <p v-else>Заказ оформлен № {{ orderUserData[0] }}</p>
 
-                    <p v-if="!orderNum">Чтобы добавить товары, вернитесь на главную страницу</p>
-                    <p v-else>По всем вопросам обращайтесь на почту: <a data-v-1d91bb0e="" class="footer__link email" href="mailto:sales@owen.ru">sales@owen.ru</a>.  Мы всегда рады помочь!</p>
+                    <p v-if="!orderUserData">Чтобы добавить товары, вернитесь на главную страницу</p>
+
+                    <template v-else>
+                        <p>Здравствуйте, {{ orderUserData[1] }}.</p>
+                        <br>
+                        <br>
+                        <br>
+                        <p>Спасибо, что воспользовались нашим интернет-магазином. Ваш заказ принят и находится в обработке.</p>
+                        <br>
+                        <p>Если у вас возникли вопросы, позвоните нам, пожалуйста, по номеру +7 (495) 64-111-56 или напишите на <a class="no-products__link" href="mailto:sales@owen.ru">sales@owen.ru</a>. Будем рады помочь.</p>
+                        <br>
+                        <p>Мы работаем с 8 до 17 часов.</p>
+                    </template>
 
                     <br>
 
@@ -21,7 +32,7 @@
                 </div>
             </div>
 
-            <cartBody v-if="!orderNum"
+            <cartBody v-if="!orderUserData"
                 @clearCart="clearCart()"
 
                 :cartItems="cartItems"
@@ -42,6 +53,9 @@
 </template>
 
 <script>
+import { useMeta } from 'vue-meta';
+import pchvImage from "../../assets/images/pchvTopSection.png";
+
 import { mapGetters, mapActions } from "vuex";
 
 import pageHeading from "../components/pageHeading.vue";
@@ -71,8 +85,20 @@ import { RouterLink } from 'vue-router';
             return {
                 transferErr: "",
 
-                orderNum: null,
+                orderUserData: null,
             }
+        },
+
+        setup () {
+            useMeta({
+                title: "Оформление заказа",
+                og: {
+                    title: "Оформление заказа",
+                    url: "https://pchv.owen.ru/cart",
+                    type: "website",
+                    image: pchvImage,
+                }
+            })
         },
 
         computed: {
@@ -119,8 +145,8 @@ import { RouterLink } from 'vue-router';
                 window.location.href = "https://owen.ru/cart";
             },
 
-            showOrderResult(orderNumber) {
-                this.orderNum = orderNumber;
+            showOrderResult(orderUserData) {
+                this.orderUserData = orderUserData
             }
         }
     }
@@ -129,17 +155,18 @@ import { RouterLink } from 'vue-router';
 <style lang="scss" scoped>
     .no-products {
         color: $colored-text;
+        padding: 0 0 10px 0;
 
         p {
-            font-size: clamp(0.875rem, 0.732rem + 0.71vw, 1.375rem);
-            margin: 20px 0;
-
-            &:nth-child(2) {
-                font-size: clamp(0.75rem, 0.659rem + 0.45vw, 1rem);
+            &:nth-child(1) {
+                font-size: clamp(0.875rem, 0.732rem + 0.71vw, 1.375rem);
+                margin: 20px 0;
             }
+
+            font-size: clamp(0.75rem, 0.659rem + 0.45vw, 1rem);
         }
 
-        a {
+        .btn {
             width: 322px;
 
             @media (max-width: 520px) {
@@ -147,6 +174,10 @@ import { RouterLink } from 'vue-router';
                 padding: 15px 0;
                 font-size: 12px;
             }
+        }
+
+        &__link {
+            color: $primary-color;
         }
 
         span {

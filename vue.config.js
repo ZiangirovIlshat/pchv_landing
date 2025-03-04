@@ -8,5 +8,5 @@ module.exports = defineConfig({
       }
     }
   },
-  publicPath: process.env.NODE_ENV === 'production' ? '/pchv_landing/' : '/'
+  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/'
 })

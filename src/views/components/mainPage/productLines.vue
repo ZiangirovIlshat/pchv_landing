@@ -17,6 +17,7 @@
                     :initialSlide="1"
 
                     :breakpoints="swiperBreakpoints"
+                    :slidesPerGroup="1"
 
                     @slideChange="onSlideChange"
                     @swiper="onSwiperInit"

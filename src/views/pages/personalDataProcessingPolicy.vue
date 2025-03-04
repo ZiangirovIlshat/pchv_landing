@@ -80,6 +80,9 @@
 </template>
 
 <script>
+import { useMeta } from 'vue-meta';
+import pchvImage from "../../assets/images/pchvTopSection.png";
+
 import pageHeading from "../components/pageHeading.vue";
 import pageFooter from '../components/pageFooter.vue';
 
@@ -89,6 +92,20 @@ import pageFooter from '../components/pageFooter.vue';
         components: {
             pageHeading,
             pageFooter,
+        },
+
+        setup () {
+            useMeta({
+                title: "Политика обработки персональных данных",
+                description: "Преобразователи частоты ПЧВ ОВЕН для насосов, вентиляторов и другой приводной техники",
+                og: {
+                    title: "Политика обработки персональных данных",
+                    description: "Преобразователи частоты ПЧВ ОВЕН для насосов, вентиляторов и другой приводной техники",
+                    url: "https://pchv.owen.ru/privacy",
+                    type: "website",
+                    image: pchvImage,
+                }
+            })
         },
     }
 </script>

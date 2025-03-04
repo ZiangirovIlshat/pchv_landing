@@ -24,7 +24,7 @@
 
                     <p>E-mail: <a class="footer__link email" href="mailto:sales@owen.ru">sales@owen.ru</a></p>
 
-                    <p><RouterLink class="footer__link" to="privacy">Политика конфиденциальности</RouterLink></p>
+                    <p><RouterLink class="footer__link" to="/privacy" target="_blank">Политика конфиденциальности</RouterLink></p>
 
                     <p class="footer__social-links">
                         <span>

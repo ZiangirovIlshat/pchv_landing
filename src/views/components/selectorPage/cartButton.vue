@@ -106,7 +106,7 @@ import { mapGetters, mapActions } from "vuex";
                     return;
                 }
 
-                if (this.count < 9) {
+                if (this.count < 99) {
                     this.count++;
 
                     if (this.isInCart) {

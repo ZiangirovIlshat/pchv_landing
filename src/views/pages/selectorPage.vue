@@ -25,7 +25,9 @@
                                 <selectorBar
                                     :filtersOptions="filtersOptions"
                                     :mobileVersion="width <= 920"
-                                    :selectedSeries="this.$route.query.series"
+
+                                    :filtersValues="filtersValues"
+
                                     @selectValue="handleFiltersValues"
                                 />
                             </div>
@@ -71,6 +73,9 @@
 </template>
 
 <script>
+import { useMeta } from 'vue-meta';
+import pchvImage from "../../assets/images/pchvTopSection.png";
+
 import pageHeading from "../components/pageHeading.vue";
 
 import selectorBar from "../components/selectorPage/selectorBar.vue";
@@ -81,12 +86,6 @@ import pageFooter from "../components/pageFooter.vue";
 
     export default {
         name: "selectorPage",
-
-        props: {
-            series: {
-                type: String,
-            }
-        },
 
         components: {
             pageHeading,
@@ -1353,8 +1352,9 @@ import pageFooter from "../components/pageFooter.vue";
                     }
                 ],
 
-                filtersValues:   { series: {}, voltage: {}, power: {}, nominal_output_current: {} },
+                filtersValues:   { series: null, voltage: null, power: null, nominal_output_current: null },
                 filtersOptions:  { series: [], voltage: [], power: [], nominal_output_current: [] },
+                selectedValues: {},
 
                 filteredModifications: {},
 
@@ -1371,6 +1371,20 @@ import pageFooter from "../components/pageFooter.vue";
 
                 selectedTabs: [],
             }
+        },
+
+        setup () {
+            useMeta({
+                title: "Выбор модификации",
+                description: "Инструмент для подбора модификаций и аксессуаров ПЧВ ОВЕН",
+                og: {
+                    title: "Выбор модификации",
+                    description: "Инструмент для подбора модификаций и аксессуаров ПЧВ ОВЕН",
+                    url: "https://pchv.owen.ru/selector",
+                    type: "website",
+                    image: pchvImage,
+                }
+            })
         },
 
         methods: {
@@ -1397,7 +1411,6 @@ import pageFooter from "../components/pageFooter.vue";
                             await response(articles, this.priceGeter)
                         );
                     }
-
                 } catch (error) {
                     console.error("Ошибка при получении цен:", error);
                     return null;
@@ -1589,7 +1602,8 @@ import pageFooter from "../components/pageFooter.vue";
                 },
 
                 deep: true,
-            }
+            },
+
         },
 
         async created() {
@@ -1607,6 +1621,23 @@ import pageFooter from "../components/pageFooter.vue";
 </script>
 
 <style lang="scss" scoped>
+    .tabs {
+        margin: 10px 0 10px 0;
+        display: flex;
+        gap: 10px;
+
+        &__item {
+            font-size: 16px;
+            background: #e0e5e8;
+            padding: 5px;
+
+            span {
+                margin: 0 0 0 5px;
+                cursor: pointer;
+            }
+        }
+    }
+
     .selector {
         padding: 0 0 60px 0;
         color: $colored-text;

@@ -38,7 +38,7 @@
                         :class="{'_opened' : openSelect === key}"
                         @click="showOptions(key)"
                     >
-                        <p 
+                        <p
                             class="picker-mobile__heading" 
                             v-if="!selectedValues[key]"
                         >{{ filterNames[index] }}</p>

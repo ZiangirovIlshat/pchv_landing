@@ -485,7 +485,10 @@
                         type="submit">оформить заявку</button>
                 </form>
 
-                <div class="location-inf" v-if="formData.basicInformation.shippingMethod === 'Самовывоз со склада ОВЕН г. Москва'">
+                <div 
+                    class="location-inf" 
+                    v-if="formData.basicInformation.shippingMethod === 'Самовывоз со склада ОВЕН г. Москва' && !basketIsEmpty"
+                >
                     <div class="location-inf__row">
                         <div class="location-inf__column">
                             <p class="location-inf__heading">Как добраться:</p>
@@ -610,7 +613,7 @@ import { mapGetters, mapActions } from "vuex";
                     }
 
                     if(data.success) {
-                        this.$emit("formSubmited", data.orderNumber)
+                        this.$emit("formSubmited", [ data.orderNumber, this.formData.buyerInformation.fio ])
                         this.clearCart();
                     }
 

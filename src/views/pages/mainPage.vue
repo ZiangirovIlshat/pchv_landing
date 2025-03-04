@@ -19,6 +19,9 @@
 </template>
 
 <script>
+import { useMeta } from 'vue-meta';
+import pchvImage from "../../assets/images/pchvTopSection.png";
+
 import pageHeading from "../components/pageHeading.vue";
 
 import topSection from "../components/mainPage/topSection.vue";
@@ -55,6 +58,20 @@ export default {
         };
     },
 
+    setup () {
+        useMeta({
+            title: "ПЧВ ОВЕН",
+            description: "Преобразователи частоты ПЧВ ОВЕН для насосов, вентиляторов и другой приводной техники",
+            og: {
+                title: "ПЧВ ОВЕН",
+                description: "Преобразователи частоты ПЧВ ОВЕН для насосов, вентиляторов и другой приводной техники",
+                url: "https://pchv.owen.ru/",
+                type: "website",
+                image: pchvImage,
+            }
+        })
+    },
+
     mounted() {
         window.addEventListener('scroll', this.handleScroll);
     },
@@ -75,7 +92,6 @@ export default {
             }
         },
     },
-
 }
 </script>
 

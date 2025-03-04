@@ -1,4 +1,7 @@
 <template>
+  <metainfo>
+    <template v-slot:title></template>
+  </metainfo>
   <RouterView />
 </template>
 
@@ -13,20 +16,10 @@ blockquote,q{quotes:none}
 blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}
 table{border-collapse:collapse;border-spacing:0}
 
+@font-face { font-family: "SuisseIntlMedium"; src: url('@/assets/fonts/SuisseIntl-Medium-J78oFWRb.otf') format('opentype'); }
+@font-face { font-family: "SuisseIntlRegular"; src: url('@/assets/fonts/SuisseIntl-Regular-BzoWxrQg.otf') format('opentype'); }
 
-@font-face {
-  font-family: "SuisseIntlMedium";
-  src: url('@/assets/fonts/SuisseIntl-Medium-J78oFWRb.otf') format('opentype');
-}
-
-@font-face {
-  font-family: "SuisseIntlRegular";
-  src: url('@/assets/fonts/SuisseIntl-Regular-BzoWxrQg.otf') format('opentype');
-}
-
-body {
-  width: 100%;
-}
+body { width: 100%; }
 
 #app {
   font-family: "SuisseIntlRegular", sans-serif;
@@ -40,7 +33,6 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-
   position: relative;
 }
 
@@ -53,21 +45,12 @@ body {
   margin: 0 auto;
   padding: 0 20px;
 
-  @media(max-width: 768px) {
-    padding: 0 15px;
-  }
+  @media(max-width: 768px) { padding: 0 15px; }
 }
-
-
 
 a {
   text-decoration: none;
-
-  @media (hover: hover) and (pointer: fine) {
-    &:hover {
-      color: $primary-color;
-    } 
-  }
+  @media (hover: hover) and (pointer: fine) { &:hover { color: $primary-color; } }
 }
 
 input[type="checkbox"], input[type="radio"] {
@@ -201,7 +184,7 @@ input[type="checkbox"], input[type="radio"] {
   color: $colored-text;
 
   @media (max-width: 920px) {
-      padding: 60px 0 10px 0;
+    padding: 60px 0 10px 0;
   }
 }
 

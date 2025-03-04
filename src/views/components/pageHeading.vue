@@ -84,7 +84,7 @@
 
                         <p>E-mail: <a href="mailto:sales@owen.ru">sales@owen.ru</a></p>
 
-                        <p><RouterLink @click="closeMenu()" to="/privacy">Политика конфиденциальности</RouterLink></p>
+                        <p><RouterLink @click="closeMenu()" to="/privacy" target="_blank">Политика конфиденциальности</RouterLink></p>
                     </div>
 
                     <p class="mobile-menu__social-links">
@@ -201,7 +201,9 @@ import cartLink from "../components/cartLink.vue";
             },
 
             scrollToElement(elem) {
-                this.closeMenu();
+                if(this.menuIsOpen) {
+                    this.closeMenu();
+                }
 
                 this.$nextTick(() => {
                     const targetElement = document.querySelector(`#${elem}`);
